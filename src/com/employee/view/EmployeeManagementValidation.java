@@ -81,7 +81,7 @@ public class EmployeeManagementValidation {
 		double grossSalary = 0;
 		
 		if (employeeSalary.matches("(\\d+\\.\\d+)")) {
-			double totalSalary = Double.parseDouble(employeeSalary);
+		    double totalSalary = Double.parseDouble(employeeSalary);
 		    double incomeTax = 600; 
 		    double providentFund = 1000;    
 		    
