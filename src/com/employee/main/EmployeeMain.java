@@ -19,8 +19,6 @@ public class EmployeeMain {
 	/**
 	 * Performs switch case function for selecting according to preference. 1 for adding a new employee detail, 
 	 * 2 for viewing all employee details, 3 for deleting an employee detail using id, 4 for updating details.
-	 * 
-	 * @param args
 	 */
 	public static void main(String[] args) {
 		int choice;
