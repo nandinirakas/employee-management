@@ -11,8 +11,7 @@ import java.util.regex.Pattern;
  */
 public class EmployeeManagementValidation {
 	/**
-	 * Validating employee id by accepting only numbers. If any character is given
-	 * as input then the method is called again.
+	 * Validating employee id by accepting only numbers.
 	 * 
 	 * @return String to integer value of id
 	 */
@@ -26,8 +25,7 @@ public class EmployeeManagementValidation {
 	}
 
 	/**
-	 * Validating employee name by accepting only alphabets. If any other special
-	 * character and numbers are given as input, then the method is called again..
+	 * Validating employee name by accepting only alphabets. 
 	 * 
 	 * @return employeeName
 	 */
@@ -44,8 +42,7 @@ public class EmployeeManagementValidation {
 
 	/**
 	 * Validating employee phone numbers by accepting only 10 digit numbers
-	 * starting with 6-9. If any other special character and more than 10 numbers
-	 * are given as input, then the method is called again.
+	 * starting with 6-9.
 	 * 
 	 * @return phoneNumber
 	 */

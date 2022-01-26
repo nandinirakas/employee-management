@@ -4,10 +4,8 @@ import java.util.Date;
 import com.employee.main.EmployeeMain;
 
 /**
- * Get inputs from users using scanners. The input data
- * received from user is then send to employee management validation class and
- * checked for validation. And after satisfying those validation conditions, the
- * data will be returned.
+ * Get inputs from users using scanners. The input data received from user 
+ * is then send to validation class and checked for validation. 
  */
 public class EmployeeInformation {
 

@@ -15,8 +15,7 @@ public class EmployeeMangementImpl implements EmployeeManagement {
 	/**
 	 * Adding a new employee.
 	 * 
-	 * @param employeeId 
-	 * @param employee Object contains name, salary, phone number and date
+	 * @param employee Object contains id, name, salary, phone number and date
 	 */
 	public void addNewEmployee(Employee employee) {
 		int employeeId = employee.getEmployeeId();
@@ -59,7 +58,6 @@ public class EmployeeMangementImpl implements EmployeeManagement {
 	/**
 	 * Replacing each employee details based on employee id.
 	 * 
-	 * @param employeeId
 	 * @param employee
 	 */
 	public void updateEmployee(Employee employee) {
@@ -77,6 +75,6 @@ public class EmployeeMangementImpl implements EmployeeManagement {
 				} else if (employee.getDate() != null) {
 					employeeData.setDate(employee.getDate());
 				}
-		 }
+		}
 	}
 }

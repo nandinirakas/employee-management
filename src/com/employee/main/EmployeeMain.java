@@ -50,7 +50,7 @@ public class EmployeeMain {
 
 	/**
 	 * Adding employee details by getting data from user. 
-	 * And stored employee name, salary, phone number and joining date in an object named employee.
+	 * And stored employee id, name, salary, phone number and joining date in an object named employee.
 	 */
 	private static void addNewEmployee() {
 		int employeeId = EmployeeInformation.getEmployeeId();
