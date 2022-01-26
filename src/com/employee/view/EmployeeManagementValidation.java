@@ -80,7 +80,7 @@ public class EmployeeManagementValidation {
 	public static double employeeSalaryValidation(String employeeSalary) {
 		double grossSalary = 0;
 		
-		if (employeeSalary.matches("[0-9]{1,}")) {
+		if (employeeSalary.matches("(\\d+\\.\\d+)")) {
 			double totalSalary = Double.parseDouble(employeeSalary);
 		    double incomeTax = 600; 
 		    double providentFund = 1000;    
