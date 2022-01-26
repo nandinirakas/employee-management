@@ -22,10 +22,10 @@ public class EmployeeMangementImpl implements EmployeeManagement {
 		int employeeId = employee.getEmployeeId();
 				
 		if (EMPLOYEE_DETAILS.containsKey(employeeId)) {
-            System.out.println("The given Id already present, please enter new id");
-        } else {
-        	EMPLOYEE_DETAILS.put(employeeId, employee);
-        }
+            	    System.out.println("The given Id already present, please enter new id");
+                } else {
+        	    EMPLOYEE_DETAILS.put(employeeId, employee);
+                }
 	}
 
 	/**
@@ -50,10 +50,10 @@ public class EmployeeMangementImpl implements EmployeeManagement {
 	public void deleteEmployee(int employeeId) {
 		
 		if (EMPLOYEE_DETAILS.containsKey(employeeId)) {
-			EMPLOYEE_DETAILS.remove(employeeId);
-        } else {
-        	System.out.println("The given Id already present, please enter new id");
-        }
+		    EMPLOYEE_DETAILS.remove(employeeId);
+                } else {
+        	    System.out.println("The given Id already present, please enter new id");
+                }
 	}
 
 	/**
@@ -67,15 +67,15 @@ public class EmployeeMangementImpl implements EmployeeManagement {
 		if (EMPLOYEE_DETAILS.containsKey(employeeIdKey)) {
 			Employee employeeData = EMPLOYEE_DETAILS.get(employeeIdKey);
 		
-				if (employee.getEmployeeName() != null) { 
-					employeeData.setEmployeeName(employee.getEmployeeName());
-				} else if (employee.getSalary() != 0) {
-					employeeData.setSalary(employee.getSalary());
-				} else if (employee.getPhoneNumber() != null) {
-					employeeData.setPhoneNumber(employee.getPhoneNumber());
-				} else if (employee.getDate() != null) {
-					employeeData.setDate(employee.getDate());
-				}
+			    if (employee.getEmployeeName() != null) { 
+		                employeeData.setEmployeeName(employee.getEmployeeName());
+			    } else if (employee.getSalary() != 0) {
+			        employeeData.setSalary(employee.getSalary());
+		            } else if (employee.getPhoneNumber() != null) {
+			        employeeData.setPhoneNumber(employee.getPhoneNumber());
+			    } else if (employee.getDate() != null) {
+			        employeeData.setDate(employee.getDate());
+			    }
 		}
 	}
 }
