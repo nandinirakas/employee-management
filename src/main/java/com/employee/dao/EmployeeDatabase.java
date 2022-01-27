@@ -115,21 +115,25 @@ public class EmployeeDatabase {
 				
 				if (employee.getEmployeeName() != null) {
 					preparedStatement = connection.prepareStatement(name);
+					
 					preparedStatement.setString(1, employee.getEmployeeName());
 					preparedStatement.setInt(2, employee.getEmployeeId());
 					preparedStatement.executeUpdate();
 				} else if (employee.getSalary() != 0) {
 					preparedStatement = connection.prepareStatement(salary);
+					
 					preparedStatement.setDouble(1, employee.getSalary());
 					preparedStatement.setInt(2, employee.getEmployeeId());
 					preparedStatement.executeUpdate();
 				} else if (employee.getPhoneNumber() != null) {
 					preparedStatement = connection.prepareStatement(number);
+					
 					preparedStatement.setString(1, employee.getPhoneNumber());
 					preparedStatement.setInt(2, employee.getEmployeeId());
 					preparedStatement.executeUpdate();
 				} else if (employee.getDate() != null) {
 					preparedStatement = connection.prepareStatement(date);
+					
 					preparedStatement.setDate(1, employee.getDate());
 					preparedStatement.setInt(2, employee.getEmployeeId());
 					preparedStatement.executeUpdate();
