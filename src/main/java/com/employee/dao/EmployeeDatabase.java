@@ -51,7 +51,6 @@ public class EmployeeDatabase {
 			preparedStatement.setDate(5, employee.getDate());
 			preparedStatement.executeUpdate();
 			System.out.println("Data entered in database successfully");
-			connection.close();
 		} catch (SQLException exception) {
 			System.out.println("Data not entered in database");
 		}
@@ -69,7 +68,6 @@ public class EmployeeDatabase {
 			preparedStatement.setInt(1, employeeId);
 			preparedStatement.execute();
 			System.out.println("Data deleted in database successfully");
-			connection.close();
 		} catch (SQLException exception) {
 			System.out.println("Data not deleted");
 		}
@@ -94,10 +92,10 @@ public class EmployeeDatabase {
 				 String number = resultSet.getString("number");
 				 Date date = resultSet.getDate("date");
 				 
-				 System.out.println(id + " " + name + " " + salary + " " + number + " " + date);
+				 System.out.println(String.format("%s %s %s %s %s", id, name, salary, number, date)); 
 				}
 		} catch (SQLException exception) {
-			exception.printStackTrace();
+			System.out.println("Cannot view employee details");
 		}
 	}
 	
@@ -137,7 +135,6 @@ public class EmployeeDatabase {
 				}
 			}
 			System.out.println("Data updated in database successfully");
-			connection.close();
 		} catch (SQLException exception) {
 			System.out.println("Data not updated");
 		}
