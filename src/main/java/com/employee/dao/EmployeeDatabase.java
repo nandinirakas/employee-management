@@ -77,12 +77,13 @@ public class EmployeeDatabase {
 		
 		try {
 			loadDriver(databaseDriver);
-			Connection connection = getConnection();
 			PreparedStatement preparedStatement;
+			ResultSet resultSet;
+			Connection connection = getConnection();
 			String sql = "SELECT * FROM employeedetails";
 			preparedStatement = connection.prepareStatement(sql);
+			
 			preparedStatement.execute();
-			ResultSet resultSet;
 			resultSet = preparedStatement.executeQuery();  
 			
 			while (resultSet.next()) {      
