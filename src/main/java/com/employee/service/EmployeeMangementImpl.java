@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.employee.dao.EmployeeDatabase;
 import com.employee.model.Employee;
 
 /**
@@ -11,6 +12,7 @@ import com.employee.model.Employee;
  * Created a linked hashmap collection for storing details to maintain order and better performance.
  */
 public class EmployeeMangementImpl implements EmployeeManagement {
+	private final EmployeeDatabase EMPLOYEE_DATABASE = new EmployeeDatabase();
 	private static final Map<Integer, Employee> EMPLOYEE_DETAILS = new LinkedHashMap<>();
 
 	/**
@@ -19,6 +21,7 @@ public class EmployeeMangementImpl implements EmployeeManagement {
 	 * @param employee Object contains id, name, salary, phone number and date
 	 */
 	public void addNewEmployee(Employee employee) {
+		EMPLOYEE_DATABASE.addNewEmployee(employee);
 		int employeeId = employee.getEmployeeId();
 				
 		if (EMPLOYEE_DETAILS.containsKey(employeeId)) {
@@ -33,6 +36,7 @@ public class EmployeeMangementImpl implements EmployeeManagement {
 	 * Entry will give both key and value.
 	 */
 	public void viewEmployees() {
+		EMPLOYEE_DATABASE.viewEmployees();
 		
 		for (Entry<Integer, Employee> entry : EMPLOYEE_DETAILS.entrySet()) {
 		    Integer key = entry.getKey();
@@ -48,6 +52,7 @@ public class EmployeeMangementImpl implements EmployeeManagement {
 	 * @param employeeId
 	 */
 	public void deleteEmployee(int employeeId) {
+		EMPLOYEE_DATABASE.deleteEmployee(employeeId);
 		
 		if (EMPLOYEE_DETAILS.containsKey(employeeId)) {
 			EMPLOYEE_DETAILS.remove(employeeId);
@@ -60,6 +65,7 @@ public class EmployeeMangementImpl implements EmployeeManagement {
 	 * @param employee
 	 */
 	public void updateEmployee(Employee employee) {
+		EMPLOYEE_DATABASE.updateEmployee(employee);
 		int employeeIdKey = employee.getEmployeeId();
 		
 		if (EMPLOYEE_DETAILS.containsKey(employeeIdKey)) {
