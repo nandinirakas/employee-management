@@ -15,7 +15,7 @@ public class EmployeeDatabase {
 	private String databasePassword = "root123";
 	private String databaseDriver = "org.postgresql.Driver";
 
-	public void loadDriver(String databaseDriver) {
+	private void loadDriver(String databaseDriver) {
 
 		try {
 			Class.forName(databaseDriver);
@@ -24,7 +24,7 @@ public class EmployeeDatabase {
 		}
 	}
 
-	public Connection getConnection() {
+	private Connection getConnection() {
 		Connection connection = null;
 
 		try {
