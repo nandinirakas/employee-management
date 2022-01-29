@@ -1,6 +1,7 @@
 package com.employee.service;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
@@ -53,7 +54,7 @@ public class EmployeeMangementImpl implements EmployeeManagement {
     }
 	
     public Date dateValidation(String joiningDate) {
-        java.sql.Date sqlDate;
+        Date sqlDate;
 		
         try {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -89,13 +90,16 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * @param employee Object contains id, name, salary, phone number and date
      */
     public void addNewEmployee(Employee employee) {
-        EMPLOYEE_DATABASE.addNewEmployee(employee);
-        int employeeId = employee.getEmployeeId();
-				
-        if (EMPLOYEE_DETAILS.containsKey(employeeId)) {
-            System.out.println("The given Id already present, please enter new id");
+        
+        if (EMPLOYEE_DETAILS.isEmpty()) {
+            EMPLOYEE_DETAILS.putAll(EMPLOYEE_DATABASE.getEmployees());
+        } 
+        
+        if (EMPLOYEE_DETAILS.containsKey(employee.getEmployeeId())) {
+               System.out.println("The given Id already present, please enter new id");
         } else {
-            EMPLOYEE_DETAILS.put(employeeId, employee);
+            EMPLOYEE_DATABASE.addNewEmployee(employee);
+            EMPLOYEE_DETAILS.put(employee.getEmployeeId(), employee);
         }
     }
 
@@ -103,8 +107,8 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * Showing all employee details that are stored in the list by using for each.
      * Entry will give both key and value.
      */
-    public void viewEmployees() {
-        EMPLOYEE_DATABASE.getEmployees();
+    public void viewEmployees() {   
+        System.out.println(EMPLOYEE_DATABASE.getEmployees());
     }
 
     /**
@@ -114,11 +118,17 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * @param employeeId
      */
     public void deleteEmployee(int employeeId) {
-        EMPLOYEE_DATABASE.deleteEmployee(employeeId);
-		
+        
+        if (EMPLOYEE_DETAILS.isEmpty()) {
+            EMPLOYEE_DETAILS.putAll(EMPLOYEE_DATABASE.getEmployees());
+        }
+        
         if (EMPLOYEE_DETAILS.containsKey(employeeId)) {
+            EMPLOYEE_DATABASE.deleteEmployee(employeeId);
             EMPLOYEE_DETAILS.remove(employeeId);
-        } 
+        } else {
+            System.out.println("The given Id does not present, please enter correct id");
+        }
     }
 
     /**
@@ -127,7 +137,10 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * @param employee
      */
     public void updateEmployee(Employee employee) {
-        EMPLOYEE_DATABASE.updateEmployee(employee);
+        
+        if (EMPLOYEE_DETAILS.isEmpty()) {
+            EMPLOYEE_DETAILS.putAll(EMPLOYEE_DATABASE.getEmployees());
+        }
         int employeeIdKey = employee.getEmployeeId();
 		
         if (EMPLOYEE_DETAILS.containsKey(employeeIdKey)) {
@@ -142,11 +155,17 @@ public class EmployeeMangementImpl implements EmployeeManagement {
                 } else if (employee.getDate() != null) {
                    employeeData.setDate(employee.getDate());
                 }
+            EMPLOYEE_DATABASE.updateEmployee(employee);
+        } else {
+            System.out.println("The given Id does not present, please enter correct id");
         }
     }
 	
-    public void updateAllEmployeeDetails(Employee employee) {
-        EMPLOYEE_DATABASE.updateAllEmployeeDetails(employee);
+    public void updateAllEmployeeDetails(Employee employee) throws SQLException {
+        
+        if (EMPLOYEE_DETAILS.isEmpty()) {
+            EMPLOYEE_DETAILS.putAll(EMPLOYEE_DATABASE.getEmployees());
+        }
         int employeeIdKey = employee.getEmployeeId();
     	
         if (EMPLOYEE_DETAILS.containsKey(employeeIdKey)) {
@@ -158,6 +177,9 @@ public class EmployeeMangementImpl implements EmployeeManagement {
                 employeeData.setPhoneNumber(employee.getPhoneNumber());
                 employeeData.setDate(employee.getDate());
             }
+            EMPLOYEE_DATABASE.updateAllEmployeeDetails(employee);
+        } else {
+            System.out.println("The given Id does not present, please enter correct id");
         }
     }
 }

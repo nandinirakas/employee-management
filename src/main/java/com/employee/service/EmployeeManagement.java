@@ -1,5 +1,7 @@
 package com.employee.service;
 
+import java.sql.SQLException;
+
 import com.employee.model.Employee;
 
 /**
@@ -15,5 +17,5 @@ public interface EmployeeManagement {
 
     void updateEmployee(Employee employee);
 	
-    void updateAllEmployeeDetails(Employee employee);
+    void updateAllEmployeeDetails(Employee employee) throws SQLException;
 }

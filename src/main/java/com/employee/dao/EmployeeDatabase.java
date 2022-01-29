@@ -6,19 +6,21 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.employee.model.Employee;
 
 public class EmployeeDatabase {
-    private String jdbcUrl = "jdbc:postgresql://localhost:2020/employee";
-    private String databaseName = "postgres";
-    private String databasePassword = "root123";
+    private final String JDBCURL = "jdbc:postgresql://localhost:2020/employee";
+    private final String DATABASE_NAME = "postgres";
+    private final String DATABASE_PASSWORD = "root123";
 	
     private Connection getConnection() {
         Connection connection = null;
 
         try {
-          connection = DriverManager.getConnection(jdbcUrl, databaseName, databasePassword);
+          connection = DriverManager.getConnection(JDBCURL, DATABASE_NAME, DATABASE_PASSWORD);
         } catch (SQLException exception) {
           System.out.println("Exception");
         }
@@ -61,7 +63,8 @@ public class EmployeeDatabase {
         }
     }
 	
-    public void getEmployees() {
+    public Map<Integer, Employee> getEmployees() {
+        final Map<Integer, Employee> employees = new HashMap<>(); 
 		
         try {
             PreparedStatement preparedStatement;
@@ -80,11 +83,41 @@ public class EmployeeDatabase {
                  String number = resultSet.getString("number");
                  Date date = resultSet.getDate("date");
 				 
-                 System.out.println(String.format("%s %s %s %s %s", id, name, salary, number, date)); 
+                 Employee employee = new Employee(id, name, salary, number, date);         
+                 employees.put(id, employee);
                  }
         } catch (SQLException exception) {
             System.out.println("Cannot view employee details");
-        }    
+        }
+        return employees;    
+    }
+    
+    public void updateAllEmployeeDetails(Employee employee) throws SQLException {
+        Connection connection = getConnection();
+        
+        try {
+            String update = "UPDATE employeedetails set name = ? and salary = ? and number = ? and date = ? WHERE id = ?";
+            
+            if(employee.getEmployeeId() != 0) {
+                PreparedStatement preparedStatement;
+                
+                if (employee.getEmployeeName() != null && employee.getSalary() != 0 && employee.getPhoneNumber() != null && employee.getDate() != null) {
+                    preparedStatement = connection.prepareStatement(update);
+                    
+                    preparedStatement.setString(1, employee.getEmployeeName());
+                    preparedStatement.setDouble(2, employee.getSalary());
+                    preparedStatement.setString(3, employee.getPhoneNumber());
+                    preparedStatement.setDate(4, employee.getDate());
+                    preparedStatement.setInt(5, employee.getEmployeeId());
+                    preparedStatement.executeUpdate();
+                }
+            }
+            System.out.println("Data updated in database successfully");
+        } catch (SQLException exception) {
+            System.out.println("Data not updated");
+        } finally {
+            connection.close();
+        }
     }
 	
     public void updateEmployee(Employee employee) {
@@ -122,32 +155,6 @@ public class EmployeeDatabase {
 					
                     preparedStatement.setDate(1, employee.getDate());
                     preparedStatement.setInt(2, employee.getEmployeeId());
-                    preparedStatement.executeUpdate();
-                }
-            }
-            System.out.println("Data updated in database successfully");
-        } catch (SQLException exception) {
-            System.out.println("Data not updated");
-        }
-    }
-	
-    public void updateAllEmployeeDetails(Employee employee) {
-		
-        try {
-            Connection connection = getConnection();
-            String update = "UPDATE employeedetails set name = ? and salary = ? and number = ? and date = ? WHERE id = ?";
-			
-            if(employee.getEmployeeId() != 0) {
-                PreparedStatement preparedStatement;
-				
-                if (employee.getEmployeeName() != null && employee.getSalary() != 0 && employee.getPhoneNumber() != null && employee.getDate() != null) {
-                    preparedStatement = connection.prepareStatement(update);
-					
-                    preparedStatement.setString(1, employee.getEmployeeName());
-                    preparedStatement.setDouble(2, employee.getSalary());
-                    preparedStatement.setString(3, employee.getPhoneNumber());
-                    preparedStatement.setDate(4, employee.getDate());
-                    preparedStatement.setInt(5, employee.getEmployeeId());
                     preparedStatement.executeUpdate();
                 }
             }
