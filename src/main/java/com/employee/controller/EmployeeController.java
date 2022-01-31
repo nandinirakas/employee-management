@@ -3,6 +3,7 @@ package com.employee.controller;
 import java.sql.Date;
 import java.sql.SQLException;
 
+import com.employee.exception.IdNotFoundException;
 import com.employee.model.Employee;
 import com.employee.service.EmployeeMangementImpl;
 import com.employee.view.EmployeeInformation;
@@ -18,15 +19,15 @@ public class EmployeeController {
         EMPLOYEE_SERVICE.viewEmployees();
     }
 
-    public void deleteEmployee(int employeeId) throws SQLException {
+    public void deleteEmployee(int employeeId) throws SQLException, IdNotFoundException {
         EMPLOYEE_SERVICE.deleteEmployee(employeeId);
     }
 
-    public void updateEmployee(Employee employee) throws SQLException {
+    public void updateEmployee(Employee employee) throws SQLException, IdNotFoundException {
         EMPLOYEE_SERVICE.updateEmployee(employee);
     }
 	
-    public void updateAllEmployeeDetails(Employee employee) throws SQLException {
+    public void updateAllEmployeeDetails(Employee employee) throws SQLException, IdNotFoundException {
         EMPLOYEE_SERVICE.updateEmployee(employee);
     }
 	

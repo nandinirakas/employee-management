@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 import com.employee.controller.EmployeeController;
 import com.employee.dao.EmployeeDatabase;
+import com.employee.exception.IdNotFoundException;
 import com.employee.model.Employee;
 
 /**
@@ -107,6 +108,7 @@ public class EmployeeMangementImpl implements EmployeeManagement {
     /**
      * Showing all employee details that are stored in the list by using for each.
      * Entry will give both key and value.
+     * 
      * @throws SQLException 
      */
     public void viewEmployees() throws SQLException {   
@@ -119,8 +121,9 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * 
      * @param employeeId
      * @throws SQLException 
+     * @throws IdNotFoundException 
      */
-    public void deleteEmployee(int employeeId) throws SQLException {
+    public void deleteEmployee(int employeeId) throws SQLException, IdNotFoundException {
         
         if (EMPLOYEE_DETAILS.isEmpty()) {
             EMPLOYEE_DETAILS.putAll(EMPLOYEE_DATABASE.getEmployees());
@@ -130,7 +133,12 @@ public class EmployeeMangementImpl implements EmployeeManagement {
             EMPLOYEE_DATABASE.deleteEmployee(employeeId);
             EMPLOYEE_DETAILS.remove(employeeId);
         } else {
-            System.out.println("The given Id does not present, please enter correct id");
+            
+            try {
+                throw new IdNotFoundException("Given id not found");
+            } catch (Exception exception){
+                exception.printStackTrace();
+            }
         }
     }
 
@@ -139,8 +147,9 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * 
      * @param employee
      * @throws SQLException 
+     * @throws IdNotFoundException 
      */
-    public void updateEmployee(Employee employee) throws SQLException {
+    public void updateEmployee(Employee employee) throws SQLException, IdNotFoundException {
         
         if (EMPLOYEE_DETAILS.isEmpty()) {
             EMPLOYEE_DETAILS.putAll(EMPLOYEE_DATABASE.getEmployees());
@@ -161,11 +170,16 @@ public class EmployeeMangementImpl implements EmployeeManagement {
                 }
             EMPLOYEE_DATABASE.updateEmployee(employee);
         } else {
-            System.out.println("The given Id does not present, please enter correct id");
+            
+            try {
+                throw new IdNotFoundException("Given id not found");
+            } catch (Exception exception){
+                exception.printStackTrace();
+            }
         }
     }
 	
-    public void updateAllEmployeeDetails(Employee employee) throws SQLException {
+    public void updateAllEmployeeDetails(Employee employee) throws SQLException, IdNotFoundException {
         
         if (EMPLOYEE_DETAILS.isEmpty()) {
             EMPLOYEE_DETAILS.putAll(EMPLOYEE_DATABASE.getEmployees());
@@ -183,7 +197,12 @@ public class EmployeeMangementImpl implements EmployeeManagement {
             }
             EMPLOYEE_DATABASE.updateAllEmployeeDetails(employee);
         } else {
-            System.out.println("The given Id does not present, please enter correct id");
+            
+            try {
+                throw new IdNotFoundException("Given id not found");
+            } catch (Exception exception){
+                exception.printStackTrace();
+            }
         }
     }
 }

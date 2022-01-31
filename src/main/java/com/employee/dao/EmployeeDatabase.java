@@ -9,12 +9,13 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.employee.exception.IdNotFoundException;
 import com.employee.model.Employee;
 
 public class EmployeeDatabase {
-    private final String JDBC_URL = "jdbc:postgresql://localhost:2020/employee";
-    private final String DATABASE_NAME = "postgres";
-    private final String DATABASE_PASSWORD = "root123";
+    private static final String JDBC_URL = "jdbc:postgresql://localhost:2020/employee";
+    private static final String DATABASE_NAME = "postgres";
+    private static final String DATABASE_PASSWORD = "root123";
 	
     private Connection getConnection() {
         Connection connection = null;
@@ -41,6 +42,7 @@ public class EmployeeDatabase {
             preparedStatement.setString(4, employee.getPhoneNumber());
             preparedStatement.setDate(5, employee.getDate());
             preparedStatement.setBoolean(6, false);
+            
             preparedStatement.executeUpdate();
             System.out.println("Data entered in database successfully");
         } catch (SQLException exception) {
@@ -50,7 +52,7 @@ public class EmployeeDatabase {
         }
     }
 
-    public void deleteEmployee(int employeeId) {
+    public void deleteEmployee(int employeeId) throws IdNotFoundException {
 		
         try {
             Connection connection = getConnection();
@@ -63,7 +65,7 @@ public class EmployeeDatabase {
             preparedStatement.execute();
             System.out.println("Data deleted in database successfully");
         } catch (SQLException exception) {
-            exception.printStackTrace();
+            throw new IdNotFoundException("Given id not found");
         }
     }
 	
@@ -98,7 +100,7 @@ public class EmployeeDatabase {
         return employees;    
     }
     
-    public void updateAllEmployeeDetails(Employee employee) throws SQLException {
+    public void updateAllEmployeeDetails(Employee employee) throws SQLException, IdNotFoundException {
         Connection connection = getConnection();
         
         try {
@@ -120,13 +122,13 @@ public class EmployeeDatabase {
             }
             System.out.println("Data updated in database successfully");
         } catch (SQLException exception) {
-            System.out.println("Data not updated");
+            throw new IdNotFoundException("Given id not found");
         } finally {
             connection.close();
         }
     }
 	
-    public void updateEmployee(Employee employee) throws SQLException {
+    public void updateEmployee(Employee employee) throws SQLException, IdNotFoundException {
         Connection connection = getConnection();
 		
         try {
@@ -166,7 +168,7 @@ public class EmployeeDatabase {
             }
             System.out.println("Data updated in database successfully");
         } catch (SQLException exception) {
-            System.out.println("Data not updated");
+            throw new IdNotFoundException("Given id not found");
         } finally {
             connection.close();
         }

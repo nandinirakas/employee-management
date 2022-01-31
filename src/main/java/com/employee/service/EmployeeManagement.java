@@ -2,6 +2,7 @@ package com.employee.service;
 
 import java.sql.SQLException;
 
+import com.employee.exception.IdNotFoundException;
 import com.employee.model.Employee;
 
 /**
@@ -13,9 +14,9 @@ public interface EmployeeManagement {
 
     void viewEmployees() throws SQLException;
 
-    void deleteEmployee(int employeeId) throws SQLException;
+    void deleteEmployee(int employeeId) throws SQLException, IdNotFoundException;
 
-    void updateEmployee(Employee employee) throws SQLException;
+    void updateEmployee(Employee employee) throws SQLException, IdNotFoundException;
 	
-    void updateAllEmployeeDetails(Employee employee) throws SQLException;
+    void updateAllEmployeeDetails(Employee employee) throws SQLException, IdNotFoundException;
 }

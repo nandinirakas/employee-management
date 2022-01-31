@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import com.employee.controller.EmployeeController;
+import com.employee.exception.IdNotFoundException;
 import com.employee.model.Employee;
 import com.employee.view.EmployeeInformation;
 
@@ -22,8 +23,9 @@ public class EmployeeMain {
      * Performs switch case function for selecting according to preference. 1 for adding a new employee detail, 
      * 2 for viewing all employee details, 3 for deleting an employee detail using id, 4 for updating details.
      * @throws SQLException 
+     * @throws IdNotFoundException 
      */
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, IdNotFoundException {
         int choice;
 
         do {
@@ -79,8 +81,9 @@ public class EmployeeMain {
     /**
      * Deleting employee detail by using id.
      * @throws SQLException 
+     * @throws IdNotFoundException 
      */
-    private static void deleteEmployee() throws SQLException {
+    private static void deleteEmployee() throws SQLException, IdNotFoundException {
     	int employeeId = EmployeeInformation.getEmployeeId();
     	
         EMPLOYEE_CONTROL.deleteEmployee(employeeId);
@@ -89,8 +92,9 @@ public class EmployeeMain {
     /**
      * Updating various employee details using switch case for specific input given by user.
      * @throws SQLException 
+     * @throws IdNotFoundException 
      */
-    public static void updateEmployeeDetails() throws SQLException {
+    public static void updateEmployeeDetails() throws SQLException, IdNotFoundException {
         int choice;
 		
         System.out.println("Choose option to update\n1.Employee Name\n2.Employee Salary\n3.Employee Phone Number\n4.Employee Joining Date");
@@ -112,8 +116,9 @@ public class EmployeeMain {
     /**
      * Updating employee name by using employee id.
      * @throws SQLException 
+     * @throws IdNotFoundException 
      */
-    private static void updateEmployeeName() throws SQLException {
+    private static void updateEmployeeName() throws SQLException, IdNotFoundException {
         int employeeId = EmployeeInformation.getEmployeeId();
         String employeeName = EmployeeInformation.getEmployeeName();
         Employee employee = new Employee();
@@ -126,8 +131,9 @@ public class EmployeeMain {
     /**
      * Updating employee salary by using employee id.
      * @throws SQLException 
+     * @throws IdNotFoundException 
      */
-    private static void updateEmployeeSalary() throws SQLException {
+    private static void updateEmployeeSalary() throws SQLException, IdNotFoundException {
         int employeeId = EmployeeInformation.getEmployeeId();
         double salary = EmployeeInformation.getEmployeeSalary();
         Employee employee = new Employee();
@@ -140,8 +146,9 @@ public class EmployeeMain {
     /**
      * Updating employee phone number by using employee id.
      * @throws SQLException 
+     * @throws IdNotFoundException 
      */
-    private static void updateEmployeePhoneNumber() throws SQLException {
+    private static void updateEmployeePhoneNumber() throws SQLException, IdNotFoundException {
         int employeeId = EmployeeInformation.getEmployeeId();
         String phoneNumber = EmployeeInformation.getEmployeePhoneNumber();
         Employee employee = new Employee();
@@ -154,8 +161,9 @@ public class EmployeeMain {
     /**
      * Updating employee joining date by using employee id.
      * @throws SQLException 
+     * @throws IdNotFoundException 
      */
-    private static void updateEmployeeJoiningDate() throws SQLException {
+    private static void updateEmployeeJoiningDate() throws SQLException, IdNotFoundException {
         int employeeId = EmployeeInformation.getEmployeeId();
         Date date = EmployeeInformation.getEmployeeJoiningDate();
         Employee employee = new Employee();
@@ -165,7 +173,7 @@ public class EmployeeMain {
         EMPLOYEE_CONTROL.updateEmployee(employee);
     }
     
-    private static void updateAllEmployeeDetails() throws SQLException {
+    private static void updateAllEmployeeDetails() throws SQLException, IdNotFoundException {
     	int employeeId = EmployeeInformation.getEmployeeId();
         String employeeName = EmployeeInformation.getEmployeeName();
         double salary = EmployeeInformation.getEmployeeSalary();
