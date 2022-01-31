@@ -9,13 +9,13 @@ import com.employee.model.Employee;
  * using employee id, and update by using employee.
  */
 public interface EmployeeManagement {
-    void addNewEmployee(Employee employee);
+    void addNewEmployee(Employee employee) throws SQLException;
 
-    void viewEmployees();
+    void viewEmployees() throws SQLException;
 
-    void deleteEmployee(int employeeId);
+    void deleteEmployee(int employeeId) throws SQLException;
 
-    void updateEmployee(Employee employee);
+    void updateEmployee(Employee employee) throws SQLException;
 	
     void updateAllEmployeeDetails(Employee employee) throws SQLException;
 }

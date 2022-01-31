@@ -12,7 +12,7 @@ import java.util.Map;
 import com.employee.model.Employee;
 
 public class EmployeeDatabase {
-    private final String JDBCURL = "jdbc:postgresql://localhost:2020/employee";
+    private final String JDBC_URL = "jdbc:postgresql://localhost:2020/employee";
     private final String DATABASE_NAME = "postgres";
     private final String DATABASE_PASSWORD = "root123";
 	
@@ -20,17 +20,17 @@ public class EmployeeDatabase {
         Connection connection = null;
 
         try {
-          connection = DriverManager.getConnection(JDBCURL, DATABASE_NAME, DATABASE_PASSWORD);
+          connection = DriverManager.getConnection(JDBC_URL, DATABASE_NAME, DATABASE_PASSWORD);
         } catch (SQLException exception) {
           System.out.println("Exception");
         }
         return connection;
     }
 
-    public void addNewEmployee(Employee employee) {
+    public void addNewEmployee(Employee employee) throws SQLException {
+        Connection connection = getConnection();
 
         try {
-            Connection connection = getConnection();
             PreparedStatement preparedStatement;
             String sql = "INSERT INTO employeedetails (id, name, salary, number, date) values (?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sql);
@@ -44,6 +44,8 @@ public class EmployeeDatabase {
             System.out.println("Data entered in database successfully");
         } catch (SQLException exception) {
             System.out.println("Employee id already present, please enter new id");
+        } finally {
+            connection.close();
         }
     }
 
@@ -59,17 +61,17 @@ public class EmployeeDatabase {
             preparedStatement.execute();
             System.out.println("Data deleted in database successfully");
         } catch (SQLException exception) {
-            System.out.println("Data not deleted");
+            System.out.println("Error for deleting data, please enter an id present in database");
         }
     }
 	
-    public Map<Integer, Employee> getEmployees() {
+    public Map<Integer, Employee> getEmployees() throws SQLException {
         final Map<Integer, Employee> employees = new HashMap<>(); 
+        Connection connection = getConnection();
 		
         try {
             PreparedStatement preparedStatement;
             ResultSet resultSet;
-            Connection connection = getConnection();
             String sql = "SELECT * FROM employeedetails";
             preparedStatement = connection.prepareStatement(sql);
 			
@@ -87,7 +89,9 @@ public class EmployeeDatabase {
                  employees.put(id, employee);
                  }
         } catch (SQLException exception) {
-            System.out.println("Cannot view employee details");
+            System.out.println("Error for getting employee details");
+        } finally {
+            connection.close();
         }
         return employees;    
     }
@@ -120,10 +124,10 @@ public class EmployeeDatabase {
         }
     }
 	
-    public void updateEmployee(Employee employee) {
+    public void updateEmployee(Employee employee) throws SQLException {
+        Connection connection = getConnection();
 		
         try {
-            Connection connection = getConnection();
             String name = "UPDATE employeedetails set name = ? WHERE id = ?";
             String salary = "UPDATE employeedetails set salary = ? WHERE id = ?";
             String number = "UPDATE employeedetails set number = ? WHERE id = ?";
@@ -161,6 +165,8 @@ public class EmployeeDatabase {
             System.out.println("Data updated in database successfully");
         } catch (SQLException exception) {
             System.out.println("Data not updated");
+        } finally {
+            connection.close();
         }
     }
 }

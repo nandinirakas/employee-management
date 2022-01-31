@@ -88,8 +88,9 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * Adding a new employee.
      * 
      * @param employee Object contains id, name, salary, phone number and date
+     * @throws SQLException 
      */
-    public void addNewEmployee(Employee employee) {
+    public void addNewEmployee(Employee employee) throws SQLException {
         
         if (EMPLOYEE_DETAILS.isEmpty()) {
             EMPLOYEE_DETAILS.putAll(EMPLOYEE_DATABASE.getEmployees());
@@ -106,8 +107,9 @@ public class EmployeeMangementImpl implements EmployeeManagement {
     /**
      * Showing all employee details that are stored in the list by using for each.
      * Entry will give both key and value.
+     * @throws SQLException 
      */
-    public void viewEmployees() {   
+    public void viewEmployees() throws SQLException {   
         System.out.println(EMPLOYEE_DATABASE.getEmployees());
     }
 
@@ -116,8 +118,9 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * based on employee id.
      * 
      * @param employeeId
+     * @throws SQLException 
      */
-    public void deleteEmployee(int employeeId) {
+    public void deleteEmployee(int employeeId) throws SQLException {
         
         if (EMPLOYEE_DETAILS.isEmpty()) {
             EMPLOYEE_DETAILS.putAll(EMPLOYEE_DATABASE.getEmployees());
@@ -135,8 +138,9 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * Replacing each employee details based on employee id.
      * 
      * @param employee
+     * @throws SQLException 
      */
-    public void updateEmployee(Employee employee) {
+    public void updateEmployee(Employee employee) throws SQLException {
         
         if (EMPLOYEE_DETAILS.isEmpty()) {
             EMPLOYEE_DETAILS.putAll(EMPLOYEE_DATABASE.getEmployees());

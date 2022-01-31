@@ -1,6 +1,7 @@
 package com.employee.controller;
 
 import java.sql.Date;
+import java.sql.SQLException;
 
 import com.employee.model.Employee;
 import com.employee.service.EmployeeMangementImpl;
@@ -9,23 +10,23 @@ import com.employee.view.EmployeeInformation;
 public class EmployeeController {
     private final static EmployeeMangementImpl EMPLOYEE_SERVICE = new EmployeeMangementImpl();
 
-    public void addNewEmployee(Employee employee) {
+    public void addNewEmployee(Employee employee) throws SQLException {
         EMPLOYEE_SERVICE.addNewEmployee(employee);
     }
 
-    public void viewEmployees() {
+    public void viewEmployees() throws SQLException {
         EMPLOYEE_SERVICE.viewEmployees();
     }
 
-    public void deleteEmployee(int employeeId) {
+    public void deleteEmployee(int employeeId) throws SQLException {
         EMPLOYEE_SERVICE.deleteEmployee(employeeId);
     }
 
-    public void updateEmployee(Employee employee) {
+    public void updateEmployee(Employee employee) throws SQLException {
         EMPLOYEE_SERVICE.updateEmployee(employee);
     }
 	
-    public void updateAllEmployeeDetails(Employee employee) {
+    public void updateAllEmployeeDetails(Employee employee) throws SQLException {
         EMPLOYEE_SERVICE.updateEmployee(employee);
     }
 	
