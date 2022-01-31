@@ -9,14 +9,13 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.employee.exception.IdNotFoundException;
 import com.employee.model.Employee;
 
 public class EmployeeDatabase {
     private static final String JDBC_URL = "jdbc:postgresql://localhost:2020/employee";
     private static final String DATABASE_NAME = "postgres";
     private static final String DATABASE_PASSWORD = "root123";
-	
+    
     private Connection getConnection() {
         Connection connection = null;
 
@@ -35,7 +34,7 @@ public class EmployeeDatabase {
             PreparedStatement preparedStatement;
             String addQuery = "INSERT INTO employeedetails (id, name, salary, number, date, is_deleted) values (?, ?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(addQuery);
-			
+            
             preparedStatement.setInt(1, employee.getEmployeeId());
             preparedStatement.setString(2, employee.getEmployeeName());
             preparedStatement.setDouble(3, employee.getSalary());
@@ -46,61 +45,63 @@ public class EmployeeDatabase {
             preparedStatement.executeUpdate();
             System.out.println("Data entered in database successfully");
         } catch (SQLException exception) {
-            exception.printStackTrace();
+            System.out.println("Data not entered in database");
         } finally {
             connection.close();
         }
     }
 
-    public void deleteEmployee(int employeeId) throws IdNotFoundException {
-		
+    public void deleteEmployee(int employeeId) throws SQLException {
+        Connection connection = getConnection();
+        
         try {
-            Connection connection = getConnection();
             PreparedStatement preparedStatement;
             String deleteQuery = "UPDATE employeedetails set is_deleted = ? WHERE id = ?";
             preparedStatement = connection.prepareStatement(deleteQuery);
-			
+            
             preparedStatement.setBoolean(1, true);
             preparedStatement.setInt(2, employeeId);
             preparedStatement.execute();
             System.out.println("Data deleted in database successfully");
         } catch (SQLException exception) {
-            throw new IdNotFoundException("Given id not found");
+            System.out.println("Data not deleted in database");
+        } finally {
+            connection.close();
         }
     }
-	
+    
     public Map<Integer, Employee> getEmployees() throws SQLException {
         final Map<Integer, Employee> employees = new HashMap<>(); 
         Connection connection = getConnection();
-		
+        
         try {
             PreparedStatement preparedStatement;
             ResultSet resultSet;
             String selectQuery = "SELECT * FROM employeedetails WHERE is_deleted = false";
             preparedStatement = connection.prepareStatement(selectQuery);
-			
+            
             preparedStatement.execute();
             resultSet = preparedStatement.executeQuery();  
-			
+            
             while (resultSet.next()) {      
                  int id = resultSet.getInt("id");
                  String name = resultSet.getString("name");        
                  double salary = resultSet.getDouble("salary");
                  String number = resultSet.getString("number");
                  Date date = resultSet.getDate("date");
-				 
+                 
                  Employee employee = new Employee(id, name, salary, number, date);         
                  employees.put(id, employee);
                  }
         } catch (SQLException exception) {
-            exception.printStackTrace();
+            System.out.println("Cannot view datas in database");
         } finally {
             connection.close();
         }
         return employees;    
     }
     
-    public void updateAllEmployeeDetails(Employee employee) throws SQLException, IdNotFoundException {
+    public void updateAllEmployeeDetails(Employee employee) throws SQLException {
         Connection connection = getConnection();
         
         try {
@@ -122,45 +123,45 @@ public class EmployeeDatabase {
             }
             System.out.println("Data updated in database successfully");
         } catch (SQLException exception) {
-            throw new IdNotFoundException("Given id not found");
+            System.out.println("Data not updated in database");
         } finally {
             connection.close();
         }
     }
-	
-    public void updateEmployee(Employee employee) throws SQLException, IdNotFoundException {
+    
+    public void updateEmployee(Employee employee) throws SQLException {
         Connection connection = getConnection();
-		
+        
         try {
             String updateName = "UPDATE employeedetails set name = ? WHERE id = ?";
             String updateSalary = "UPDATE employeedetails set salary = ? WHERE id = ?";
             String updateNumber = "UPDATE employeedetails set number = ? WHERE id = ?";
             String updateDate = "UPDATE employeedetails set date = ? WHERE id = ?";
-			
+            
             if(employee.getEmployeeId() != 0) {
                 PreparedStatement preparedStatement;
-				
+                
                 if (employee.getEmployeeName() != null) {
                     preparedStatement = connection.prepareStatement(updateName);
-					
+                    
                     preparedStatement.setString(1, employee.getEmployeeName());
                     preparedStatement.setInt(2, employee.getEmployeeId());
                     preparedStatement.executeUpdate();
                 } else if (employee.getSalary() != 0) {
                     preparedStatement = connection.prepareStatement(updateSalary);
-					
+                    
                     preparedStatement.setDouble(1, employee.getSalary());
                     preparedStatement.setInt(2, employee.getEmployeeId());
                     preparedStatement.executeUpdate();
                 } else if (employee.getPhoneNumber() != null) {
                     preparedStatement = connection.prepareStatement(updateNumber);
-					
+                    
                     preparedStatement.setString(1, employee.getPhoneNumber());
                     preparedStatement.setInt(2, employee.getEmployeeId());
                     preparedStatement.executeUpdate();
                 } else if (employee.getDate() != null) {
                     preparedStatement = connection.prepareStatement(updateDate);
-					
+                    
                     preparedStatement.setDate(1, employee.getDate());
                     preparedStatement.setInt(2, employee.getEmployeeId());
                     preparedStatement.executeUpdate();
@@ -168,7 +169,7 @@ public class EmployeeDatabase {
             }
             System.out.println("Data updated in database successfully");
         } catch (SQLException exception) {
-            throw new IdNotFoundException("Given id not found");
+            System.out.println("Data not updated in database");
         } finally {
             connection.close();
         }

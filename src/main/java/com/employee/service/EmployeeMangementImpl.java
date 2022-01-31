@@ -26,14 +26,14 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * Validation
      */
     public int employeeIdValidation(String employeeId) {
-		
+        
         if (!employeeId.matches("[0-9]{1,}")) {
             System.out.println("Please enter valid id that contains only numbers");
             return EmployeeController.failedEmployeeIdValidation(employeeId);
         }
         return Integer.parseInt(employeeId);
     }
-	
+    
     public String employeeNameValidation(String employeeName) {
         Pattern pattern = Pattern.compile("[A-Za-z]{1,}");
         Matcher match = pattern.matcher(employeeName);
@@ -44,7 +44,7 @@ public class EmployeeMangementImpl implements EmployeeManagement {
         }
         return employeeName;
     }
-	
+    
     public String phoneNumberValidation(String phoneNumber) {
 
         if (!phoneNumber.matches("[6-9][0-9]{9}")) {
@@ -53,10 +53,10 @@ public class EmployeeMangementImpl implements EmployeeManagement {
         }
         return phoneNumber;
     }
-	
+    
     public Date dateValidation(String joiningDate) {
         Date sqlDate;
-		
+        
         try {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             dateFormat.setLenient(false);
@@ -68,15 +68,15 @@ public class EmployeeMangementImpl implements EmployeeManagement {
         }
         return sqlDate;
     }
-	
+    
     public double employeeSalaryValidation(String employeeSalary) {
         double grossSalary = 0;
-		
+        
         if (employeeSalary.matches("(\\d+\\.\\d+)")) {
             double totalSalary = Double.parseDouble(employeeSalary);
             double incomeTax = 600; 
             double providentFund = 1000;    
-		    
+            
             grossSalary = totalSalary - (incomeTax + providentFund);
         } else {
             System.out.println("Please enter valid salary detail that contains decimal values");
@@ -84,7 +84,7 @@ public class EmployeeMangementImpl implements EmployeeManagement {
         }
         return grossSalary;
     }
-	
+    
     /**
      * Adding a new employee.
      * 
@@ -121,9 +121,8 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * 
      * @param employeeId
      * @throws SQLException 
-     * @throws IdNotFoundException 
      */
-    public void deleteEmployee(int employeeId) throws SQLException, IdNotFoundException {
+    public void deleteEmployee(int employeeId) throws SQLException {
         
         if (EMPLOYEE_DETAILS.isEmpty()) {
             EMPLOYEE_DETAILS.putAll(EMPLOYEE_DATABASE.getEmployees());
@@ -147,18 +146,17 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * 
      * @param employee
      * @throws SQLException 
-     * @throws IdNotFoundException 
      */
-    public void updateEmployee(Employee employee) throws SQLException, IdNotFoundException {
+    public void updateEmployee(Employee employee) throws SQLException {
         
         if (EMPLOYEE_DETAILS.isEmpty()) {
             EMPLOYEE_DETAILS.putAll(EMPLOYEE_DATABASE.getEmployees());
         }
         int employeeIdKey = employee.getEmployeeId();
-		
+        
         if (EMPLOYEE_DETAILS.containsKey(employeeIdKey)) {
             Employee employeeData = EMPLOYEE_DETAILS.get(employeeIdKey);
-		
+        
                 if (employee.getEmployeeName() != null) { 
                     employeeData.setEmployeeName(employee.getEmployeeName());
                 } else if (employee.getSalary() != 0) {
@@ -178,17 +176,17 @@ public class EmployeeMangementImpl implements EmployeeManagement {
             }
         }
     }
-	
-    public void updateAllEmployeeDetails(Employee employee) throws SQLException, IdNotFoundException {
+    
+    public void updateAllEmployeeDetails(Employee employee) throws SQLException {
         
         if (EMPLOYEE_DETAILS.isEmpty()) {
             EMPLOYEE_DETAILS.putAll(EMPLOYEE_DATABASE.getEmployees());
         }
         int employeeIdKey = employee.getEmployeeId();
-    	
+        
         if (EMPLOYEE_DETAILS.containsKey(employeeIdKey)) {
             Employee employeeData = EMPLOYEE_DETAILS.get(employeeIdKey);
-    		
+            
             if (employee.getEmployeeName() != null && employee.getSalary() != 0 && employee.getPhoneNumber() != null && employee.getDate() != null) {
                 employeeData.setEmployeeName(employee.getEmployeeName());
                 employeeData.setSalary(employee.getSalary());
