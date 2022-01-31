@@ -32,18 +32,19 @@ public class EmployeeDatabase {
 
         try {
             PreparedStatement preparedStatement;
-            String sql = "INSERT INTO employeedetails (id, name, salary, number, date) values (?, ?, ?, ?, ?)";
-            preparedStatement = connection.prepareStatement(sql);
+            String addQuery = "INSERT INTO employeedetails (id, name, salary, number, date, is_deleted) values (?, ?, ?, ?, ?, ?)";
+            preparedStatement = connection.prepareStatement(addQuery);
 			
             preparedStatement.setInt(1, employee.getEmployeeId());
             preparedStatement.setString(2, employee.getEmployeeName());
             preparedStatement.setDouble(3, employee.getSalary());
             preparedStatement.setString(4, employee.getPhoneNumber());
             preparedStatement.setDate(5, employee.getDate());
+            preparedStatement.setBoolean(6, false);
             preparedStatement.executeUpdate();
             System.out.println("Data entered in database successfully");
         } catch (SQLException exception) {
-            System.out.println("Employee id already present, please enter new id");
+            exception.printStackTrace();
         } finally {
             connection.close();
         }
@@ -54,14 +55,15 @@ public class EmployeeDatabase {
         try {
             Connection connection = getConnection();
             PreparedStatement preparedStatement;
-            String sql = "DELETE FROM employeedetails WHERE id = ?";
-            preparedStatement = connection.prepareStatement(sql);
+            String deleteQuery = "UPDATE employeedetails set is_deleted = ? WHERE id = ?";
+            preparedStatement = connection.prepareStatement(deleteQuery);
 			
-            preparedStatement.setInt(1, employeeId);
+            preparedStatement.setBoolean(1, true);
+            preparedStatement.setInt(2, employeeId);
             preparedStatement.execute();
             System.out.println("Data deleted in database successfully");
         } catch (SQLException exception) {
-            System.out.println("Error for deleting data, please enter an id present in database");
+            exception.printStackTrace();
         }
     }
 	
@@ -72,8 +74,8 @@ public class EmployeeDatabase {
         try {
             PreparedStatement preparedStatement;
             ResultSet resultSet;
-            String sql = "SELECT * FROM employeedetails";
-            preparedStatement = connection.prepareStatement(sql);
+            String selectQuery = "SELECT * FROM employeedetails WHERE is_deleted = false";
+            preparedStatement = connection.prepareStatement(selectQuery);
 			
             preparedStatement.execute();
             resultSet = preparedStatement.executeQuery();  
@@ -89,7 +91,7 @@ public class EmployeeDatabase {
                  employees.put(id, employee);
                  }
         } catch (SQLException exception) {
-            System.out.println("Error for getting employee details");
+            exception.printStackTrace();
         } finally {
             connection.close();
         }
@@ -100,13 +102,13 @@ public class EmployeeDatabase {
         Connection connection = getConnection();
         
         try {
-            String update = "UPDATE employeedetails set name = ? and salary = ? and number = ? and date = ? WHERE id = ?";
+            String updateQuery = "UPDATE employeedetails set name = ? and salary = ? and number = ? and date = ? WHERE id = ?";
             
             if(employee.getEmployeeId() != 0) {
                 PreparedStatement preparedStatement;
                 
                 if (employee.getEmployeeName() != null && employee.getSalary() != 0 && employee.getPhoneNumber() != null && employee.getDate() != null) {
-                    preparedStatement = connection.prepareStatement(update);
+                    preparedStatement = connection.prepareStatement(updateQuery);
                     
                     preparedStatement.setString(1, employee.getEmployeeName());
                     preparedStatement.setDouble(2, employee.getSalary());
@@ -128,34 +130,34 @@ public class EmployeeDatabase {
         Connection connection = getConnection();
 		
         try {
-            String name = "UPDATE employeedetails set name = ? WHERE id = ?";
-            String salary = "UPDATE employeedetails set salary = ? WHERE id = ?";
-            String number = "UPDATE employeedetails set number = ? WHERE id = ?";
-            String date = "UPDATE employeedetails set date = ? WHERE id = ?";
+            String updateName = "UPDATE employeedetails set name = ? WHERE id = ?";
+            String updateSalary = "UPDATE employeedetails set salary = ? WHERE id = ?";
+            String updateNumber = "UPDATE employeedetails set number = ? WHERE id = ?";
+            String updateDate = "UPDATE employeedetails set date = ? WHERE id = ?";
 			
             if(employee.getEmployeeId() != 0) {
                 PreparedStatement preparedStatement;
 				
                 if (employee.getEmployeeName() != null) {
-                    preparedStatement = connection.prepareStatement(name);
+                    preparedStatement = connection.prepareStatement(updateName);
 					
                     preparedStatement.setString(1, employee.getEmployeeName());
                     preparedStatement.setInt(2, employee.getEmployeeId());
                     preparedStatement.executeUpdate();
                 } else if (employee.getSalary() != 0) {
-                    preparedStatement = connection.prepareStatement(salary);
+                    preparedStatement = connection.prepareStatement(updateSalary);
 					
                     preparedStatement.setDouble(1, employee.getSalary());
                     preparedStatement.setInt(2, employee.getEmployeeId());
                     preparedStatement.executeUpdate();
                 } else if (employee.getPhoneNumber() != null) {
-                    preparedStatement = connection.prepareStatement(number);
+                    preparedStatement = connection.prepareStatement(updateNumber);
 					
                     preparedStatement.setString(1, employee.getPhoneNumber());
                     preparedStatement.setInt(2, employee.getEmployeeId());
                     preparedStatement.executeUpdate();
                 } else if (employee.getDate() != null) {
-                    preparedStatement = connection.prepareStatement(date);
+                    preparedStatement = connection.prepareStatement(updateDate);
 					
                     preparedStatement.setDate(1, employee.getDate());
                     preparedStatement.setInt(2, employee.getEmployeeId());
