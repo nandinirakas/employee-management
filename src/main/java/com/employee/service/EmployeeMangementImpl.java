@@ -1,17 +1,15 @@
 package com.employee.service;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.employee.controller.EmployeeController;
-import com.employee.dao.EmployeeDatabase;
-import com.employee.exception.IdNotFoundException;
 import com.employee.model.Employee;
 
 /**
@@ -19,7 +17,6 @@ import com.employee.model.Employee;
  * Created a linked hashmap collection for storing details to maintain order and better performance.
  */
 public class EmployeeMangementImpl implements EmployeeManagement {
-    private final EmployeeDatabase EMPLOYEE_DATABASE = new EmployeeDatabase();
     private static final Map<Integer, Employee> EMPLOYEE_DETAILS = new LinkedHashMap<>();
 
     /**
@@ -49,7 +46,7 @@ public class EmployeeMangementImpl implements EmployeeManagement {
 
         if (!phoneNumber.matches("[6-9][0-9]{9}")) {
             System.out.println("Please enter valid 10 digit phone number");
-            return EmployeeController.failedphoneNumberValidation(phoneNumber);
+            return EmployeeController.failedPhoneNumberValidation(phoneNumber);
         }
         return phoneNumber;
     }
@@ -89,18 +86,12 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * Adding a new employee.
      * 
      * @param employee Object contains id, name, salary, phone number and date
-     * @throws SQLException 
      */
-    public void addNewEmployee(Employee employee) throws SQLException {
-        
-        if (EMPLOYEE_DETAILS.isEmpty()) {
-            EMPLOYEE_DETAILS.putAll(EMPLOYEE_DATABASE.getEmployees());
-        } 
-        
+    public void addNewEmployee(Employee employee) {
+     
         if (EMPLOYEE_DETAILS.containsKey(employee.getEmployeeId())) {
                System.out.println("The given Id already present, please enter new id");
         } else {
-            EMPLOYEE_DATABASE.addNewEmployee(employee);
             EMPLOYEE_DETAILS.put(employee.getEmployeeId(), employee);
         }
     }
@@ -108,11 +99,14 @@ public class EmployeeMangementImpl implements EmployeeManagement {
     /**
      * Showing all employee details that are stored in the list by using for each.
      * Entry will give both key and value.
-     * 
-     * @throws SQLException 
      */
-    public void viewEmployees() throws SQLException {   
-        System.out.println(EMPLOYEE_DATABASE.getEmployees());
+    public void viewEmployees() {   
+        
+        for (Entry<Integer, Employee> entry : EMPLOYEE_DETAILS.entrySet()) {
+            Integer key = entry.getKey();
+            Employee value = entry.getValue();
+            System.out.println(String.format("%s %s", String.valueOf(key), value));
+        }
     }
 
     /**
@@ -120,24 +114,13 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * based on employee id.
      * 
      * @param employeeId
-     * @throws SQLException 
      */
-    public void deleteEmployee(int employeeId) throws SQLException {
-        
-        if (EMPLOYEE_DETAILS.isEmpty()) {
-            EMPLOYEE_DETAILS.putAll(EMPLOYEE_DATABASE.getEmployees());
-        }
+    public void deleteEmployee(int employeeId) {
         
         if (EMPLOYEE_DETAILS.containsKey(employeeId)) {
-            EMPLOYEE_DATABASE.deleteEmployee(employeeId);
             EMPLOYEE_DETAILS.remove(employeeId);
         } else {
-            
-            try {
-                throw new IdNotFoundException("Given id not found");
-            } catch (Exception exception){
-                exception.printStackTrace();
-            }
+            System.out.println("The given Id already present, please enter new id");
         }
     }
 
@@ -145,13 +128,8 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * Replacing each employee details based on employee id.
      * 
      * @param employee
-     * @throws SQLException 
      */
-    public void updateEmployee(Employee employee) throws SQLException {
-        
-        if (EMPLOYEE_DETAILS.isEmpty()) {
-            EMPLOYEE_DETAILS.putAll(EMPLOYEE_DATABASE.getEmployees());
-        }
+    public void updateEmployee(Employee employee) {
         int employeeIdKey = employee.getEmployeeId();
         
         if (EMPLOYEE_DETAILS.containsKey(employeeIdKey)) {
@@ -166,22 +144,12 @@ public class EmployeeMangementImpl implements EmployeeManagement {
                 } else if (employee.getDate() != null) {
                    employeeData.setDate(employee.getDate());
                 }
-            EMPLOYEE_DATABASE.updateEmployee(employee);
         } else {
-            
-            try {
-                throw new IdNotFoundException("Given id not found");
-            } catch (Exception exception){
-                exception.printStackTrace();
-            }
+            System.out.println("Given id not present");        
         }
     }
     
-    public void updateAllEmployeeDetails(Employee employee) throws SQLException {
-        
-        if (EMPLOYEE_DETAILS.isEmpty()) {
-            EMPLOYEE_DETAILS.putAll(EMPLOYEE_DATABASE.getEmployees());
-        }
+    public void updateAllEmployeeDetails(Employee employee) {
         int employeeIdKey = employee.getEmployeeId();
         
         if (EMPLOYEE_DETAILS.containsKey(employeeIdKey)) {
@@ -193,14 +161,8 @@ public class EmployeeMangementImpl implements EmployeeManagement {
                 employeeData.setPhoneNumber(employee.getPhoneNumber());
                 employeeData.setDate(employee.getDate());
             }
-            EMPLOYEE_DATABASE.updateAllEmployeeDetails(employee);
         } else {
-            
-            try {
-                throw new IdNotFoundException("Given id not found");
-            } catch (Exception exception){
-                exception.printStackTrace();
-            }
+            System.out.println("Given id not present"); 
         }
     }
 }

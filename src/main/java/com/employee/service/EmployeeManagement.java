@@ -1,7 +1,5 @@
 package com.employee.service;
 
-import java.sql.SQLException;
-
 import com.employee.model.Employee;
 
 /**
@@ -9,13 +7,13 @@ import com.employee.model.Employee;
  * using employee id, and update by using employee.
  */
 public interface EmployeeManagement {
-    void addNewEmployee(Employee employee) throws SQLException;
+    void addNewEmployee(Employee employee);
 
-    void viewEmployees() throws SQLException;
+    void viewEmployees();
 
-    void deleteEmployee(int employeeId) throws SQLException;
+    void deleteEmployee(int employeeId);
 
-    void updateEmployee(Employee employee) throws SQLException;
+    void updateEmployee(Employee employee);
     
-    void updateAllEmployeeDetails(Employee employee) throws SQLException;
+    void updateAllEmployeeDetails(Employee employee);
 }
