@@ -58,7 +58,7 @@ public class EmployeeMain {
      * 
      * @throws IdAlreadyAvailableException 
      */
-    private static void addNewEmployee() throws IdAlreadyAvailableException {
+    private static void addNewEmployee() {
         int employeeId = EmployeeInformation.getEmployeeId();
         String employeeName = EmployeeInformation.getEmployeeName();
         double salary = EmployeeInformation.getEmployeeSalary();
@@ -66,7 +66,11 @@ public class EmployeeMain {
         Date date = EmployeeInformation.getEmployeeJoiningDate();
 
         Employee employee = new Employee(employeeId, employeeName, salary, phoneNumber, date);
-        EMPLOYEE_CONTROL.addNewEmployee(employee);
+        try {
+            EMPLOYEE_CONTROL.addNewEmployee(employee);
+        } catch (IdAlreadyAvailableException e) {
+            System.out.println(e);
+        }
     }
 
     /**
@@ -81,13 +85,17 @@ public class EmployeeMain {
      * 
      * @throws IdNotFoundException 
      */
-    private static void deleteEmployee() throws IdNotFoundException {
+    private static void deleteEmployee() {
         int employeeId = EmployeeInformation.getEmployeeId();
         
-        EMPLOYEE_CONTROL.deleteEmployee(employeeId);
+        try {
+            EMPLOYEE_CONTROL.deleteEmployee(employeeId);
+        } catch (IdNotFoundException e) {
+            System.out.println(e);
+        }
     }
 
-    private static void updateEmployeeDetails() throws IdNotFoundException {
+    private static void updateEmployeeDetails() {
         String employeeName = null;
         double salary = 0;
         String phoneNumber = null;
@@ -121,6 +129,11 @@ public class EmployeeMain {
         employee.setSalary(salary);
         employee.setPhoneNumber(phoneNumber);
         employee.setDate(date);
-        EMPLOYEE_CONTROL.updateEmployeeDetails(employee);
+        
+        try {
+            EMPLOYEE_CONTROL.updateEmployeeDetails(employee);
+        } catch (IdNotFoundException e) {
+            System.out.println(e);
+        }
     }
 }

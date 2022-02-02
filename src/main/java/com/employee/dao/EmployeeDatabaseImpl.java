@@ -63,7 +63,7 @@ public class EmployeeDatabaseImpl implements EmployeeDatabase {
 
                  Employee employee = new Employee(id, name, salary, number, date);         
                  employees.put(id, employee);
-                 }
+             }
         } catch (SQLException exception) { 
             System.out.println("Cannot view data in database");
         } 
