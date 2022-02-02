@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.employee.controller.EmployeeController;
+import com.employee.exception.IdNotFoundException;
 import com.employee.model.Employee;
 
 /**
@@ -114,55 +115,40 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * based on employee id.
      * 
      * @param employeeId
+     * @throws IdNotFoundException 
      */
-    public void deleteEmployee(int employeeId) {
+    public void deleteEmployee(int employeeId) throws IdNotFoundException {
         
         if (EMPLOYEE_DETAILS.containsKey(employeeId)) {
             EMPLOYEE_DETAILS.remove(employeeId);
         } else {
-            System.out.println("The given Id already present, please enter new id");
-        }
-    }
-
-    /**
-     * Replacing each employee details based on employee id.
-     * 
-     * @param employee
-     */
-    public void updateEmployee(Employee employee) {
-        int employeeIdKey = employee.getEmployeeId();
-        
-        if (EMPLOYEE_DETAILS.containsKey(employeeIdKey)) {
-            Employee employeeData = EMPLOYEE_DETAILS.get(employeeIdKey);
-        
-                if (employee.getEmployeeName() != null) { 
-                    employeeData.setEmployeeName(employee.getEmployeeName());
-                } else if (employee.getSalary() != 0) {
-                    employeeData.setSalary(employee.getSalary());
-                } else if (employee.getPhoneNumber() != null) {
-                    employeeData.setPhoneNumber(employee.getPhoneNumber());
-                } else if (employee.getDate() != null) {
-                   employeeData.setDate(employee.getDate());
-                }
-        } else {
-            System.out.println("Given id not present");        
+            throw new IdNotFoundException("Id not found");
         }
     }
     
-    public void updateAllEmployeeDetails(Employee employee) {
+    public void updateEmployeeDetails(Employee employee) {
         int employeeIdKey = employee.getEmployeeId();
         
-        if (EMPLOYEE_DETAILS.containsKey(employeeIdKey)) {
+            if (EMPLOYEE_DETAILS.containsKey(employeeIdKey)) {
             Employee employeeData = EMPLOYEE_DETAILS.get(employeeIdKey);
             
-            if (employee.getEmployeeName() != null && employee.getSalary() != 0 && employee.getPhoneNumber() != null && employee.getDate() != null) {
-                employeeData.setEmployeeName(employee.getEmployeeName());
-                employeeData.setSalary(employee.getSalary());
-                employeeData.setPhoneNumber(employee.getPhoneNumber());
-                employeeData.setDate(employee.getDate());
+                if (employee.getEmployeeName() != null) { 
+                    employeeData.setEmployeeName(employee.getEmployeeName());
+                }
+            
+                if (employee.getSalary() != 0) {
+                    employeeData.setSalary(employee.getSalary());
+                }
+            
+                if (employee.getPhoneNumber() != null) {
+                    employeeData.setPhoneNumber(employee.getPhoneNumber());
+                }
+            
+                if (employee.getDate() != null) {
+                   employeeData.setDate(employee.getDate());
+                }
+            } else {
+                System.out.println("Given id not present");        
             }
-        } else {
-            System.out.println("Given id not present"); 
-        }
     }
 }

@@ -2,31 +2,34 @@ package com.employee.controller;
 
 import java.sql.Date;
 
+import com.employee.exception.IdNotFoundException;
 import com.employee.model.Employee;
+import com.employee.service.EmployeeManagementImplVersion2;
 import com.employee.service.EmployeeMangementImpl;
 import com.employee.view.EmployeeInformation;
 
 public class EmployeeController {
     private final static EmployeeMangementImpl EMPLOYEE_SERVICE = new EmployeeMangementImpl();
+    private final static EmployeeManagementImplVersion2 EMPLOYEE_DATABASE = new EmployeeManagementImplVersion2();
 
     public void addNewEmployee(Employee employee) {
         EMPLOYEE_SERVICE.addNewEmployee(employee);
+        EMPLOYEE_DATABASE.addNewEmployee(employee);
     }
 
     public void viewEmployees() {
         EMPLOYEE_SERVICE.viewEmployees();
+        EMPLOYEE_DATABASE.viewEmployees();
     }
 
-    public void deleteEmployee(int employeeId) {
+    public void deleteEmployee(int employeeId) throws IdNotFoundException {
         EMPLOYEE_SERVICE.deleteEmployee(employeeId);
-    }
-
-    public void updateEmployee(Employee employee) {
-        EMPLOYEE_SERVICE.updateEmployee(employee);
+        EMPLOYEE_DATABASE.deleteEmployee(employeeId);
     }
     
-    public void updateAllEmployeeDetails(Employee employee) {
-        EMPLOYEE_SERVICE.updateEmployee(employee);
+    public void updateEmployeeDetails(Employee employee) {
+        EMPLOYEE_SERVICE.updateEmployeeDetails(employee);
+        EMPLOYEE_DATABASE.updateEmployeeDetails(employee);
     }
     
     public static int employeeIdValidation(String employeeId) {

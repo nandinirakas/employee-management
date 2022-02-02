@@ -11,7 +11,5 @@ public interface EmployeeDatabase {
     
     Map<Integer, Employee> getEmployees();
     
-    void updateAllEmployeeDetails(Employee employee);
-    
-    void updateEmployee(Employee employee);
+    void updateEmployeeDetails(Employee employee);
 }

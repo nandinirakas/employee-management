@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.Scanner;
 
 import com.employee.controller.EmployeeController;
+import com.employee.exception.IdNotFoundException;
 import com.employee.model.Employee;
 import com.employee.view.EmployeeInformation;
 
@@ -20,12 +21,14 @@ public class EmployeeMain {
     /**
      * Performs switch case function for selecting according to preference. 1 for adding a new employee detail, 
      * 2 for viewing all employee details, 3 for deleting an employee detail using id, 4 for updating details.
+     * 
+     * @throws IdNotFoundException 
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IdNotFoundException {
         int choice;
 
         do {
-            System.out.println("1.COLLECT DETAILS\n2.VIEW DETAILS\n3.DELETE DETAILS\n4.UPDATE DETAILS\n5.UPDATE ALL DETAILS\nEnter your choice:");
+            System.out.println("1.COLLECT DETAILS\n2.VIEW DETAILS\n3.DELETE DETAILS\n4.UPDATE ALL DETAILS\nEnter your choice:");
             choice = SCANNER.nextInt();
 
             switch (choice) {
@@ -40,9 +43,6 @@ public class EmployeeMain {
                 break;
             case 4:
                 EmployeeMain.updateEmployeeDetails();
-                break;
-            case 5:
-                EmployeeMain.updateAllEmployeeDetails();
                 break;
             default:
                 System.exit(0);
@@ -74,88 +74,16 @@ public class EmployeeMain {
 
     /**
      * Deleting employee detail by using id.
+     * 
+     * @throws IdNotFoundException 
      */
-    private static void deleteEmployee() {
+    private static void deleteEmployee() throws IdNotFoundException {
         int employeeId = EmployeeInformation.getEmployeeId();
         
         EMPLOYEE_CONTROL.deleteEmployee(employeeId);
     }
 
-    /**
-     * Updating various employee details using switch case for specific input given by user.
-     */
-    public static void updateEmployeeDetails() {
-        int choice;
-        
-        System.out.println("Choose option to update\n1.Employee Name\n2.Employee Salary\n3.Employee Phone Number\n4.Employee Joining Date");
-        choice = EmployeeMain.SCANNER.nextInt();
-
-        if (choice == 1) {
-            EmployeeMain.updateEmployeeName();
-        } else if (choice == 2) {
-            EmployeeMain.updateEmployeeSalary();
-        } else if (choice == 3) {
-            EmployeeMain.updateEmployeePhoneNumber();
-        } else if (choice == 4) {
-            EmployeeMain.updateEmployeeJoiningDate();
-        } else {
-            System.out.println("Invalid choice");
-        }
-    }
-
-    /**
-     * Updating employee name by using employee id.
-     */
-    private static void updateEmployeeName() {
-        int employeeId = EmployeeInformation.getEmployeeId();
-        String employeeName = EmployeeInformation.getEmployeeName();
-        Employee employee = new Employee();
-        
-        employee.setEmployeeId(employeeId);
-        employee.setEmployeeName(employeeName);
-        EMPLOYEE_CONTROL.updateEmployee(employee);
-    }
-
-    /**
-     * Updating employee salary by using employee id.
-     */
-    private static void updateEmployeeSalary() {
-        int employeeId = EmployeeInformation.getEmployeeId();
-        double salary = EmployeeInformation.getEmployeeSalary();
-        Employee employee = new Employee();
-        
-        employee.setEmployeeId(employeeId);
-        employee.setSalary(salary);
-        EMPLOYEE_CONTROL.updateEmployee(employee);
-    }
-
-    /**
-     * Updating employee phone number by using employee id.
-     */
-    private static void updateEmployeePhoneNumber() {
-        int employeeId = EmployeeInformation.getEmployeeId();
-        String phoneNumber = EmployeeInformation.getEmployeePhoneNumber();
-        Employee employee = new Employee();
-        
-        employee.setEmployeeId(employeeId);
-        employee.setPhoneNumber(phoneNumber);
-        EMPLOYEE_CONTROL.updateEmployee(employee);
-    }
-     
-    /**
-     * Updating employee joining date by using employee id.
-     */
-    private static void updateEmployeeJoiningDate() {
-        int employeeId = EmployeeInformation.getEmployeeId();
-        Date date = EmployeeInformation.getEmployeeJoiningDate();
-        Employee employee = new Employee();
-
-        employee.setEmployeeId(employeeId);
-        employee.setDate(date);
-        EMPLOYEE_CONTROL.updateEmployee(employee);
-    }
-    
-    private static void updateAllEmployeeDetails() {
+    private static void updateEmployeeDetails() {
         int employeeId = EmployeeInformation.getEmployeeId();
         String employeeName = EmployeeInformation.getEmployeeName();
         double salary = EmployeeInformation.getEmployeeSalary();
@@ -168,6 +96,6 @@ public class EmployeeMain {
         employee.setSalary(salary);
         employee.setPhoneNumber(phoneNumber);
         employee.setDate(date);
-        EMPLOYEE_CONTROL.updateAllEmployeeDetails(employee);
+        EMPLOYEE_CONTROL.updateEmployeeDetails(employee);
     }
 }

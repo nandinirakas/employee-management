@@ -1,5 +1,6 @@
 package com.employee.service;
 
+import com.employee.exception.IdNotFoundException;
 import com.employee.model.Employee;
 
 /**
@@ -11,9 +12,7 @@ public interface EmployeeManagement {
 
     void viewEmployees();
 
-    void deleteEmployee(int employeeId);
+    void deleteEmployee(int employeeId) throws IdNotFoundException;
 
-    void updateEmployee(Employee employee);
-    
-    void updateAllEmployeeDetails(Employee employee);
+    void updateEmployeeDetails(Employee employee);
 }
