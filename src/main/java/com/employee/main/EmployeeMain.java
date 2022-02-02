@@ -28,7 +28,7 @@ public class EmployeeMain {
         int choice;
 
         do {
-            System.out.println("1.COLLECT DETAILS\n2.VIEW DETAILS\n3.DELETE DETAILS\n4.UPDATE ALL DETAILS\nEnter your choice:");
+            System.out.println("1.COLLECT DETAILS\n2.VIEW DETAILS\n3.DELETE DETAILS\n4.UPDATE DETAILS\nEnter your choice:");
             choice = SCANNER.nextInt();
 
             switch (choice) {
@@ -84,11 +84,33 @@ public class EmployeeMain {
     }
 
     private static void updateEmployeeDetails() {
+        String employeeName = null;
+        double salary = 0;
+        String phoneNumber = null;
+        Date date = null;
+        
         int employeeId = EmployeeInformation.getEmployeeId();
-        String employeeName = EmployeeInformation.getEmployeeName();
-        double salary = EmployeeInformation.getEmployeeSalary();
-        String phoneNumber = EmployeeInformation.getEmployeePhoneNumber();
-        Date date = EmployeeInformation.getEmployeeJoiningDate();
+        
+        System.out.println("Do you want to change name ?\t yes or no");
+        
+        if (EmployeeMain.SCANNER.next().equals("yes")) {
+            employeeName = EmployeeInformation.getEmployeeName();
+        }
+        System.out.println("Do you want to change salary ?\t yes or no");
+        
+        if (EmployeeMain.SCANNER.next().equals("yes")) {
+            salary = EmployeeInformation.getEmployeeSalary();
+        }
+        System.out.println("Do you want to change phone number ?\t yes or no");
+        
+        if (EmployeeMain.SCANNER.next().equals("yes")) {
+            phoneNumber = EmployeeInformation.getEmployeePhoneNumber();
+        }
+        System.out.println("Do you want to change joining date ?\t yes orno");
+        
+        if (EmployeeMain.SCANNER.next().equals("yes")) {
+            date = EmployeeInformation.getEmployeeJoiningDate();
+        }
         Employee employee = new Employee();
         
         employee.setEmployeeId(employeeId);
