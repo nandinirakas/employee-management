@@ -22,11 +22,8 @@ public class EmployeeMain {
     /**
      * Performs switch case function for selecting according to preference. 1 for adding a new employee detail, 
      * 2 for viewing all employee details, 3 for deleting an employee detail using id, 4 for updating details.
-     * 
-     * @throws IdNotFoundException 
-     * @throws IdAlreadyAvailableException 
      */
-    public static void main(String[] args) throws IdNotFoundException, IdAlreadyAvailableException {
+    public static void main(String[] args) {
         int choice;
 
         do {
@@ -53,10 +50,8 @@ public class EmployeeMain {
     }
 
     /**
-     * Adding employee details by getting data from user. 
+     * Add employee details by getting data from user. 
      * And stored employee id, name, salary, phone number and joining date in an object named employee.
-     * 
-     * @throws IdAlreadyAvailableException 
      */
     private static void addNewEmployee() {
         int employeeId = EmployeeInformation.getEmployeeId();
@@ -74,16 +69,14 @@ public class EmployeeMain {
     }
 
     /**
-     * Showing all employee details.
+     * Show all employee details.
      */
     private static void viewEmployees() {
         EMPLOYEE_CONTROL.viewEmployees(); 
     }
 
     /**
-     * Deleting employee detail by using id.
-     * 
-     * @throws IdNotFoundException 
+     * Delete employee detail by using id.
      */
     private static void deleteEmployee() {
         int employeeId = EmployeeInformation.getEmployeeId();
@@ -95,6 +88,9 @@ public class EmployeeMain {
         }
     }
 
+    /**
+     * Update employee detail by using id.
+     */
     private static void updateEmployeeDetails() {
         String employeeName = null;
         double salary = 0;

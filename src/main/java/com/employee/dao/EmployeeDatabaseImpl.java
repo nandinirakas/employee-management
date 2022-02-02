@@ -46,7 +46,7 @@ public class EmployeeDatabaseImpl implements EmployeeDatabase {
         }
     }
     
-    public Map<Integer, Employee> getEmployees(){
+    public Map<Integer, Employee> getEmployees() {
         final Map<Integer, Employee> employees = new HashMap<>(); 
         String selectQuery = "SELECT * FROM employeedetails WHERE is_deleted = false";
 
