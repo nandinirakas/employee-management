@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.Scanner;
 
 import com.employee.controller.EmployeeController;
+import com.employee.exception.IdAlreadyAvailableException;
 import com.employee.exception.IdNotFoundException;
 import com.employee.model.Employee;
 import com.employee.view.EmployeeInformation;
@@ -23,8 +24,9 @@ public class EmployeeMain {
      * 2 for viewing all employee details, 3 for deleting an employee detail using id, 4 for updating details.
      * 
      * @throws IdNotFoundException 
+     * @throws IdAlreadyAvailableException 
      */
-    public static void main(String[] args) throws IdNotFoundException {
+    public static void main(String[] args) throws IdNotFoundException, IdAlreadyAvailableException {
         int choice;
 
         do {
@@ -53,8 +55,10 @@ public class EmployeeMain {
     /**
      * Adding employee details by getting data from user. 
      * And stored employee id, name, salary, phone number and joining date in an object named employee.
+     * 
+     * @throws IdAlreadyAvailableException 
      */
-    private static void addNewEmployee() {
+    private static void addNewEmployee() throws IdAlreadyAvailableException {
         int employeeId = EmployeeInformation.getEmployeeId();
         String employeeName = EmployeeInformation.getEmployeeName();
         double salary = EmployeeInformation.getEmployeeSalary();
@@ -83,12 +87,11 @@ public class EmployeeMain {
         EMPLOYEE_CONTROL.deleteEmployee(employeeId);
     }
 
-    private static void updateEmployeeDetails() {
+    private static void updateEmployeeDetails() throws IdNotFoundException {
         String employeeName = null;
         double salary = 0;
         String phoneNumber = null;
         Date date = null;
-        
         int employeeId = EmployeeInformation.getEmployeeId();
         
         System.out.println("Do you want to change name ?\t yes or no");

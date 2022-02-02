@@ -1,5 +1,6 @@
 package com.employee.service;
 
+import com.employee.exception.IdAlreadyAvailableException;
 import com.employee.exception.IdNotFoundException;
 import com.employee.model.Employee;
 
@@ -8,11 +9,11 @@ import com.employee.model.Employee;
  * using employee id, and update by using employee.
  */
 public interface EmployeeManagement {
-    void addNewEmployee(Employee employee);
+    void addNewEmployee(Employee employee) throws IdAlreadyAvailableException;
 
     void viewEmployees();
 
     void deleteEmployee(int employeeId) throws IdNotFoundException;
 
-    void updateEmployeeDetails(Employee employee);
+    void updateEmployeeDetails(Employee employee) throws IdNotFoundException;
 }

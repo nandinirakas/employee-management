@@ -2,17 +2,21 @@ package com.employee.controller;
 
 import java.sql.Date;
 
+import com.employee.exception.IdAlreadyAvailableException;
 import com.employee.exception.IdNotFoundException;
 import com.employee.model.Employee;
+import com.employee.service.EmployeeManagement;
 import com.employee.service.EmployeeManagementImplVersion2;
 import com.employee.service.EmployeeMangementImpl;
+import com.employee.service.Validation;
 import com.employee.view.EmployeeInformation;
 
 public class EmployeeController {
-    private final static EmployeeMangementImpl EMPLOYEE_SERVICE = new EmployeeMangementImpl();
-    private final static EmployeeManagementImplVersion2 EMPLOYEE_DATABASE = new EmployeeManagementImplVersion2();
+    private final static EmployeeManagement EMPLOYEE_SERVICE = new EmployeeMangementImpl();
+    private final static EmployeeManagement EMPLOYEE_DATABASE = new EmployeeManagementImplVersion2();
+    private final static Validation VALIDATION = new Validation();
 
-    public void addNewEmployee(Employee employee) {
+    public void addNewEmployee(Employee employee) throws IdAlreadyAvailableException {
         EMPLOYEE_SERVICE.addNewEmployee(employee);
         EMPLOYEE_DATABASE.addNewEmployee(employee);
     }
@@ -27,13 +31,13 @@ public class EmployeeController {
         EMPLOYEE_DATABASE.deleteEmployee(employeeId);
     }
     
-    public void updateEmployeeDetails(Employee employee) {
+    public void updateEmployeeDetails(Employee employee) throws IdNotFoundException {
         EMPLOYEE_SERVICE.updateEmployeeDetails(employee);
         EMPLOYEE_DATABASE.updateEmployeeDetails(employee);
     }
     
     public static int employeeIdValidation(String employeeId) {
-        return EMPLOYEE_SERVICE.employeeIdValidation(employeeId);
+        return VALIDATION.employeeIdValidation(employeeId);
     }
     
     public static int failedEmployeeIdValidation(String employeeId) {
@@ -41,7 +45,7 @@ public class EmployeeController {
     }
     
     public static String employeeNameValidation(String employeeName) {
-        return EMPLOYEE_SERVICE.employeeNameValidation(employeeName);
+        return VALIDATION.employeeNameValidation(employeeName);
     }
     
     public static String failedEmployeeNameValidation(String employeeName) {
@@ -49,7 +53,7 @@ public class EmployeeController {
     }
 
     public static double employeeSalaryValidation(String employeeSalary) {
-        return EMPLOYEE_SERVICE.employeeSalaryValidation(employeeSalary);
+        return VALIDATION.employeeSalaryValidation(employeeSalary);
     }
     
     public static double failedEmployeeSalaryValidation(String employeeSalary) {
@@ -57,7 +61,7 @@ public class EmployeeController {
     }
     
     public static String phoneNumberValidation(String phoneNumber) {
-        return EMPLOYEE_SERVICE.phoneNumberValidation(phoneNumber);
+        return VALIDATION.phoneNumberValidation(phoneNumber);
     }
     
     public static String failedPhoneNumberValidation(String phoneNumber) {
@@ -65,7 +69,7 @@ public class EmployeeController {
     }
     
     public static Date dateValidation(String joiningDate) {
-        return EMPLOYEE_SERVICE.dateValidation(joiningDate);
+        return VALIDATION.dateValidation(joiningDate);
     }
     
     public static Date failedDateValidation(String joiningDate) {
