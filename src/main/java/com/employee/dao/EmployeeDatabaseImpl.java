@@ -51,10 +51,9 @@ public class EmployeeDatabaseImpl implements EmployeeDatabase {
         String selectQuery = "SELECT * FROM employeedetails WHERE is_deleted = false";
 
         try (final Connection connection = DATABASE_CONNECTION.getConnection();
-                final PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);){
-            preparedStatement.execute();
-            final ResultSet resultSet = preparedStatement.executeQuery();  
-
+                final PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+                final ResultSet resultSet = preparedStatement.executeQuery();){
+            
             while (resultSet.next()) {      
                  int id = resultSet.getInt("id");
                  String name = resultSet.getString("name");        
@@ -65,7 +64,7 @@ public class EmployeeDatabaseImpl implements EmployeeDatabase {
                  Employee employee = new Employee(id, name, salary, number, date);         
                  employees.put(id, employee);
                  }
-        } catch (SQLException exception) {
+        } catch (SQLException exception) { 
             System.out.println("Cannot view data in database");
         } 
         return employees;    
@@ -74,7 +73,7 @@ public class EmployeeDatabaseImpl implements EmployeeDatabase {
     public void updateEmployeeDetails(Employee employee) {
         
         try (final Connection connection = DATABASE_CONNECTION.getConnection();
-                Statement statement = connection.createStatement();) {
+                final Statement statement = connection.createStatement();) {
             String update = "UPDATE employeedetails set";
             
             if(employee.getEmployeeId() != 0) { 
@@ -102,7 +101,7 @@ public class EmployeeDatabaseImpl implements EmployeeDatabase {
             }
             System.out.println("Data updated in database successfully");
         } catch (SQLException exception) {
-            exception.printStackTrace();
+            System.out.println("Data not updated in database");
         }
     }
 }

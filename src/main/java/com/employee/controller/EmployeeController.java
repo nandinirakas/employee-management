@@ -17,23 +17,23 @@ public class EmployeeController {
     private final static Validation VALIDATION = new Validation();
 
     public void addNewEmployee(Employee employee) throws IdAlreadyAvailableException {
-        EMPLOYEE_SERVICE.addNewEmployee(employee);
         EMPLOYEE_DATABASE.addNewEmployee(employee);
+        EMPLOYEE_SERVICE.addNewEmployee(employee);
     }
 
     public void viewEmployees() {
-        EMPLOYEE_SERVICE.viewEmployees();
         EMPLOYEE_DATABASE.viewEmployees();
+        EMPLOYEE_SERVICE.viewEmployees();
     }
 
     public void deleteEmployee(int employeeId) throws IdNotFoundException {
-        EMPLOYEE_SERVICE.deleteEmployee(employeeId);
         EMPLOYEE_DATABASE.deleteEmployee(employeeId);
+        EMPLOYEE_SERVICE.deleteEmployee(employeeId);
     }
     
     public void updateEmployeeDetails(Employee employee) throws IdNotFoundException {
-        EMPLOYEE_SERVICE.updateEmployeeDetails(employee);
         EMPLOYEE_DATABASE.updateEmployeeDetails(employee);
+        EMPLOYEE_SERVICE.updateEmployeeDetails(employee);
     }
     
     public static int employeeIdValidation(String employeeId) {
