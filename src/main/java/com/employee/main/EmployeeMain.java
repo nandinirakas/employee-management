@@ -61,6 +61,7 @@ public class EmployeeMain {
         Date date = EmployeeInformation.getEmployeeJoiningDate();
 
         Employee employee = new Employee(employeeId, employeeName, salary, phoneNumber, date);
+        
         try {
             EMPLOYEE_CONTROL.addNewEmployee(employee);
         } catch (IdAlreadyAvailableException e) {

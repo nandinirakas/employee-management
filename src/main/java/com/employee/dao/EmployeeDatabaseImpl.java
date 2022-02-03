@@ -74,34 +74,35 @@ public class EmployeeDatabaseImpl implements EmployeeDatabase {
         
         try (Connection connection = DATABASE_CONNECTION.getConnection();
                 Statement statement = connection.createStatement();) {
-            String update = "UPDATE employeedetails set";
+            StringBuffer stringBuffer = new StringBuffer(); 
+            String update = stringBuffer.append("UPDATE employeedetails set").toString();
             
             if(employee.getEmployeeId() != 0) { 
                 
                 if (employee.getEmployeeName() != null) {
-                    update = update + " name = '" + employee.getEmployeeName() + "'";
-                    update = update + ",";
+                    update = stringBuffer.append(" name = '").append(employee.getEmployeeName()).append("'").toString();
+                    update = stringBuffer.append(",").toString();
                 }  
                 
                 if (employee.getSalary() != 0) {
-                    update = update + " salary = " + employee.getSalary();
-                    update = update + ",";
+                    update = stringBuffer.append(" salary = ").append(employee.getSalary()).toString();
+                    update = stringBuffer.append(",").toString();
                 }
                 
                 if (employee.getPhoneNumber() != null) {
-                    update = update + " number = " + employee.getPhoneNumber();
-                    update = update + ",";
+                    update = stringBuffer.append(" number = ").append(employee.getPhoneNumber()).toString();
+                    update = stringBuffer.append(",").toString();
                 }
                 
                 if (employee.getDate() != null) {
-                    update = update + " date = '" + employee.getDate() + "'";
-                }
-                update = update + " WHERE id = " + employee.getEmployeeId();
+                    update = stringBuffer.append(" date = '").append(employee.getDate()).append("'").toString();
+                update = stringBuffer.append(" WHERE id = ").append(employee.getEmployeeId()).toString();
                 statement.executeUpdate(update);
+                }
             }
             System.out.println("Data updated in database successfully");
         } catch (SQLException exception) {
-            System.out.println("Data not updated in database");
+            exception.printStackTrace();
         }
     }
 }
