@@ -12,8 +12,8 @@ import com.employee.service.Validation;
 import com.employee.view.EmployeeInformation;
 
 public class EmployeeController {
-    private final static EmployeeManagement EMPLOYEE_SERVICE = new EmployeeMangementImpl();
-    private final static EmployeeManagement EMPLOYEE_DATABASE = new EmployeeManagementImplVersion2();
+    private final EmployeeManagement EMPLOYEE_SERVICE = new EmployeeMangementImpl();
+    private final EmployeeManagement EMPLOYEE_DATABASE = new EmployeeManagementImplVersion2();
     private final static Validation VALIDATION = new Validation();
 
     public void addNewEmployee(Employee employee) throws IdAlreadyAvailableException {

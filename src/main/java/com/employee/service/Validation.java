@@ -12,7 +12,7 @@ import com.employee.controller.EmployeeController;
  * Validation
  */
 public class Validation {
-    public int employeeIdValidation(String employeeId) {
+    public int employeeIdValidation(final String employeeId) {
         
         if (!employeeId.matches("[0-9]{1,}")) {
             System.out.println("Please enter valid id that contains only numbers");
@@ -21,7 +21,7 @@ public class Validation {
         return Integer.parseInt(employeeId);
     }
     
-    public String employeeNameValidation(String employeeName) {
+    public String employeeNameValidation(final String employeeName) {
         Pattern pattern = Pattern.compile("[A-Za-z]{1,}");
         Matcher match = pattern.matcher(employeeName);
 
@@ -32,7 +32,7 @@ public class Validation {
         return employeeName;
     }
     
-    public String phoneNumberValidation(String phoneNumber) {
+    public String phoneNumberValidation(final String phoneNumber) {
 
         if (!phoneNumber.matches("[6-9][0-9]{9}")) {
             System.out.println("Please enter valid 10 digit phone number");
@@ -41,7 +41,7 @@ public class Validation {
         return phoneNumber;
     }
     
-    public Date dateValidation(String joiningDate) {
+    public Date dateValidation(final String joiningDate) {
         Date sqlDate;
         
         try {
@@ -56,7 +56,7 @@ public class Validation {
         return sqlDate;
     }
     
-    public double employeeSalaryValidation(String employeeSalary) {
+    public double employeeSalaryValidation(final String employeeSalary) {
         double grossSalary = 0;
         
         if (employeeSalary.matches("(\\d+\\.\\d+)")) {

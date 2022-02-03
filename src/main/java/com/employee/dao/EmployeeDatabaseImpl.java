@@ -14,11 +14,11 @@ import com.employee.model.Employee;
 public class EmployeeDatabaseImpl implements EmployeeDatabase {
     private static final DatabaseConnection DATABASE_CONNECTION = new DatabaseConnection(); 
     
-    public void addNewEmployee(Employee employee) {
+    public void addNewEmployee(final Employee employee) {
         final String addQuery = "INSERT INTO employeedetails (id, name, salary, number, date, is_deleted) values (?, ?, ?, ?, ?, ?)";
         
-        try (final Connection connection = DATABASE_CONNECTION.getConnection();
-                final PreparedStatement preparedStatement = connection.prepareStatement(addQuery);) {
+        try (Connection connection = DATABASE_CONNECTION.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(addQuery);) {
             preparedStatement.setInt(1, employee.getEmployeeId());
             preparedStatement.setString(2, employee.getEmployeeName());
             preparedStatement.setDouble(3, employee.getSalary());
@@ -32,11 +32,11 @@ public class EmployeeDatabaseImpl implements EmployeeDatabase {
         }
     }
 
-    public void deleteEmployee(int employeeId) {
+    public void deleteEmployee(final int employeeId) {
         final String deleteQuery = "UPDATE employeedetails set is_deleted = ? WHERE id = ?";
         
-        try (final Connection connection = DATABASE_CONNECTION.getConnection(); 
-                final PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);) {
+        try (Connection connection = DATABASE_CONNECTION.getConnection(); 
+                PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);) {
             preparedStatement.setBoolean(1, true);
             preparedStatement.setInt(2, employeeId);
             preparedStatement.execute();
@@ -50,9 +50,9 @@ public class EmployeeDatabaseImpl implements EmployeeDatabase {
         final Map<Integer, Employee> employees = new HashMap<>(); 
         String selectQuery = "SELECT * FROM employeedetails WHERE is_deleted = false";
 
-        try (final Connection connection = DATABASE_CONNECTION.getConnection();
-                final PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
-                final ResultSet resultSet = preparedStatement.executeQuery();){
+        try (Connection connection = DATABASE_CONNECTION.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+                ResultSet resultSet = preparedStatement.executeQuery();){
             
             while (resultSet.next()) {      
                  int id = resultSet.getInt("id");
@@ -70,10 +70,10 @@ public class EmployeeDatabaseImpl implements EmployeeDatabase {
         return employees;    
     }
     
-    public void updateEmployeeDetails(Employee employee) {
+    public void updateEmployeeDetails(final Employee employee) {
         
-        try (final Connection connection = DATABASE_CONNECTION.getConnection();
-                final Statement statement = connection.createStatement();) {
+        try (Connection connection = DATABASE_CONNECTION.getConnection();
+                Statement statement = connection.createStatement();) {
             String update = "UPDATE employeedetails set";
             
             if(employee.getEmployeeId() != 0) { 
