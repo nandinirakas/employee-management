@@ -23,7 +23,7 @@ public class EmployeeMain {
      * 2 for viewing all employee details, 3 for deleting an employee detail using id, 4 for updating details.
      */
     public static void main(String[] args) {
-        final int choice;
+        int choice;
 
         do {
             System.out.println("1.COLLECT DETAILS\n2.VIEW DETAILS\n3.DELETE DETAILS\n4.UPDATE DETAILS\nEnter your choice:");
