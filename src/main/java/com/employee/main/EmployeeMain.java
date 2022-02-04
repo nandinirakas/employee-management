@@ -1,22 +1,17 @@
 package com.employee.main;
 
-import java.sql.Date;
 import java.util.Scanner;
 
-import com.employee.controller.EmployeeController;
-import com.employee.exception.CustomException;
-import com.employee.model.Employee;
 import com.employee.view.EmployeeInformation;
 
 /**
- * The simple Employee Management program using CRUD operation performs functions like creating new employee details, 
- * viewing the list of employee registered, replacing old data with new data and deleting employee data with employee id.
+ * CRUD operation performs functions like creating new employee details, viewing the list of employees registered, 
+ * replacing old data with new data, and deleting employee data with employee id.
  * 
  * @author NandiniRakAS
  */
 public class EmployeeMain {
     public static final Scanner SCANNER = new Scanner(System.in);
-    private static final EmployeeController EMPLOYEE_CONTROL = new EmployeeController();
 
     /**
      * Performs switch case function for selecting according to preference. 1 for adding a new employee detail, 
@@ -31,111 +26,21 @@ public class EmployeeMain {
 
             switch (choice) {
             case 1:
-                EmployeeMain.addNewEmployee();
+                EmployeeInformation.addNewEmployee();
                 break;
             case 2:
-                EmployeeMain.viewEmployees();
+                EmployeeInformation.viewEmployees();
                 break;
             case 3:
-                EmployeeMain.deleteEmployee();
+                EmployeeInformation.deleteEmployee();
                 break;
             case 4:
-                EmployeeMain.updateEmployeeDetails();
+                EmployeeInformation.updateEmployeeDetails();
                 break;
             default:
+                SCANNER.close();
                 System.exit(0);
             }
          } while (choice != 0);
-    }
-
-    /**
-     * Add employee details by getting data from user. 
-     * And stored employee id, name, salary, phone number and joining date in an object named employee.
-     */
-    private static void addNewEmployee() {
-        final int employeeId = EmployeeInformation.getEmployeeId();
-        final String employeeName = EmployeeInformation.getEmployeeName();
-        final double salary = EmployeeInformation.getEmployeeSalary();
-        final String phoneNumber = EmployeeInformation.getEmployeePhoneNumber();
-        final Date date = EmployeeInformation.getEmployeeJoiningDate();
-
-        final Employee employee = new Employee(employeeId, employeeName, salary, phoneNumber, date);
-        
-        try {
-            EMPLOYEE_CONTROL.addNewEmployee(employee);
-        } catch (CustomException e) {
-            System.out.println(e);
-        }
-        
-    }
-
-    /**
-     * Show all employee details.
-     */
-    private static void viewEmployees() {
-        
-        try {
-            EMPLOYEE_CONTROL.viewEmployees();
-        } catch (CustomException e) {
-            System.out.println(e);
-        }
-    }
-
-    /**
-     * Delete employee detail by using id.
-     */
-    private static void deleteEmployee() {
-        int employeeId = EmployeeInformation.getEmployeeId();
-        
-        try {
-            EMPLOYEE_CONTROL.deleteEmployee(employeeId);
-        } catch (CustomException e) {
-            System.out.println(e);
-        }
-    }
-
-    /**
-     * Update employee detail by using id.
-     */
-    private static void updateEmployeeDetails() {
-        String employeeName = null;
-        double salary = 0;
-        String phoneNumber = null;
-        Date date = null;
-        int employeeId = EmployeeInformation.getEmployeeId();
-        
-        System.out.println("Do you want to change name ?\t yes or no");
-        
-        if (EmployeeMain.SCANNER.next().equals("yes")) {
-            employeeName = EmployeeInformation.getEmployeeName();
-        }
-        System.out.println("Do you want to change salary ?\t yes or no");
-        
-        if (EmployeeMain.SCANNER.next().equals("yes")) {
-            salary = EmployeeInformation.getEmployeeSalary();
-        }
-        System.out.println("Do you want to change phone number ?\t yes or no");
-        
-        if (EmployeeMain.SCANNER.next().equals("yes")) {
-            phoneNumber = EmployeeInformation.getEmployeePhoneNumber();
-        }
-        System.out.println("Do you want to change joining date ?\t yes orno");
-        
-        if (EmployeeMain.SCANNER.next().equals("yes")) {
-            date = EmployeeInformation.getEmployeeJoiningDate();
-        }
-        Employee employee = new Employee();
-        
-        employee.setEmployeeId(employeeId);
-        employee.setEmployeeName(employeeName);
-        employee.setSalary(salary);
-        employee.setPhoneNumber(phoneNumber);
-        employee.setDate(date);
-        
-        try {
-            EMPLOYEE_CONTROL.updateEmployeeDetails(employee);
-        } catch (CustomException e) {
-            System.out.println(e);
-        }
     }
 }

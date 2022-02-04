@@ -31,4 +31,10 @@ public class CustomException extends RuntimeException {
             super(message);
         }
     }
+    
+    public static class AccessFailedException extends CustomException {
+        public AccessFailedException(String message) {
+            super(message);
+        }
+    }
 }

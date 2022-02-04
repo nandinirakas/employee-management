@@ -1,5 +1,7 @@
 package com.employee.service;
 
+import java.util.Map;
+
 import com.employee.model.Employee;
 
 /**
@@ -7,11 +9,11 @@ import com.employee.model.Employee;
  * using employee id, and update by using employee.
  */
 public interface EmployeeManagement {
-    void addNewEmployee(final Employee employee);
+    boolean addNewEmployee(final Employee employee);
 
-    void viewEmployees();
+    Map<Integer, Employee> viewEmployees();
 
-    void deleteEmployee(final int employeeId);
+    boolean deleteEmployee(final int employeeId);
 
-    void updateEmployeeDetails(final Employee employee);
+    boolean updateEmployeeDetails(final Employee employee);
 }

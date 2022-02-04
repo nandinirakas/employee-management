@@ -1,6 +1,7 @@
 package com.employee.controller;
 
 import java.sql.Date;
+import java.util.Map;
 
 import com.employee.model.Employee;
 import com.employee.service.EmployeeManagement;
@@ -17,23 +18,23 @@ public class EmployeeController {
     private final EmployeeManagement EMPLOYEE_DATABASE = new EmployeeManagementImplVersion2();
     private final static Validation VALIDATION = new Validation();
 
-    public void addNewEmployee(final Employee employee) {
-        EMPLOYEE_DATABASE.addNewEmployee(employee);
+    public boolean addNewEmployee(final Employee employee) {
+        return EMPLOYEE_DATABASE.addNewEmployee(employee);
         //EMPLOYEE_SERVICE.addNewEmployee(employee);
     }
 
-    public void viewEmployees() {
-        EMPLOYEE_DATABASE.viewEmployees();
+    public Map<Integer, Employee> viewEmployees() {
+        return EMPLOYEE_DATABASE.viewEmployees();
         //EMPLOYEE_SERVICE.viewEmployees();
     }
 
-    public void deleteEmployee(final int employeeId) {
-        EMPLOYEE_DATABASE.deleteEmployee(employeeId);
+    public boolean deleteEmployee(final int employeeId) {
+        return EMPLOYEE_DATABASE.deleteEmployee(employeeId);
         //EMPLOYEE_SERVICE.deleteEmployee(employeeId);
     }
     
-    public void updateEmployeeDetails(final Employee employee) {
-        EMPLOYEE_DATABASE.updateEmployeeDetails(employee);
+    public boolean updateEmployeeDetails(final Employee employee) {
+        return EMPLOYEE_DATABASE.updateEmployeeDetails(employee);
         //EMPLOYEE_SERVICE.updateEmployeeDetails(employee);
     }
     
