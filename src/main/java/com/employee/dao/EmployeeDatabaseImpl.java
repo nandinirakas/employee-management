@@ -9,8 +9,13 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.employee.exception.CustomException.DataNotAddedException;
+import com.employee.exception.CustomException.IdNotFoundException;
 import com.employee.model.Employee;
 
+/**
+ * Enabling insert, update, select and delete in the database using SQL queries. 
+ */
 public class EmployeeDatabaseImpl implements EmployeeDatabase {
     private static final DatabaseConnection DATABASE_CONNECTION = new DatabaseConnection(); 
     
@@ -25,24 +30,25 @@ public class EmployeeDatabaseImpl implements EmployeeDatabase {
             preparedStatement.setString(4, employee.getPhoneNumber());
             preparedStatement.setDate(5, employee.getDate());
             preparedStatement.setBoolean(6, false);
+            
             preparedStatement.executeUpdate();
-            System.out.println("Data entered in database successfully");
         } catch (SQLException exception) {
-            System.out.println("Data not entered in database");
+            throw new DataNotAddedException("Data not added");
         }
     }
 
-    public void deleteEmployee(final int employeeId) {
+    public boolean deleteEmployee(final int employeeId) {
         final String deleteQuery = "UPDATE employeedetails set is_deleted = ? WHERE id = ?";
         
         try (Connection connection = DATABASE_CONNECTION.getConnection(); 
                 PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);) {
             preparedStatement.setBoolean(1, true);
             preparedStatement.setInt(2, employeeId);
-            preparedStatement.execute();
-            System.out.println("Data deleted in database successfully");
+            
+            preparedStatement.executeUpdate();
+            return true;
         } catch (SQLException exception) {
-            System.out.println("Data not deleted in database");
+            throw new IdNotFoundException("Id not present!");
         }
     }
     
@@ -65,12 +71,12 @@ public class EmployeeDatabaseImpl implements EmployeeDatabase {
                  employees.put(id, employee);
              }
         } catch (SQLException exception) { 
-            System.out.println("Cannot view data in database");
+            System.out.println(exception);
         } 
         return employees;    
     }
     
-    public void updateEmployeeDetails(final Employee employee) {
+    public boolean updateEmployeeDetails(final Employee employee) {
         
         try (Connection connection = DATABASE_CONNECTION.getConnection();
                 Statement statement = connection.createStatement();) {
@@ -100,9 +106,9 @@ public class EmployeeDatabaseImpl implements EmployeeDatabase {
                 statement.executeUpdate(update);
                 }
             }
-            System.out.println("Data updated in database successfully");
+            return true;
         } catch (SQLException exception) {
-            exception.printStackTrace();
+            throw new IdNotFoundException("Id not present!");
         }
     }
 }

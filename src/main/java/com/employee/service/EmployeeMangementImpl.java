@@ -4,8 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.employee.exception.IdAlreadyAvailableException;
-import com.employee.exception.IdNotFoundException;
+import com.employee.exception.CustomException.IdAlreadyAvailableException;
+import com.employee.exception.CustomException.IdNotFoundException;
 import com.employee.model.Employee;
 
 /**
@@ -21,7 +21,7 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * @param employee Object contains id, name, salary, phone number and date
      * @throws IdAlreadyAvailableException 
      */
-    public void addNewEmployee(Employee employee) throws IdAlreadyAvailableException {
+    public void addNewEmployee(final Employee employee) {
      
         if (EMPLOYEE_DETAILS.containsKey(employee.getEmployeeId())) {
             throw new IdAlreadyAvailableException("Id already present, enter new id");
@@ -50,20 +50,21 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * @param employeeId
      * @throws IdNotFoundException 
      */
-    public void deleteEmployee(int employeeId) throws IdNotFoundException {
+    public void deleteEmployee(final int employeeId) {
         
         if (EMPLOYEE_DETAILS.containsKey(employeeId)) {
             EMPLOYEE_DETAILS.remove(employeeId);
         } else {
-            throw new IdNotFoundException("Id not found");
+            throw new IdNotFoundException("Id not found!!");
         }
     }
     
     /**
      * Update each employee detail that are stored in the list.
+     * @throws IdNotFoundException 
      * 
      */
-    public void updateEmployeeDetails(Employee employee) throws IdNotFoundException {
+    public void updateEmployeeDetails(final Employee employee) {
         int employeeIdKey = employee.getEmployeeId();
         
             if (EMPLOYEE_DETAILS.containsKey(employeeIdKey)) {
@@ -85,7 +86,7 @@ public class EmployeeMangementImpl implements EmployeeManagement {
                    employeeData.setDate(employee.getDate());
                 }
             } else {
-                throw new IdNotFoundException("Id not found");      
+                throw new IdNotFoundException("Id not found!!");      
             }
     }
 }

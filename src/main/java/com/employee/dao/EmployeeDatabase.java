@@ -7,9 +7,9 @@ import com.employee.model.Employee;
 public interface EmployeeDatabase {
     void addNewEmployee(Employee employee);
     
-    void deleteEmployee(int employeeId);
+    boolean deleteEmployee(int employeeId);
     
     Map<Integer, Employee> getEmployees();
     
-    void updateEmployeeDetails(Employee employee);
+    boolean updateEmployeeDetails(Employee employee);
 }

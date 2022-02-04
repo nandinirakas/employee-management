@@ -4,8 +4,7 @@ import java.sql.Date;
 import java.util.Scanner;
 
 import com.employee.controller.EmployeeController;
-import com.employee.exception.IdAlreadyAvailableException;
-import com.employee.exception.IdNotFoundException;
+import com.employee.exception.CustomException;
 import com.employee.model.Employee;
 import com.employee.view.EmployeeInformation;
 
@@ -64,16 +63,22 @@ public class EmployeeMain {
         
         try {
             EMPLOYEE_CONTROL.addNewEmployee(employee);
-        } catch (IdAlreadyAvailableException e) {
+        } catch (CustomException e) {
             System.out.println(e);
         }
+        
     }
 
     /**
      * Show all employee details.
      */
     private static void viewEmployees() {
-        EMPLOYEE_CONTROL.viewEmployees(); 
+        
+        try {
+            EMPLOYEE_CONTROL.viewEmployees();
+        } catch (CustomException e) {
+            System.out.println(e);
+        }
     }
 
     /**
@@ -84,7 +89,7 @@ public class EmployeeMain {
         
         try {
             EMPLOYEE_CONTROL.deleteEmployee(employeeId);
-        } catch (IdNotFoundException e) {
+        } catch (CustomException e) {
             System.out.println(e);
         }
     }
@@ -129,7 +134,7 @@ public class EmployeeMain {
         
         try {
             EMPLOYEE_CONTROL.updateEmployeeDetails(employee);
-        } catch (IdNotFoundException e) {
+        } catch (CustomException e) {
             System.out.println(e);
         }
     }

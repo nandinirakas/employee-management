@@ -2,21 +2,24 @@ package com.employee.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
+import com.employee.exception.CustomException.ConnectionException;
+
+/**
+ *Database connection is established.
+ */
 public class DatabaseConnection {
     private static final String JDBC_URL = "jdbc:postgresql://localhost:2020/employee";
     private static final String DATABASE_NAME = "postgres";
     private static final String DATABASE_PASSWORD = "root123";
-    private Connection connection;
     
-    public final Connection getConnection() {
+    public Connection getConnection() {
  
         try {
-          connection = DriverManager.getConnection(JDBC_URL, DATABASE_NAME, DATABASE_PASSWORD);
-        } catch (SQLException exception) {
-          System.out.println("Exception");
+            final Connection connection = DriverManager.getConnection(JDBC_URL, DATABASE_NAME, DATABASE_PASSWORD);
+            return connection;
+        } catch (Exception exception) {
+            throw new ConnectionException("Connection failed");
         }
-        return connection;
     }
 }
