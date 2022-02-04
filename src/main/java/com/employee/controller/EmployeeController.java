@@ -9,6 +9,9 @@ import com.employee.service.EmployeeManagementImplVersion2;
 import com.employee.service.Validation;
 import com.employee.view.EmployeeInformation;
 
+/**
+ *  Get request from main and send response to service.
+ */
 public class EmployeeController {
     //private final EmployeeManagement EMPLOYEE_SERVICE = new EmployeeMangementImpl();
     private final EmployeeManagement EMPLOYEE_DATABASE = new EmployeeManagementImplVersion2();

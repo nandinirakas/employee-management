@@ -2,20 +2,23 @@ package com.employee.service;
 
 import com.employee.dao.EmployeeDatabase;
 import com.employee.dao.EmployeeDatabaseImpl;
-import com.employee.exception.CustomException.IdAlreadyAvailableException;
+import com.employee.exception.CustomException.DataNotAddedException;
 import com.employee.exception.CustomException.IdNotFoundException;
 import com.employee.model.Employee;
 
+/**
+ * Database implementation for adding new employee, viewing all employees, delete and update employee.
+ */
 public class EmployeeManagementImplVersion2 implements EmployeeManagement {
     private final EmployeeDatabase EMPLOYEE_DATABASE = new EmployeeDatabaseImpl();
     
     public void addNewEmployee(final Employee employee) {
+        boolean isAdded = EMPLOYEE_DATABASE.addNewEmployee(employee);
         
-        if(EMPLOYEE_DATABASE.getEmployees().containsKey(employee.getEmployeeId())) {
-            throw new IdAlreadyAvailableException("Id already present, enter new id");
+        if(isAdded) {
+            System.out.println("Data added in database successfully");
         } else {
-            EMPLOYEE_DATABASE.addNewEmployee(employee); 
-            System.out.println("Data entered in database successfully");
+            throw new DataNotAddedException("Data not added");
         }
     }
     
@@ -23,7 +26,7 @@ public class EmployeeManagementImplVersion2 implements EmployeeManagement {
         System.out.println(EMPLOYEE_DATABASE.getEmployees());
     }
     
-    public void deleteEmployee(int employeeId) {
+    public void deleteEmployee(final int employeeId) {
         boolean isDeleted = EMPLOYEE_DATABASE.deleteEmployee(employeeId);
         
         if(isDeleted) {
@@ -33,7 +36,7 @@ public class EmployeeManagementImplVersion2 implements EmployeeManagement {
         }
     }
     
-    public void updateEmployeeDetails(Employee employee) {
+    public void updateEmployeeDetails(final Employee employee) {
         boolean isUpdated = EMPLOYEE_DATABASE.updateEmployeeDetails(employee);
         
         if(isUpdated) {

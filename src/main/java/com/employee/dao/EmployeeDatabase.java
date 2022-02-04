@@ -5,11 +5,11 @@ import java.util.Map;
 import com.employee.model.Employee;
 
 public interface EmployeeDatabase {
-    void addNewEmployee(Employee employee);
+    boolean addNewEmployee(final Employee employee);
     
-    boolean deleteEmployee(int employeeId);
+    boolean deleteEmployee(final int employeeId);
     
     Map<Integer, Employee> getEmployees();
     
-    boolean updateEmployeeDetails(Employee employee);
+    boolean updateEmployeeDetails(final Employee employee);
 }

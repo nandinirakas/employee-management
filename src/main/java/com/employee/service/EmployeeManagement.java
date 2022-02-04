@@ -7,11 +7,11 @@ import com.employee.model.Employee;
  * using employee id, and update by using employee.
  */
 public interface EmployeeManagement {
-    void addNewEmployee(Employee employee);
+    void addNewEmployee(final Employee employee);
 
     void viewEmployees();
 
-    void deleteEmployee(int employeeId);
+    void deleteEmployee(final int employeeId);
 
-    void updateEmployeeDetails(Employee employee);
+    void updateEmployeeDetails(final Employee employee);
 }

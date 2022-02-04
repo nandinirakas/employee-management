@@ -9,9 +9,12 @@ import java.util.regex.Pattern;
 import com.employee.controller.EmployeeController;
 
 /**
- * Validation
+ * Validation for employee id, name, phone number, joining date, salary. 
  */
 public class Validation {
+    /**
+     * Check whether id contains only numbers. 
+     */
     public int employeeIdValidation(final String employeeId) {
         
         if (!employeeId.matches("[0-9]{1,}")) {
@@ -21,6 +24,9 @@ public class Validation {
         return Integer.parseInt(employeeId);
     }
     
+    /**
+     * Check whether the name contains only alphabets. 
+     */
     public String employeeNameValidation(final String employeeName) {
         Pattern pattern = Pattern.compile("[A-Za-z]{1,}");
         Matcher match = pattern.matcher(employeeName);
@@ -32,6 +38,9 @@ public class Validation {
         return employeeName;
     }
     
+    /**
+     * Check whether phone number contains only numbers. 
+     */
     public String phoneNumberValidation(final String phoneNumber) {
 
         if (!phoneNumber.matches("[6-9][0-9]{9}")) {
@@ -41,6 +50,9 @@ public class Validation {
         return phoneNumber;
     }
     
+    /**
+     * Check whether the date is in given format. 
+     */
     public Date dateValidation(final String joiningDate) {
         Date sqlDate;
         
@@ -56,6 +68,9 @@ public class Validation {
         return sqlDate;
     }
     
+    /**
+     * Check whether salary contains only decimal and validating by reducing provident fund and income tax. 
+     */
     public double employeeSalaryValidation(final String employeeSalary) {
         double grossSalary = 0;
         

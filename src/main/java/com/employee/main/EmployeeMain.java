@@ -23,7 +23,7 @@ public class EmployeeMain {
      * 2 for viewing all employee details, 3 for deleting an employee detail using id, 4 for updating details.
      */
     public static void main(String[] args) {
-        int choice;
+        final int choice;
 
         do {
             System.out.println("1.COLLECT DETAILS\n2.VIEW DETAILS\n3.DELETE DETAILS\n4.UPDATE DETAILS\nEnter your choice:");
@@ -53,13 +53,13 @@ public class EmployeeMain {
      * And stored employee id, name, salary, phone number and joining date in an object named employee.
      */
     private static void addNewEmployee() {
-        int employeeId = EmployeeInformation.getEmployeeId();
-        String employeeName = EmployeeInformation.getEmployeeName();
-        double salary = EmployeeInformation.getEmployeeSalary();
-        String phoneNumber = EmployeeInformation.getEmployeePhoneNumber();
-        Date date = EmployeeInformation.getEmployeeJoiningDate();
+        final int employeeId = EmployeeInformation.getEmployeeId();
+        final String employeeName = EmployeeInformation.getEmployeeName();
+        final double salary = EmployeeInformation.getEmployeeSalary();
+        final String phoneNumber = EmployeeInformation.getEmployeePhoneNumber();
+        final Date date = EmployeeInformation.getEmployeeJoiningDate();
 
-        Employee employee = new Employee(employeeId, employeeName, salary, phoneNumber, date);
+        final Employee employee = new Employee(employeeId, employeeName, salary, phoneNumber, date);
         
         try {
             EMPLOYEE_CONTROL.addNewEmployee(employee);

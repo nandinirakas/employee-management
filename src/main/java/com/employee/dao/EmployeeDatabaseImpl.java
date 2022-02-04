@@ -19,7 +19,7 @@ import com.employee.model.Employee;
 public class EmployeeDatabaseImpl implements EmployeeDatabase {
     private static final DatabaseConnection DATABASE_CONNECTION = new DatabaseConnection(); 
     
-    public void addNewEmployee(final Employee employee) {
+    public boolean addNewEmployee(final Employee employee) {
         final String addQuery = "INSERT INTO employeedetails (id, name, salary, number, date, is_deleted) values (?, ?, ?, ?, ?, ?)";
         
         try (Connection connection = DATABASE_CONNECTION.getConnection();
@@ -31,7 +31,7 @@ public class EmployeeDatabaseImpl implements EmployeeDatabase {
             preparedStatement.setDate(5, employee.getDate());
             preparedStatement.setBoolean(6, false);
             
-            preparedStatement.executeUpdate();
+            return preparedStatement.executeUpdate() > 0;
         } catch (SQLException exception) {
             throw new DataNotAddedException("Data not added");
         }
@@ -45,8 +45,7 @@ public class EmployeeDatabaseImpl implements EmployeeDatabase {
             preparedStatement.setBoolean(1, true);
             preparedStatement.setInt(2, employeeId);
             
-            preparedStatement.executeUpdate();
-            return true;
+            return preparedStatement.executeUpdate() > 0;
         } catch (SQLException exception) {
             throw new IdNotFoundException("Id not present!");
         }
@@ -102,11 +101,10 @@ public class EmployeeDatabaseImpl implements EmployeeDatabase {
                 
                 if (employee.getDate() != null) {
                     update = stringBuffer.append(" date = '").append(employee.getDate()).append("'").toString();
-                update = stringBuffer.append(" WHERE id = ").append(employee.getEmployeeId()).toString();
-                statement.executeUpdate(update);
                 }
             }
-            return true;
+            update = stringBuffer.append(" WHERE id = ").append(employee.getEmployeeId()).toString();
+            return statement.executeUpdate(update) >0 ;
         } catch (SQLException exception) {
             throw new IdNotFoundException("Id not present!");
         }
