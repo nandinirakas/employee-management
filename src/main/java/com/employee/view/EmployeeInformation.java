@@ -6,8 +6,6 @@ import com.employee.main.EmployeeMain;
 import com.employee.model.Employee;
 import com.employee.controller.EmployeeController;
 import com.employee.exception.CustomException;
-import com.employee.exception.CustomException.DataNotAddedException;
-import com.employee.exception.CustomException.IdNotFoundException;
 
 /**
  * Get inputs from users using scanners. The input data received from user is then checked for validation. 
@@ -55,12 +53,10 @@ public class EmployeeInformation {
         final Employee employee = new Employee(employeeId, employeeName, salary, phoneNumber, date);
         
         try {
-            boolean addData = EMPLOYEE_CONTROL.addNewEmployee(employee);
+            boolean isAdded = EMPLOYEE_CONTROL.addNewEmployee(employee);
             
-            if (addData) {
+            if (isAdded) {
                 System.out.println("Data added in database successfully");
-            } else {
-                throw new DataNotAddedException("Data not added");
             }
         } catch (CustomException e) {
             System.out.println(e);
@@ -90,8 +86,6 @@ public class EmployeeInformation {
             
             if(deleteData) {
                 System.out.println("Data deleted in database successfully");
-            } else {
-                throw new IdNotFoundException("Id not found");
             }
         } catch (CustomException e) {
             System.out.println(e);
@@ -142,8 +136,6 @@ public class EmployeeInformation {
                     
             if(updateData) {
                 System.out.println("Data updated in database successfully");
-            } else {
-                throw new IdNotFoundException("Id not found");
             }
         } catch (CustomException e) {
             System.out.println(e);

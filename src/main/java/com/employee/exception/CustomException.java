@@ -26,12 +26,6 @@ public class CustomException extends RuntimeException {
         }
     }
     
-    public static class DataNotAddedException extends CustomException { 
-        public DataNotAddedException(String message) {
-            super(message);
-        }
-    }
-    
     public static class AccessFailedException extends CustomException {
         public AccessFailedException(String message) {
             super(message);

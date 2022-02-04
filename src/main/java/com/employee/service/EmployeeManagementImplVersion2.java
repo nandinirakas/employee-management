@@ -4,6 +4,8 @@ import java.util.Map;
 
 import com.employee.dao.EmployeeDao;
 import com.employee.dao.EmployeeDaoImpl;
+import com.employee.exception.CustomException.IdAlreadyAvailableException;
+import com.employee.exception.CustomException.IdNotFoundException;
 import com.employee.model.Employee;
 
 /**
@@ -13,7 +15,12 @@ public class EmployeeManagementImplVersion2 implements EmployeeManagement {
     private final EmployeeDao EMPLOYEE_DATABASE = new EmployeeDaoImpl();
     
     public boolean addNewEmployee(final Employee employee) {
-        return EMPLOYEE_DATABASE.addNewEmployee(employee);
+        
+        if(EMPLOYEE_DATABASE.getEmployees().containsKey(employee.getEmployeeId())) {
+            throw new IdAlreadyAvailableException("Id already present, enter new id");
+        } else {
+            return EMPLOYEE_DATABASE.addNewEmployee(employee);
+        }
     }
     
     public Map<Integer, Employee> viewEmployees() {
@@ -21,10 +28,20 @@ public class EmployeeManagementImplVersion2 implements EmployeeManagement {
     }
     
     public boolean deleteEmployee(final int employeeId) {
-        return EMPLOYEE_DATABASE.deleteEmployee(employeeId);
+        
+        if(EMPLOYEE_DATABASE.getEmployees().containsKey(employeeId)) {
+            return EMPLOYEE_DATABASE.deleteEmployee(employeeId);
+        } else {
+            throw new IdNotFoundException("Id not found!");
+        }
     }
     
     public boolean updateEmployeeDetails(final Employee employee) {
-        return EMPLOYEE_DATABASE.updateEmployeeDetails(employee);
+        
+        if(EMPLOYEE_DATABASE.getEmployees().containsKey(employee.getEmployeeId())) {
+            return EMPLOYEE_DATABASE.updateEmployeeDetails(employee);
+        } else {
+            throw new IdNotFoundException("Id not found!");
+        }
     }
 }

@@ -19,14 +19,14 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * Adding a new employee.
      * 
      * @param employee Object contains id, name, salary, phone number and date
-     * @throws IdAlreadyAvailableException 
      */
-    public void addNewEmployee(final Employee employee) {
+    public boolean addNewEmployee(final Employee employee) {
      
         if (EMPLOYEE_DETAILS.containsKey(employee.getEmployeeId())) {
             throw new IdAlreadyAvailableException("Id already present, enter new id");
         } else {
             EMPLOYEE_DETAILS.put(employee.getEmployeeId(), employee);
+            return true;
         }
     }
 
@@ -34,13 +34,12 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * Showing all employee details that are stored in the list by using for each.
      * Entry will give both key and value.
      */
-    public void viewEmployees() {   
+    public Map<Integer, Employee> viewEmployees() {   
         
         for (Entry<Integer, Employee> entry : EMPLOYEE_DETAILS.entrySet()) {
-            Integer key = entry.getKey();
-            Employee value = entry.getValue();
-            System.out.println(String.format("%s %s", String.valueOf(key), value));
+            System.out.println(entry);
         }
+        return EMPLOYEE_DETAILS;
     }
 
     /**
@@ -48,12 +47,12 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * based on employee id.
      * 
      * @param employeeId
-     * @throws IdNotFoundException 
      */
-    public void deleteEmployee(final int employeeId) {
+    public boolean deleteEmployee(final int employeeId) {
         
         if (EMPLOYEE_DETAILS.containsKey(employeeId)) {
             EMPLOYEE_DETAILS.remove(employeeId);
+            return true;
         } else {
             throw new IdNotFoundException("Id not found!!");
         }
@@ -61,10 +60,9 @@ public class EmployeeMangementImpl implements EmployeeManagement {
     
     /**
      * Update each employee detail that are stored in the list.
-     * @throws IdNotFoundException 
      * 
      */
-    public void updateEmployeeDetails(final Employee employee) {
+    public boolean updateEmployeeDetails(final Employee employee) {
         int employeeIdKey = employee.getEmployeeId();
         
             if (EMPLOYEE_DETAILS.containsKey(employeeIdKey)) {
@@ -85,6 +83,7 @@ public class EmployeeMangementImpl implements EmployeeManagement {
                 if (employee.getDate() != null) {
                    employeeData.setDate(employee.getDate());
                 }
+            return true;
             } else {
                 throw new IdNotFoundException("Id not found!!");      
             }
