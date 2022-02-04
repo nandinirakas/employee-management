@@ -14,9 +14,9 @@ import com.employee.view.EmployeeInformation;
  *  Get request from main and send response to service.
  */
 public class EmployeeController {
-    //private final EmployeeManagement EMPLOYEE_SERVICE = new EmployeeMangementImpl();
-    private final EmployeeManagement EMPLOYEE_DATABASE = new EmployeeManagementImplVersion2();
-    private final static Validation VALIDATION = new Validation();
+    //private static final EmployeeManagement EMPLOYEE_SERVICE = new EmployeeMangementImpl();
+    private static final EmployeeManagement EMPLOYEE_DATABASE = new EmployeeManagementImplVersion2();
+    private static final Validation VALIDATION = new Validation();
 
     public boolean addNewEmployee(final Employee employee) {
         return EMPLOYEE_DATABASE.addNewEmployee(employee);
