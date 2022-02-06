@@ -3,6 +3,7 @@ package com.employee.main;
 import java.util.Scanner;
 
 import com.employee.view.EmployeeInformation;
+import com.employee.service.Validation;
 
 /**
  * CRUD operation performs functions like creating new employee details, viewing the list of employees registered, 
@@ -14,11 +15,10 @@ public class EmployeeMain {
     public static final Scanner SCANNER = new Scanner(System.in);
 
     public static void main(String[] args) {
-        int choice;
 
         do {
             System.out.println("1.COLLECT DETAILS\n2.VIEW DETAILS\n3.DELETE DETAILS\n4.UPDATE DETAILS\nEnter your choice:");
-            choice = SCANNER.nextInt();
+            final int choice = Validation.validateChoice(SCANNER.next());
 
             switch (choice) {
             case 1:
@@ -37,6 +37,6 @@ public class EmployeeMain {
                 SCANNER.close();
                 System.exit(0);
             }
-         } while (choice != 0);
+         } while (true);
     }
 }

@@ -37,12 +37,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
     public boolean deleteEmployee(final int employeeId) {
-        final String deleteQuery = "UPDATE employeedetails set is_deleted = ? WHERE id = ?";
+        final String deleteQuery = "UPDATE employeedetails set is_deleted = ? WHERE id = ? and is_deleted = ?";
         
         try (Connection connection = DATABASE_CONNECTION.getConnection(); 
                 PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);) {
             preparedStatement.setBoolean(1, true);
             preparedStatement.setInt(2, employeeId);
+            preparedStatement.setBoolean(3, false);
             
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException exception) {

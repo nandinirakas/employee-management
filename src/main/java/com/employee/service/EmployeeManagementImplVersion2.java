@@ -28,20 +28,20 @@ public class EmployeeManagementImplVersion2 implements EmployeeManagement {
     }
     
     public boolean deleteEmployee(final int employeeId) {
+        final boolean isDeleted = EMPLOYEE_DATABASE.deleteEmployee(employeeId);
         
-        if(EMPLOYEE_DATABASE.getEmployees().containsKey(employeeId)) {
-            return EMPLOYEE_DATABASE.deleteEmployee(employeeId);
-        } else {
-            throw new IdNotFoundException("Id not found!");
+        if(isDeleted) {
+            return true;
         }
+        throw new IdNotFoundException("Id not found!");
     }
     
     public boolean updateEmployeeDetails(final Employee employee) {
+        final boolean isUpdated = EMPLOYEE_DATABASE.updateEmployeeDetails(employee);
         
-        if(EMPLOYEE_DATABASE.getEmployees().containsKey(employee.getEmployeeId())) {
-            return EMPLOYEE_DATABASE.updateEmployeeDetails(employee);
-        } else {
-            throw new IdNotFoundException("Id not found!");
+        if(isUpdated) {
+            return true;
         }
+        throw new IdNotFoundException("Id not found!");
     }
 }

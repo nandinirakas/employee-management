@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.employee.controller.EmployeeController;
+import com.employee.main.EmployeeMain;
 
 /**
  * Validation for employee id, name, phone number, joining date, salary. 
@@ -85,5 +86,14 @@ public class Validation {
             return EmployeeController.failedEmployeeSalaryValidation(employeeSalary);
         }
         return grossSalary;
+    }
+    
+    public static int validateChoice(final String choice) {
+        
+        if(!choice.matches("[1-4]")) {
+            System.out.println("Please enter a choice between 1-4"); 
+            return validateChoice(EmployeeMain.SCANNER.next());
+        }
+        return Integer.parseInt(choice);
     }
 }
