@@ -12,13 +12,14 @@ import com.employee.service.Validation;
  * @author NandiniRakAS
  */
 public class EmployeeMain {
+    
     public static final Scanner SCANNER = new Scanner(System.in);
 
     public static void main(String[] args) {
 
         do {
             System.out.println("1.COLLECT DETAILS\n2.VIEW DETAILS\n3.DELETE DETAILS\n4.UPDATE DETAILS\nEnter your choice:");
-            final int choice = Validation.validateChoice(SCANNER.next());
+            final int choice = Integer.parseInt(Validation.validateChoice(SCANNER.nextLine()));
 
             switch (choice) {
             case 1:

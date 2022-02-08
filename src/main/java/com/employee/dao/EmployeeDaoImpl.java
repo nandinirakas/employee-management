@@ -16,6 +16,7 @@ import com.employee.exception.CustomException.AccessFailedException;
  * Enabling insert, update, select and delete in the database using SQL queries. 
  */
 public class EmployeeDaoImpl implements EmployeeDao {
+    
     private static final DatabaseConnection DATABASE_CONNECTION = new DatabaseConnection(); 
     
     public boolean addNewEmployee(final Employee employee) {

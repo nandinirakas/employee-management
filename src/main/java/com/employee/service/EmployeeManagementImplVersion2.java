@@ -12,6 +12,7 @@ import com.employee.model.Employee;
  * Database implementation for adding new employee, viewing all employees, delete and update employee.
  */
 public class EmployeeManagementImplVersion2 implements EmployeeManagement {
+    
     private static final EmployeeDao EMPLOYEE_DATABASE = new EmployeeDaoImpl();
     
     public boolean addNewEmployee(final Employee employee) {

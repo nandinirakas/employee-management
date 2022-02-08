@@ -9,6 +9,7 @@ import com.employee.model.Employee;
  * using employee id, and update by using employee.
  */
 public interface EmployeeManagement {
+    
     boolean addNewEmployee(final Employee employee);
 
     Map<Integer, Employee> viewEmployees();

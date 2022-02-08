@@ -6,9 +6,10 @@ import java.sql.DriverManager;
 import com.employee.exception.CustomException.ConnectionException;
 
 /**
- * Database connection is established.
+ * Establishment of database connection.
  */
 public class DatabaseConnection {
+    
     private static final String JDBC_URL = "jdbc:postgresql://localhost:2020/employee";
     private static final String DATABASE_NAME = "postgres";
     private static final String DATABASE_PASSWORD = "root123";
