@@ -1,6 +1,13 @@
 package com.employee.main;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.Scanner;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import com.employee.view.EmployeeInformation;
 import com.employee.service.Validation;
@@ -12,13 +19,20 @@ import com.employee.service.Validation;
  * @author NandiniRakAS
  */
 public class EmployeeMain {
+   
+    private static final String LOG_FILE = "log4j.properties";
+    private static final Logger LOGGER = Logger.getLogger(EmployeeMain.class);
+    private static Properties properties = new Properties();
     public static final Scanner SCANNER = new Scanner(System.in);
-
-    public static void main(String[] args) {
-
+    
+    
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+        properties.load(new FileInputStream(LOG_FILE));
+        PropertyConfigurator.configure(properties);
+        
         do {
-            System.out.println("1.COLLECT DETAILS\n2.VIEW DETAILS\n3.DELETE DETAILS\n4.UPDATE DETAILS\nEnter your choice:");
-            final int choice = Validation.validateChoice(SCANNER.next());
+            LOGGER.info("1.COLLECT DETAILS\n2.VIEW DETAILS\n3.DELETE DETAILS\n4.UPDATE DETAILS\nEnter your choice:");
+            final int choice = Integer.parseInt(Validation.validateChoice(SCANNER.nextLine()));
 
             switch (choice) {
             case 1:

@@ -4,6 +4,7 @@ package com.employee.exception;
  * Exception for custom errors.
  */
 public class CustomException extends RuntimeException {
+    
     public CustomException(String message) {
         super(message);
     }
@@ -29,6 +30,12 @@ public class CustomException extends RuntimeException {
     public static class AccessFailedException extends CustomException {
         public AccessFailedException(String message) {
             super(message);
+        }
+    }
+    
+    public static class DateNotValidException extends CustomException {
+        public DateNotValidException(String message) {
+        super(message);
         }
     }
 }

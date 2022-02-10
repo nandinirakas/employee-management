@@ -16,6 +16,7 @@ import com.employee.exception.CustomException.AccessFailedException;
  * Enabling insert, update, select and delete in the database using SQL queries. 
  */
 public class EmployeeDaoImpl implements EmployeeDao {
+    
     private static final DatabaseConnection DATABASE_CONNECTION = new DatabaseConnection(); 
     
     public boolean addNewEmployee(final Employee employee) {
@@ -86,17 +87,17 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 
                 if (employee.getEmployeeName() != null) {
                     updateQueryBuffer.append(" name = '").append(employee.getEmployeeName()).append("'");
-                    updateQueryBuffer.append(",").toString();
+                    updateQueryBuffer.append(",");
                 }  
                 
                 if (employee.getSalary() != 0) {
                     updateQueryBuffer.append(" salary = ").append(employee.getSalary());
-                    updateQueryBuffer.append(",").toString();
+                    updateQueryBuffer.append(",");
                 }
                 
                 if (employee.getPhoneNumber() != null) {
                     updateQueryBuffer.append(" number = ").append(employee.getPhoneNumber());
-                    updateQueryBuffer.append(",").toString();
+                    updateQueryBuffer.append(",");
                 }
                 
                 if (employee.getDate() != null) {

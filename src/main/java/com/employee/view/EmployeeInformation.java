@@ -2,6 +2,8 @@ package com.employee.view;
 
 import java.sql.Date;
 
+import org.apache.log4j.Logger;
+
 import com.employee.main.EmployeeMain;
 import com.employee.model.Employee;
 import com.employee.controller.EmployeeController;
@@ -12,31 +14,95 @@ import com.employee.exception.CustomException;
  * Here employee id, name, salary, phone number and joining date are stored. 
  */
 public class EmployeeInformation {
+    
     private static final EmployeeController EMPLOYEE_CONTROL = new EmployeeController();
+    private static final Logger LOGGER = Logger.getLogger(EmployeeInformation.class);
 
     public static int getEmployeeId() {
-        System.out.println("Enter employee Id:"); 
-        return EmployeeController.employeeIdValidation(EmployeeMain.SCANNER.next());
+        LOGGER.info("Enter employee Id:"); 
+        final String id = EmployeeMain.SCANNER.nextLine();
+        final boolean isValidId = EmployeeController.employeeIdValidation(id);
+        
+        if (isValidId) {
+           return Integer.parseInt(id);
+        } else {
+            LOGGER.info("Please enter valid id that contains only numbers");
+           return EmployeeInformation.getEmployeeId();
+        }
     }
 
     public static String getEmployeeName() {
-        System.out.println("Enter employee Name:");  
-        return EmployeeController.employeeNameValidation(EmployeeMain.SCANNER.next());
+        LOGGER.info("Enter employee Name:");
+        final String name = EmployeeMain.SCANNER.nextLine();
+        final boolean isValidName = EmployeeController.employeeNameValidation(name);
+        
+        if (isValidName) {
+            return name;
+        } else {
+            LOGGER.info("Invalid, Please enter a valid Name");
+            return EmployeeInformation.getEmployeeName();
+         }
     }
 
     public static double getEmployeeSalary() {
-        System.out.println("Enter employee salary:"); 
-        return EmployeeController.employeeSalaryValidation(EmployeeMain.SCANNER.next());
+        LOGGER.info("Enter employee salary:"); 
+        final String salary = EmployeeMain.SCANNER.nextLine();
+        final boolean isValidSalary = EmployeeController.employeeSalaryValidation(salary);
+        
+        if (isValidSalary) {
+            final double totalSalary = Double.parseDouble(salary);
+            double grossSalary = 0;
+            
+            if (totalSalary > 50000) {
+                final double providentFund = 6000;
+                
+                grossSalary =  totalSalary - providentFund;
+                //System.out.println(String.format("Provident fund tax = %s", providentFund));
+            }
+            
+            if (totalSalary < 50000) {
+                final double providentFund = 3000;
+                
+                grossSalary =  totalSalary - providentFund;
+                //System.out.println(String.format("Provident fund = %s", providentFund));
+            }
+            return grossSalary;
+        } else {
+            LOGGER.info("Please enter valid salary detail that contains decimal values");
+            return EmployeeInformation.getEmployeeSalary();
+        }
     }
 
     public static String getEmployeePhoneNumber() {
-        System.out.println("Enter employee phone number:"); 
-        return EmployeeController.phoneNumberValidation(EmployeeMain.SCANNER.next());
+        LOGGER.info("Enter employee phone number:"); 
+        final String phoneNumber = EmployeeMain.SCANNER.nextLine();
+        final boolean isValidNumber = EmployeeController.phoneNumberValidation(phoneNumber);
+
+        if (isValidNumber) {
+            return phoneNumber;
+        } else {
+            LOGGER.info("Please enter valid 10 digit phone number");
+            return EmployeeInformation.getEmployeePhoneNumber();
+        }
     }
 
     public static Date getEmployeeJoiningDate() {
-        System.out.println("Enter employee joining date(yyyy-MM-dd):"); 
-        return EmployeeController.dateValidation(EmployeeMain.SCANNER.next());
+        LOGGER.info("Enter employee joining date(yyyy-MM-dd):");
+        final String date = EmployeeMain.SCANNER.nextLine();
+        boolean isValidDate = false;
+        
+        try {
+            isValidDate = EmployeeController.dateValidation(date);
+        } catch (CustomException e){
+            System.out.println(e);
+        }
+        
+        if (isValidDate) {
+            return Date.valueOf(date);
+        } else {
+            LOGGER.info("Please enter valid date");
+            return EmployeeInformation.getEmployeeJoiningDate();
+        }
     }
     
     /**
@@ -49,17 +115,17 @@ public class EmployeeInformation {
         final double salary = EmployeeInformation.getEmployeeSalary();
         final String phoneNumber = EmployeeInformation.getEmployeePhoneNumber();
         final Date date = EmployeeInformation.getEmployeeJoiningDate();
-
+        
         final Employee employee = new Employee(employeeId, employeeName, salary, phoneNumber, date);
         
         try {
             boolean isAdded = EMPLOYEE_CONTROL.addNewEmployee(employee);
             
             if (isAdded) {
-                System.out.println("Data added in database successfully");
+                LOGGER.info("Data added in database successfully");
             }
         } catch (CustomException e) {
-            System.out.println(e);
+            LOGGER.error(e);
         }
     }
 
@@ -71,7 +137,7 @@ public class EmployeeInformation {
         try {
             System.out.println(EMPLOYEE_CONTROL.viewEmployees());
         } catch (CustomException e) {
-            System.out.println(e);
+            LOGGER.error(e);
         }
     }
 
@@ -85,10 +151,10 @@ public class EmployeeInformation {
             boolean deleteData = EMPLOYEE_CONTROL.deleteEmployee(employeeId);
             
             if(deleteData) {
-                System.out.println("Data deleted in database successfully");
+                LOGGER.info("Data deleted in database successfully");
             }
         } catch (CustomException e) {
-            System.out.println(e);
+            LOGGER.error(e);
         }
     }
 
@@ -103,27 +169,27 @@ public class EmployeeInformation {
         final String choice = "yes";
         int employeeId = EmployeeInformation.getEmployeeId();
         
-        System.out.println("Do you want to change name ?\t yes or no");
+        LOGGER.info("Do you want to change name ?\t yes or no");
         
-        if ((choice).equals(EmployeeMain.SCANNER.next())) {
+        if (choice.equals(EmployeeMain.SCANNER.nextLine())) {
             employeeName = EmployeeInformation.getEmployeeName();
         }
-        System.out.println("Do you want to change salary ?\t yes or no");
+        LOGGER.info("Do you want to change salary ?\t yes or no");
         
-        if ((choice).equals(EmployeeMain.SCANNER.next())) {
+        if (choice.equals(EmployeeMain.SCANNER.nextLine())) {
             salary = EmployeeInformation.getEmployeeSalary();
         }
-        System.out.println("Do you want to change phone number ?\t yes or no");
+        LOGGER.info("Do you want to change phone number ?\t yes or no");
         
-        if ((choice).equals(EmployeeMain.SCANNER.next())) {
+        if (choice.equals(EmployeeMain.SCANNER.nextLine())) {
             phoneNumber = EmployeeInformation.getEmployeePhoneNumber();
         }
-        System.out.println("Do you want to change joining date ?\t yes or no");
+        LOGGER.info("Do you want to change joining date ?\t yes or no");
         
-        if ((choice).equals(EmployeeMain.SCANNER.next())) {
+        if (choice.equals(EmployeeMain.SCANNER.nextLine())) {
             date = EmployeeInformation.getEmployeeJoiningDate();
         }
-        Employee employee = new Employee();
+        final Employee employee = new Employee();
         
         employee.setEmployeeId(employeeId);
         employee.setEmployeeName(employeeName);
@@ -135,10 +201,10 @@ public class EmployeeInformation {
             boolean updateData = EMPLOYEE_CONTROL.updateEmployeeDetails(employee);
                     
             if(updateData) {
-                System.out.println("Data updated in database successfully");
+                LOGGER.info("Data updated in database successfully");
             }
         } catch (CustomException e) {
-            System.out.println(e);
+            LOGGER.error(e);
         }
     }
 }
