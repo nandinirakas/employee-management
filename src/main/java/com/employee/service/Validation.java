@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.employee.main.EmployeeMain;
 import com.employee.exception.CustomException.DateNotValidException;
 
 /**
@@ -17,10 +16,10 @@ public class Validation {
      */
     public boolean employeeIdValidation(final String employeeId) {
         
-        if (!employeeId.matches("[0-9]{1,}")) {
-            return false;
-        } else {
+        if (employeeId.matches("[0-9]{1,}")) {
             return true;
+        } else {
+            return false;
         }
     }
     
@@ -59,7 +58,7 @@ public class Validation {
             final LocalDate parsedDate = LocalDate.parse(joiningDate);
             final LocalDate todayDate = LocalDate.now();
             
-            if (todayDate.isAfter(parsedDate)) {
+            if (todayDate.plusDays(1).isAfter(parsedDate)) {
                 return true;
             } else {
                 return false;
@@ -81,12 +80,12 @@ public class Validation {
         }
     }
     
-    public static String validateChoice(final String choice) {
+    public boolean validateChoice(final String choice) {
         
-        if(!choice.matches("[1-4]")) {
-            System.out.println("Please enter a choice between 1-4"); 
-            return validateChoice(EmployeeMain.SCANNER.nextLine());
+        if(!choice.matches("[1-5]")) {
+            return false;
+        } else {
+            return true;
         }
-        return choice;
     }
 }

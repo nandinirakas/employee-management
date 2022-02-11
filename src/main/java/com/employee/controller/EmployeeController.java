@@ -3,7 +3,6 @@ package com.employee.controller;
 import java.util.Map;
 
 import com.employee.model.Employee;
-import com.employee.service.EmployeeManagement;
 import com.employee.service.EmployeeManagementImplVersion2;
 //import com.employee.service.EmployeeMangementImpl;
 import com.employee.service.Validation;
@@ -14,7 +13,7 @@ import com.employee.service.Validation;
 public class EmployeeController {
     
     //private static final EmployeeManagement EMPLOYEE_SERVICE = new EmployeeMangementImpl();
-    private static final EmployeeManagement EMPLOYEE_DATABASE = new EmployeeManagementImplVersion2();
+    private static final EmployeeManagementImplVersion2 EMPLOYEE_DATABASE = new EmployeeManagementImplVersion2();
     private static final Validation VALIDATION = new Validation();
 
     public boolean addNewEmployee(final Employee employee) {
@@ -55,5 +54,17 @@ public class EmployeeController {
    
     public static boolean dateValidation(final String joiningDate) {
         return VALIDATION.dateValidation(joiningDate);
+    }
+    
+    public static boolean validateChoice(final String choice) {
+        return VALIDATION.validateChoice(choice);
+    }
+    
+    public static boolean checkEmployeeId(final int employeeId) {
+        return EMPLOYEE_DATABASE.checkEmployeeId(employeeId);
+    }
+    
+    public static boolean checkEmployeeIdUpdate(final int employeeId) {
+        return EMPLOYEE_DATABASE.checkEmployeeIdUpdate(employeeId);
     }
 }

@@ -1,8 +1,6 @@
 package com.employee.model;
 
 import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 /**
  * Gives information about employee
@@ -67,7 +65,6 @@ public class Employee {
     }
 
     public String toString() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
-        return String.format("%s %s %s %s", employeeName, String.valueOf(salary), phoneNumber, dateFormat.format(date));
+        return String.format("\tName :%s \n Salary :%s \n Phone number :%s \n Joining date :%s \n\n", employeeName, salary, phoneNumber, date);
     }
 }

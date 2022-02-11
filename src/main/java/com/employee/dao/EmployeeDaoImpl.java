@@ -82,25 +82,39 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 Statement statement = connection.createStatement();) {
             final StringBuffer updateQueryBuffer = new StringBuffer(); 
             updateQueryBuffer.append("UPDATE employeedetails set");
+            boolean hasNextValue = false;
             
             if(employee.getEmployeeId() != 0) { 
                 
                 if (employee.getEmployeeName() != null) {
+                    
                     updateQueryBuffer.append(" name = '").append(employee.getEmployeeName()).append("'");
-                    updateQueryBuffer.append(",");
+                    hasNextValue = true;
                 }  
                 
                 if (employee.getSalary() != 0) {
+                    
+                    if (hasNextValue) {
+                        updateQueryBuffer.append(",");
+                    }
                     updateQueryBuffer.append(" salary = ").append(employee.getSalary());
-                    updateQueryBuffer.append(",");
+                    hasNextValue = true;
                 }
                 
                 if (employee.getPhoneNumber() != null) {
+                    
+                    if (hasNextValue) {
+                        updateQueryBuffer.append(",");
+                    }
                     updateQueryBuffer.append(" number = ").append(employee.getPhoneNumber());
-                    updateQueryBuffer.append(",");
+                    hasNextValue = true;
                 }
                 
                 if (employee.getDate() != null) {
+                    
+                    if (hasNextValue) {
+                        updateQueryBuffer.append(",");
+                    }
                     updateQueryBuffer.append(" date = '").append(employee.getDate()).append("'");
                 }
             }

@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.employee.view.EmployeeInformation;
-import com.employee.service.Validation;
 
 /**
  * CRUD operation performs functions like creating new employee details, viewing the list of employees registered, 
@@ -19,20 +18,22 @@ import com.employee.service.Validation;
  * @author NandiniRakAS
  */
 public class EmployeeMain {
-   
-    private static final String LOG_FILE = "log4j.properties";
-    private static final Logger LOGGER = Logger.getLogger(EmployeeMain.class);
-    private static Properties properties = new Properties();
+  
     public static final Scanner SCANNER = new Scanner(System.in);
     
-    
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        properties.load(new FileInputStream(LOG_FILE));
+        final Properties properties = new Properties();
+        properties.load(new FileInputStream("log4j.properties"));
         PropertyConfigurator.configure(properties);
+        EmployeeMain.selectChoice();
+    }
+        
+    public static void selectChoice() {
         
         do {
-            LOGGER.info("1.COLLECT DETAILS\n2.VIEW DETAILS\n3.DELETE DETAILS\n4.UPDATE DETAILS\nEnter your choice:");
-            final int choice = Integer.parseInt(Validation.validateChoice(SCANNER.nextLine()));
+            final Logger logger = Logger.getLogger(EmployeeMain.class);
+            logger.info("EMPLOYEE MANAGEMENT\n1.ADD DETAILS\n2.VIEW DETAILS\n3.DELETE DETAILS\n4.UPDATE DETAILS\n5.EXIT\nEnter your choice:");
+            final int choice = Integer.parseInt(EmployeeInformation.getChoice());
 
             switch (choice) {
             case 1:
@@ -47,7 +48,7 @@ public class EmployeeMain {
             case 4:
                 EmployeeInformation.updateEmployeeDetails();
                 break;
-            default:
+            case 5:
                 SCANNER.close();
                 System.exit(0);
             }

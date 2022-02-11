@@ -38,4 +38,10 @@ public class CustomException extends RuntimeException {
         super(message);
         }
     }
+    
+    public static class NoRecordFoundException extends CustomException {
+        public NoRecordFoundException(String message) {
+        super(message);
+        }
+    }
 }

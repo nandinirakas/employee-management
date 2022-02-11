@@ -19,8 +19,12 @@ public class EmployeeInformation {
     private static final Logger LOGGER = Logger.getLogger(EmployeeInformation.class);
 
     public static int getEmployeeId() {
-        LOGGER.info("Enter employee Id:"); 
-        final String id = EmployeeMain.SCANNER.nextLine();
+        LOGGER.info("Enter employee Id: \nPress ~ to exit to main menu"); 
+        final String id = EmployeeMain.SCANNER.nextLine().trim();
+        
+        if (("~").equals(id)) {
+            EmployeeMain.selectChoice();
+        }
         final boolean isValidId = EmployeeController.employeeIdValidation(id);
         
         if (isValidId) {
@@ -32,8 +36,12 @@ public class EmployeeInformation {
     }
 
     public static String getEmployeeName() {
-        LOGGER.info("Enter employee Name:");
-        final String name = EmployeeMain.SCANNER.nextLine();
+        LOGGER.info("Enter employee Name: \nPress ~ to exit to main menu");
+        final String name = EmployeeMain.SCANNER.nextLine().trim();
+        
+        if (("~").equals(name)) {
+            EmployeeMain.selectChoice();
+        }
         final boolean isValidName = EmployeeController.employeeNameValidation(name);
         
         if (isValidName) {
@@ -45,8 +53,12 @@ public class EmployeeInformation {
     }
 
     public static double getEmployeeSalary() {
-        LOGGER.info("Enter employee salary:"); 
-        final String salary = EmployeeMain.SCANNER.nextLine();
+        LOGGER.info("Enter employee salary: \nPress ~ to exit to main menu"); 
+        final String salary = EmployeeMain.SCANNER.nextLine().trim();
+        
+        if (("~").equals(salary)) {
+            EmployeeMain.selectChoice();
+        }
         final boolean isValidSalary = EmployeeController.employeeSalaryValidation(salary);
         
         if (isValidSalary) {
@@ -74,8 +86,12 @@ public class EmployeeInformation {
     }
 
     public static String getEmployeePhoneNumber() {
-        LOGGER.info("Enter employee phone number:"); 
-        final String phoneNumber = EmployeeMain.SCANNER.nextLine();
+        LOGGER.info("Enter employee phone number: \nPress ~ to exit to main menu"); 
+        final String phoneNumber = EmployeeMain.SCANNER.nextLine().trim();
+        
+        if (("~").equals(phoneNumber)) {
+            EmployeeMain.selectChoice();
+        }
         final boolean isValidNumber = EmployeeController.phoneNumberValidation(phoneNumber);
 
         if (isValidNumber) {
@@ -87,14 +103,18 @@ public class EmployeeInformation {
     }
 
     public static Date getEmployeeJoiningDate() {
-        LOGGER.info("Enter employee joining date(yyyy-MM-dd):");
-        final String date = EmployeeMain.SCANNER.nextLine();
+        LOGGER.info("Enter employee joining date(yyyy-MM-dd): \nPress ~ to exit to main menu");
+        final String date = EmployeeMain.SCANNER.nextLine().trim();
+        
+        if (("~").equals(date)) {
+            EmployeeMain.selectChoice();
+        }
         boolean isValidDate = false;
         
         try {
             isValidDate = EmployeeController.dateValidation(date);
         } catch (CustomException e){
-            System.out.println(e);
+            LOGGER.error(e);
         }
         
         if (isValidDate) {
@@ -105,22 +125,42 @@ public class EmployeeInformation {
         }
     }
     
+    public static String getChoice() {
+        final String choice = EmployeeMain.SCANNER.nextLine().trim();
+        final boolean isValidChoice = EmployeeController.validateChoice(choice);
+        
+        if (isValidChoice) {
+            return choice;
+        } else {
+            LOGGER.info("Please enter valid choice between 1 - 5");
+            return EmployeeInformation.getChoice();
+        }
+    }
+    
     /**
      * Add employee details by getting data from the user. 
      * And stored employee id, name, salary, phone number, and joining date in an object named employee.
      */
     public static void addNewEmployee() {
         final int employeeId = EmployeeInformation.getEmployeeId();
+        
+        try {
+            EmployeeController.checkEmployeeId(employeeId);
+        } catch (CustomException e) {
+            LOGGER.error(e);
+            EmployeeInformation.addNewEmployee();
+            EmployeeMain.selectChoice();
+        }
         final String employeeName = EmployeeInformation.getEmployeeName();
         final double salary = EmployeeInformation.getEmployeeSalary();
         final String phoneNumber = EmployeeInformation.getEmployeePhoneNumber();
         final Date date = EmployeeInformation.getEmployeeJoiningDate();
         
         final Employee employee = new Employee(employeeId, employeeName, salary, phoneNumber, date);
-        
+                
         try {
-            boolean isAdded = EMPLOYEE_CONTROL.addNewEmployee(employee);
-            
+            final boolean isAdded = EMPLOYEE_CONTROL.addNewEmployee(employee);
+                
             if (isAdded) {
                 LOGGER.info("Data added in database successfully");
             }
@@ -145,9 +185,9 @@ public class EmployeeInformation {
      * Delete employee detail by using id.
      */
     public static void deleteEmployee() {
-        int employeeId = EmployeeInformation.getEmployeeId();
-        
+ 
         try {
+            int employeeId = EmployeeInformation.getEmployeeId();
             boolean deleteData = EMPLOYEE_CONTROL.deleteEmployee(employeeId);
             
             if(deleteData) {
@@ -157,7 +197,7 @@ public class EmployeeInformation {
             LOGGER.error(e);
         }
     }
-
+    
     /**
      * Update employee detail by using id.
      */
@@ -166,28 +206,77 @@ public class EmployeeInformation {
         double salary = 0;
         String phoneNumber = null;
         Date date = null;
-        final String choice = "yes";
-        int employeeId = EmployeeInformation.getEmployeeId();
+        final String choiceYes = "yes";
+        final String choiceNo = "no";
         
+        final int employeeId = EmployeeInformation.getEmployeeId();
+        
+        try {
+            EmployeeController.checkEmployeeIdUpdate(employeeId);
+        } catch (CustomException e) {
+            LOGGER.error(e);
+            EmployeeInformation.updateEmployeeDetails();;
+            EmployeeMain.selectChoice();
+        }
         LOGGER.info("Do you want to change name ?\t yes or no");
         
-        if (choice.equals(EmployeeMain.SCANNER.nextLine())) {
-            employeeName = EmployeeInformation.getEmployeeName();
+        while (true) {
+            final String option = EmployeeMain.SCANNER.nextLine();
+            
+            if (choiceYes.equalsIgnoreCase(option)) {
+                employeeName = EmployeeInformation.getEmployeeName();
+                break;
+            } else if (choiceNo.equalsIgnoreCase(option)) {
+                break;
+            } else {
+                LOGGER.info("Invalid option, please enter valid option");
+                continue;
+            }
         }
         LOGGER.info("Do you want to change salary ?\t yes or no");
         
-        if (choice.equals(EmployeeMain.SCANNER.nextLine())) {
-            salary = EmployeeInformation.getEmployeeSalary();
+        while (true) {
+            final String option = EmployeeMain.SCANNER.nextLine();
+            
+            if (choiceYes.equalsIgnoreCase(option)) {
+                salary = EmployeeInformation.getEmployeeSalary();
+                break;
+            } else if (choiceNo.equalsIgnoreCase(option)) {
+                break;
+            } else {
+                LOGGER.info("Invalid option, please enter valid option");
+                continue;
+            }
         }
         LOGGER.info("Do you want to change phone number ?\t yes or no");
         
-        if (choice.equals(EmployeeMain.SCANNER.nextLine())) {
-            phoneNumber = EmployeeInformation.getEmployeePhoneNumber();
+        while (true) {
+            final String option = EmployeeMain.SCANNER.nextLine();
+            
+            if (choiceYes.equalsIgnoreCase(option)) {
+                phoneNumber = EmployeeInformation.getEmployeePhoneNumber();
+                break;
+            } else if (choiceNo.equalsIgnoreCase(option)) {
+                break;
+            } else {
+                LOGGER.info("Invalid option, please enter valid option");
+                continue;
+            }
         }
         LOGGER.info("Do you want to change joining date ?\t yes or no");
         
-        if (choice.equals(EmployeeMain.SCANNER.nextLine())) {
-            date = EmployeeInformation.getEmployeeJoiningDate();
+        while (true) {
+            final String option = EmployeeMain.SCANNER.nextLine();
+            
+            if (choiceYes.equalsIgnoreCase(option)) {
+                date = EmployeeInformation.getEmployeeJoiningDate();
+                break;
+            } else if (choiceNo.equalsIgnoreCase(option)) {
+                break;
+            } else {
+                LOGGER.info("Invalid option, please enter valid option");
+                continue;
+            }
         }
         final Employee employee = new Employee();
         
