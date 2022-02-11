@@ -1,6 +1,7 @@
 package com.employee.view;
 
 import java.sql.Date;
+import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
@@ -175,7 +176,9 @@ public class EmployeeInformation {
     public static void viewEmployees() {
         
         try {
-            System.out.println(EMPLOYEE_CONTROL.viewEmployees());
+            for (Entry<Integer, Employee> entry : EMPLOYEE_CONTROL.viewEmployees().entrySet()) {
+                System.out.println(entry.getValue());
+            }
         } catch (CustomException e) {
             LOGGER.error(e);
         }
@@ -218,10 +221,14 @@ public class EmployeeInformation {
             EmployeeInformation.updateEmployeeDetails();;
             EmployeeMain.selectChoice();
         }
-        LOGGER.info("Do you want to change name ?\t yes or no");
+        LOGGER.info("Do you want to change name ?\t yes or no\nPress ~ to exit to main menu");
         
         while (true) {
             final String option = EmployeeMain.SCANNER.nextLine();
+            
+            if (("~").equals(option)) {
+                EmployeeMain.selectChoice();
+            }
             
             if (choiceYes.equalsIgnoreCase(option)) {
                 employeeName = EmployeeInformation.getEmployeeName();
@@ -233,10 +240,14 @@ public class EmployeeInformation {
                 continue;
             }
         }
-        LOGGER.info("Do you want to change salary ?\t yes or no");
+        LOGGER.info("Do you want to change salary ?\t yes or no\nPress ~ to exit to main menu");
         
         while (true) {
             final String option = EmployeeMain.SCANNER.nextLine();
+            
+            if (("~").equals(option)) {
+                EmployeeMain.selectChoice();
+            }
             
             if (choiceYes.equalsIgnoreCase(option)) {
                 salary = EmployeeInformation.getEmployeeSalary();
@@ -248,10 +259,14 @@ public class EmployeeInformation {
                 continue;
             }
         }
-        LOGGER.info("Do you want to change phone number ?\t yes or no");
+        LOGGER.info("Do you want to change phone number ?\t yes or no\nPress ~ to exit to main menu");
         
         while (true) {
             final String option = EmployeeMain.SCANNER.nextLine();
+            
+            if (("~").equals(option)) {
+                EmployeeMain.selectChoice();
+            }
             
             if (choiceYes.equalsIgnoreCase(option)) {
                 phoneNumber = EmployeeInformation.getEmployeePhoneNumber();
@@ -263,10 +278,14 @@ public class EmployeeInformation {
                 continue;
             }
         }
-        LOGGER.info("Do you want to change joining date ?\t yes or no");
+        LOGGER.info("Do you want to change joining date ?\t yes or no\nPress ~ to exit to main menu");
         
         while (true) {
             final String option = EmployeeMain.SCANNER.nextLine();
+            
+            if (("~").equals(option)) {
+                EmployeeMain.selectChoice();
+            }
             
             if (choiceYes.equalsIgnoreCase(option)) {
                 date = EmployeeInformation.getEmployeeJoiningDate();

@@ -65,6 +65,6 @@ public class Employee {
     }
 
     public String toString() {
-        return String.format("\tName :%s \n Salary :%s \n Phone number :%s \n Joining date :%s \n\n", employeeName, salary, phoneNumber, date);
+        return String.format("Employee id :%s \nName :%s \nSalary :%s \nPhone number :%s \nJoining date :%s \n", employeeId, employeeName, salary, phoneNumber, date);
     }
 }

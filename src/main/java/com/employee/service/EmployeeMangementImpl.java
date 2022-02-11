@@ -37,7 +37,7 @@ public class EmployeeMangementImpl implements EmployeeManagement {
     public Map<Integer, Employee> viewEmployees() {   
         
         for (Entry<Integer, Employee> entry : EMPLOYEE_DETAILS.entrySet()) {
-            System.out.println(entry);
+            System.out.println(entry.getValue());
         }
         return EMPLOYEE_DETAILS;
     }
