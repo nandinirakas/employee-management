@@ -146,7 +146,7 @@ public class EmployeeInformation {
         final int employeeId = EmployeeInformation.getEmployeeId();
         
         try {
-            EmployeeController.checkEmployeeId(employeeId);
+            EmployeeController.checkEmployeeIdAdd(employeeId);
         } catch (CustomException e) {
             LOGGER.error(e);
             EmployeeInformation.addNewEmployee();

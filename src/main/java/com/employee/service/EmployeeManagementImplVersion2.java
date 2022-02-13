@@ -6,6 +6,7 @@ import com.employee.dao.EmployeeDao;
 import com.employee.dao.EmployeeDaoImpl;
 import com.employee.exception.CustomException.IdNotFoundException;
 import com.employee.exception.CustomException.NoRecordFoundException;
+import com.employee.exception.CustomException.IdAlreadyAvailableException;
 import com.employee.model.Employee;
 
 /**
@@ -40,13 +41,13 @@ public class EmployeeManagementImplVersion2 implements EmployeeManagement {
         return EMPLOYEE_DATABASE.updateEmployeeDetails(employee);
     }
     
-    public boolean checkEmployeeId(final int employeeId) {
+    public boolean checkEmployeeIdAdd(final int employeeId) {
         final boolean isEmployeeIdPresent = EMPLOYEE_DATABASE.getEmployees().containsKey(employeeId);
         
         if(!isEmployeeIdPresent) {
             return true;
         }
-        throw new IdNotFoundException("Id already found, enter new id");
+        throw new IdAlreadyAvailableException("Id already found, enter new id");
     }
     
     public boolean checkEmployeeIdUpdate(final int employeeId) {

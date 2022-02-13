@@ -60,8 +60,8 @@ public class EmployeeController {
         return VALIDATION.validateChoice(choice);
     }
     
-    public static boolean checkEmployeeId(final int employeeId) {
-        return EMPLOYEE_DATABASE.checkEmployeeId(employeeId);
+    public static boolean checkEmployeeIdAdd(final int employeeId) {
+        return EMPLOYEE_DATABASE.checkEmployeeIdAdd(employeeId);
     }
     
     public static boolean checkEmployeeIdUpdate(final int employeeId) {
