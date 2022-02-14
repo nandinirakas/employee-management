@@ -34,7 +34,7 @@ public class EmployeeMangementImpl implements EmployeeManagement {
      * Showing all employee details that are stored in the list by using for each.
      * Entry will give both key and value.
      */
-    public Map<Integer, Employee> viewEmployees() {   
+    public Map<Integer, Employee> getEmployees() {   
         
         for (Entry<Integer, Employee> entry : EMPLOYEE_DETAILS.entrySet()) {
             System.out.println(entry.getValue());

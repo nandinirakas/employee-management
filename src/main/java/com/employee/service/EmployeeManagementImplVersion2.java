@@ -19,7 +19,7 @@ public class EmployeeManagementImplVersion2 implements EmployeeManagement {
         return EMPLOYEE_DATABASE.addNewEmployee(employee);
     }
     
-    public Map<Integer, Employee> viewEmployees() {
+    public Map<Integer, Employee> getEmployees() {
         final Map<Integer, Employee> employees = EMPLOYEE_DATABASE.getEmployees();
         
         if (!employees.isEmpty()) {
@@ -29,9 +29,8 @@ public class EmployeeManagementImplVersion2 implements EmployeeManagement {
     }
     
     public boolean deleteEmployee(final int employeeId) {
-        final boolean isDeleted = EMPLOYEE_DATABASE.deleteEmployee(employeeId);
         
-        if(isDeleted) {
+        if(EMPLOYEE_DATABASE.deleteEmployee(employeeId)) {
             return true;
         }
         throw new IdNotFoundException("Id not found!");
@@ -42,18 +41,16 @@ public class EmployeeManagementImplVersion2 implements EmployeeManagement {
     }
     
     public boolean checkEmployeeIdAdd(final int employeeId) {
-        final boolean isEmployeeIdPresent = EMPLOYEE_DATABASE.getEmployees().containsKey(employeeId);
         
-        if(!isEmployeeIdPresent) {
+        if(!EMPLOYEE_DATABASE.getEmployees().containsKey(employeeId)) {
             return true;
         }
         throw new IdAlreadyAvailableException("Id already found, enter new id");
     }
     
     public boolean checkEmployeeIdUpdate(final int employeeId) {
-        final boolean isEmployeeIdPresent = EMPLOYEE_DATABASE.getEmployees().containsKey(employeeId);
         
-        if(isEmployeeIdPresent) {
+        if(EMPLOYEE_DATABASE.getEmployees().containsKey(employeeId)) {
             return true;
         }
         throw new IdNotFoundException("Id not found!");

@@ -16,22 +16,22 @@ public class EmployeeController {
     private static final EmployeeManagementImplVersion2 EMPLOYEE_DATABASE = new EmployeeManagementImplVersion2();
     private static final Validation VALIDATION = new Validation();
 
-    public boolean addNewEmployee(final Employee employee) {
+    public static boolean addNewEmployee(final Employee employee) {
         return EMPLOYEE_DATABASE.addNewEmployee(employee);
         //EMPLOYEE_SERVICE.addNewEmployee(employee);
     }
 
-    public Map<Integer, Employee> viewEmployees() {
-        return EMPLOYEE_DATABASE.viewEmployees();
-        //EMPLOYEE_SERVICE.viewEmployees();
+    public static Map<Integer, Employee> getEmployees() {
+        return EMPLOYEE_DATABASE.getEmployees();
+        //EMPLOYEE_SERVICE.getEmployees();
     }
 
-    public boolean deleteEmployee(final int employeeId) {
+    public static boolean deleteEmployee(final int employeeId) {
         return EMPLOYEE_DATABASE.deleteEmployee(employeeId);
         //EMPLOYEE_SERVICE.deleteEmployee(employeeId);
     }
     
-    public boolean updateEmployeeDetails(final Employee employee) {
+    public static boolean updateEmployeeDetails(final Employee employee) {
         return EMPLOYEE_DATABASE.updateEmployeeDetails(employee);
         //EMPLOYEE_SERVICE.updateEmployeeDetails(employee);
     }

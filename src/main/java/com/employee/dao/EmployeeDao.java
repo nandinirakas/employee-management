@@ -5,6 +5,7 @@ import java.util.Map;
 import com.employee.model.Employee;
 
 public interface EmployeeDao { 
+    
     boolean addNewEmployee(final Employee employee);
     
     boolean deleteEmployee(final int employeeId);
