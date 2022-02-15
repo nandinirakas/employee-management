@@ -1,8 +1,6 @@
 package com.employee.service;
 
 import java.time.LocalDate;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.employee.exception.CustomException.DateNotValidException;
 
@@ -15,38 +13,21 @@ public class Validation {
      * Check whether id contains only numbers. 
      */
     public boolean employeeIdValidation(final String employeeId) {
-        
-        if (employeeId.matches("[0-9]{1,}")) {
-            return true;
-        } else {
-            return false;
-        }
+        return employeeId.matches("[0-9]{1,}") ? true : false;
     }
     
     /**
      * Check whether the name contains only alphabets. 
      */
     public boolean employeeNameValidation(final String employeeName) {
-        Pattern pattern = Pattern.compile("[A-Za-z\\s]{1,}");
-        Matcher match = pattern.matcher(employeeName);
-
-        if (!(match.find() && match.group().equals(employeeName))) {
-            return false;
-        } else {
-            return true;
-        }
+        return employeeName.matches("[A-Za-z\\s]{1,}") ? true : false;
     }
     
     /**
      * Check whether phone number contains only numbers. 
      */
     public boolean phoneNumberValidation(final String phoneNumber) {
-
-        if (!phoneNumber.matches("[6-9][0-9]{9}")) {
-            return false;
-        } else {
-            return true;
-        }
+        return phoneNumber.matches("[6-9][0-9]{9}") ? true : false;
     }
     
     /**
@@ -58,11 +39,7 @@ public class Validation {
             final LocalDate parsedDate = LocalDate.parse(joiningDate);
             final LocalDate todayDate = LocalDate.now();
             
-            if (todayDate.plusDays(1).isAfter(parsedDate)) {
-                return true;
-            } else {
-                return false;
-            }
+            return todayDate.plusDays(1).isAfter(parsedDate) ? true : false;
         } catch (Exception exception) {
             throw new DateNotValidException("Invalid date!!");
         }
@@ -72,20 +49,10 @@ public class Validation {
      * Check whether salary contains only decimal. 
      */
     public boolean employeeSalaryValidation(final String employeeSalary) {
-        
-        if (employeeSalary.matches("(\\d+\\.\\d+)")) {
-            return true;
-        } else {
-            return false;
-        }
+        return employeeSalary.matches("(\\d+\\.\\d+)") ? true : false;
     }
     
     public boolean validateChoice(final String choice) {
-        
-        if(!choice.matches("[1-5]")) {
-            return false;
-        } else {
-            return true;
-        }
+        return choice.matches("[1-5]") ? true : false;
     }
 }

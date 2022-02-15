@@ -82,7 +82,7 @@ public class EmployeeInformation {
     }
 
     /**
-     * Get employee salary
+     * Get employee phone number
      */
     public static String getEmployeePhoneNumber() {
         LOGGER.info("Enter employee phone number: \nPress ~ to exit to main menu"); 
@@ -308,7 +308,7 @@ public class EmployeeInformation {
     }
     
     /**
-     * For exiting to main menu.
+     * Return to main menu.
      * 
      * @param option
      */

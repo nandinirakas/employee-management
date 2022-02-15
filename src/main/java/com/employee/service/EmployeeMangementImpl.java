@@ -13,6 +13,7 @@ import com.employee.model.Employee;
  * Created a linked hashmap collection for storing details to maintain order and better performance.
  */
 public class EmployeeMangementImpl implements EmployeeManagement {
+    
     private static final Map<Integer, Employee> EMPLOYEE_DETAILS = new LinkedHashMap<>();
  
     /**
