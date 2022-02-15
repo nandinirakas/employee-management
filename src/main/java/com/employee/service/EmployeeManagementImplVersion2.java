@@ -17,6 +17,8 @@ public class EmployeeManagementImplVersion2 implements EmployeeManagement {
     
     /**
      * Returns true if any employee is added.
+     * 
+     * @param employee
      */
     public boolean addNewEmployee(final Employee employee) {
         return EMPLOYEE_DATABASE.addNewEmployee(employee);
@@ -36,6 +38,8 @@ public class EmployeeManagementImplVersion2 implements EmployeeManagement {
     
     /**
      * Returns true if deletion is done by checking id.
+     * 
+     * @param employeeId
      */
     public boolean deleteEmployee(final int employeeId) {
         
@@ -47,6 +51,8 @@ public class EmployeeManagementImplVersion2 implements EmployeeManagement {
     
     /**
      * Returns true if update is done by checking id.
+     * 
+     * @param employee
      */
     public boolean updateEmployeeDetails(final Employee employee) {
         return EMPLOYEE_DATABASE.updateEmployeeDetails(employee);
