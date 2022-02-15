@@ -234,29 +234,29 @@ public class EmployeeInformation {
         final String salary = "salary";
         final String date = "date";
         final String number = "number";
-        Employee employee = new Employee();
+        final Employee employee = new Employee();
         final int employeeId = EmployeeInformation.getEmployeeId();
         
         try {
             EmployeeController.checkEmployeeIdUpdate(employeeId);
         } catch (CustomException e) {
             LOGGER.error(e);
-            EmployeeInformation.updateEmployeeDetails();;
+            EmployeeInformation.updateEmployeeDetails();
             EmployeeInformation.selectChoice();
         }
         employee.setEmployeeId(employeeId);
         
         LOGGER.info("Do you want to change name ?\t yes or no\nPress ~ to exit to main menu");
-        checkingCondition(employee, name);
+        EmployeeInformation.getUpdatedData(employee, name);
         
         LOGGER.info("Do you want to change salary ?\t yes or no\nPress ~ to exit to main menu");
-        EmployeeInformation.checkingCondition(employee, salary);
+        EmployeeInformation.getUpdatedData(employee, salary);
         
         LOGGER.info("Do you want to change phone number ?\t yes or no\nPress ~ to exit to main menu");
-        EmployeeInformation.checkingCondition(employee, number);
+        EmployeeInformation.getUpdatedData(employee, number);
         
         LOGGER.info("Do you want to change joining date ?\t yes or no\nPress ~ to exit to main menu");
-        EmployeeInformation.checkingCondition(employee, date);
+        EmployeeInformation.getUpdatedData(employee, date);
         
         try {
             boolean updateData = EmployeeController.updateEmployeeDetails(employee);
@@ -281,9 +281,16 @@ public class EmployeeInformation {
         }
     }
     
-    public static Employee checkingCondition(Employee employee, String employeeDetail) {
+    /**
+     * Updating various details of employee based on requirement. 
+     * 
+     * @param employee
+     * @param employeeDetail
+     */
+    public static Employee getUpdatedData(final Employee employee, final String employeeDetail) {
         final String choiceYes = "yes";
         final String choiceNo = "no";
+        
         while (true) {
             final String option = SCANNER.nextLine().trim();
             
@@ -302,6 +309,7 @@ public class EmployeeInformation {
                     break;
                 } else if ("date".equalsIgnoreCase(employeeDetail)) {
                     employee.setDate(EmployeeInformation.getEmployeeJoiningDate());
+                    break;
                 }
             } else if (choiceNo.equalsIgnoreCase(option)) {
                 break;
