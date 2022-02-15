@@ -59,7 +59,7 @@ public class EmployeeManagementImplVersion2 implements EmployeeManagement {
     }
     
     /**
-     * Check whether employee id is present for addition.
+     * Checks whether employee id is present for addition.
      * 
      * @param employeeId
      */
@@ -72,7 +72,7 @@ public class EmployeeManagementImplVersion2 implements EmployeeManagement {
     }
     
     /**
-     * Check whether employee id is present for updation.
+     * Checks whether employee id is present for updation.
      * 
      * @param employeeId
      */

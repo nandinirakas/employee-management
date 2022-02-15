@@ -41,7 +41,7 @@ public class EmployeeInformation {
          } while (true);
     }  
     /**
-     * Get employee id
+     * Gets employee id
      */
     public static int getEmployeeId() {
         LOGGER.info("Enter employee Id: \nPress ~ to exit to main menu"); 
@@ -58,7 +58,7 @@ public class EmployeeInformation {
     }
 
     /**
-     * Get employee name
+     * Gets employee name
      */
     public static String getEmployeeName() {
         LOGGER.info("Enter employee Name: \nPress ~ to exit to main menu");
@@ -75,7 +75,7 @@ public class EmployeeInformation {
     }
 
     /**
-     * Get employee salary
+     * Gets employee salary
      */
     public static double getEmployeeSalary() {
         LOGGER.info("Enter employee salary: \nPress ~ to exit to main menu"); 
@@ -89,14 +89,12 @@ public class EmployeeInformation {
             
             if (totalSalary > 50000) {
                 final double providentFund = 6000;
-                
                 grossSalary =  totalSalary - providentFund;
                 //System.out.println(String.format("Provident fund tax = %s", providentFund));
             }
             
             if (totalSalary < 50000) {
                 final double providentFund = 3000;
-                
                 grossSalary =  totalSalary - providentFund;
                 //System.out.println(String.format("Provident fund = %s", providentFund));
             }
@@ -108,7 +106,7 @@ public class EmployeeInformation {
     }
 
     /**
-     * Get employee phone number
+     * Gets employee phone number
      */
     public static String getEmployeePhoneNumber() {
         LOGGER.info("Enter employee phone number: \nPress ~ to exit to main menu"); 
@@ -125,7 +123,7 @@ public class EmployeeInformation {
     }
 
     /**
-     * Get employee joining date
+     * Gets employee joining date
      */
     public static Date getEmployeeJoiningDate() {
         LOGGER.info("Enter employee joining date(yyyy-MM-dd): \nPress ~ to exit to main menu");
@@ -149,7 +147,7 @@ public class EmployeeInformation {
     }
     
     /**
-     * Get choice for CRUD operation from user
+     * Gets choice for CRUD operation from user
      */
     public static String getChoice() {
         final String choice = SCANNER.nextLine().trim();
@@ -163,8 +161,7 @@ public class EmployeeInformation {
     }
     
     /**
-     * Add employee details by getting data from the user. 
-     * And stored employee id, name, salary, phone number, and joining date in an object named employee.
+     * Adds employee details by getting data from the user. 
      */
     public static void addNewEmployee() {
         final int employeeId = EmployeeInformation.getEmployeeId();
@@ -184,9 +181,8 @@ public class EmployeeInformation {
         final Employee employee = new Employee(employeeId, employeeName, salary, phoneNumber, date);
                 
         try {
-            final boolean isAdded = EmployeeController.addNewEmployee(employee);
-                
-            if (isAdded) {
+            
+            if (EmployeeController.addNewEmployee(employee)) {
                 LOGGER.info("Data added in database successfully");
             }
         } catch (CustomException e) {
@@ -195,7 +191,7 @@ public class EmployeeInformation {
     }
 
     /**
-     * Show all employee details.
+     * Shows all employee details.
      */
     public static void viewEmployees() {
         
@@ -210,15 +206,14 @@ public class EmployeeInformation {
     }
 
     /**
-     * Delete employee detail by using id.
+     * Deletes employee detail by using id.
      */
     public static void deleteEmployee() {
  
         try {
             final int employeeId = EmployeeInformation.getEmployeeId();
-            final boolean deleteData = EmployeeController.deleteEmployee(employeeId);
             
-            if(deleteData) {
+            if(EmployeeController.deleteEmployee(employeeId)) {
                 LOGGER.info("Data deleted in database successfully");
             }
         } catch (CustomException e) {
@@ -227,7 +222,7 @@ public class EmployeeInformation {
     }
     
     /**
-     * Update employee detail by using id.
+     * Updates employee detail by using id.
      */
     public static void updateEmployeeDetails() {
         final String name = "name";
@@ -259,9 +254,8 @@ public class EmployeeInformation {
         EmployeeInformation.getUpdatedData(employee, date);
         
         try {
-            boolean updateData = EmployeeController.updateEmployeeDetails(employee);
-                    
-            if(updateData) {
+            
+            if (EmployeeController.updateEmployeeDetails(employee)) {
                 LOGGER.info("Data updated in database successfully");
             }
         } catch (CustomException e) {
@@ -270,7 +264,7 @@ public class EmployeeInformation {
     }
     
     /**
-     * Return to main menu.
+     * Returns to main menu.
      * 
      * @param option
      */
