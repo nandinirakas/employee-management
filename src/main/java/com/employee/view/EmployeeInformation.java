@@ -281,7 +281,7 @@ public class EmployeeInformation {
         }
     }
     
-    public static Employee checkingCondition(Employee employee, String cond) {
+    public static Employee checkingCondition(Employee employee, String employeeDetail) {
         final String choiceYes = "yes";
         final String choiceNo = "no";
         while (true) {
@@ -291,16 +291,16 @@ public class EmployeeInformation {
             
             if (choiceYes.equalsIgnoreCase(option)) {
                 
-                if ("name".equalsIgnoreCase(cond)) {
+                if ("name".equalsIgnoreCase(employeeDetail)) {
                     employee.setEmployeeName(EmployeeInformation.getEmployeeName());
                     break;
-                } else if ("salary".equalsIgnoreCase(cond)) {
+                } else if ("salary".equalsIgnoreCase(employeeDetail)) {
                     employee.setSalary(EmployeeInformation.getEmployeeSalary());
                     break;
-                } else if ("number".equalsIgnoreCase(cond)) {
+                } else if ("number".equalsIgnoreCase(employeeDetail)) {
                     employee.setPhoneNumber(EmployeeInformation.getEmployeePhoneNumber());
                     break;
-                } else if ("date".equalsIgnoreCase(cond)) {
+                } else if ("date".equalsIgnoreCase(employeeDetail)) {
                     employee.setDate(EmployeeInformation.getEmployeeJoiningDate());
                 }
             } else if (choiceNo.equalsIgnoreCase(option)) {

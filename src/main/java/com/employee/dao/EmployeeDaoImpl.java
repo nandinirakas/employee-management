@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,18 +77,18 @@ public class EmployeeDaoImpl implements EmployeeDao {
     
     public boolean updateEmployeeDetails(final Employee employee) {
         
-        try (Connection connection = DATABASE_CONNECTION.getConnection();
-                Statement statement = connection.createStatement();) {
+        try (Connection connection = DATABASE_CONNECTION.getConnection();) {
             final StringBuffer updateQueryBuffer = new StringBuffer(); 
             updateQueryBuffer.append("UPDATE employeedetails set");
             boolean hasNextValue = false;
+            int name = 1, salary = 1, number = 1, date = 1, id = 1, count = 0;
             
             if(employee.getEmployeeId() != 0) { 
                 
                 if (employee.getEmployeeName() != null) {
-                    
-                    updateQueryBuffer.append(" name = '").append(employee.getEmployeeName()).append("'");
+                    updateQueryBuffer.append(" name = ?");
                     hasNextValue = true;
+                    count += 1;
                 }  
                 
                 if (employee.getSalary() != 0) {
@@ -97,8 +96,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
                     if (hasNextValue) {
                         updateQueryBuffer.append(",");
                     }
-                    updateQueryBuffer.append(" salary = ").append(employee.getSalary());
+                    updateQueryBuffer.append(" salary = ?");
                     hasNextValue = true;
+                    salary = count + 1;
+                    count += 1;
                 }
                 
                 if (employee.getPhoneNumber() != null) {
@@ -106,8 +107,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
                     if (hasNextValue) {
                         updateQueryBuffer.append(",");
                     }
-                    updateQueryBuffer.append(" number = ").append(employee.getPhoneNumber());
+                    updateQueryBuffer.append(" number = ?");
                     hasNextValue = true;
+                    number = count + 1;
+                    count += 1;
                 }
                 
                 if (employee.getDate() != null) {
@@ -115,15 +118,34 @@ public class EmployeeDaoImpl implements EmployeeDao {
                     if (hasNextValue) {
                         updateQueryBuffer.append(",");
                     }
-                    updateQueryBuffer.append(" date = '").append(employee.getDate()).append("'");
+                    updateQueryBuffer.append(" date = ?");
+                    date = count + 1;
+                    count += 1;
                 }
             }
-            updateQueryBuffer.append(" WHERE id = ").append(employee.getEmployeeId());
-            return statement.executeUpdate(updateQueryBuffer.toString()) > 0 ;
+            updateQueryBuffer.append(" WHERE id = ?");
+            id = count + 1;
+            PreparedStatement preparedStatement = connection.prepareStatement(updateQueryBuffer.toString());
+            
+            if (employee.getEmployeeName() != null) {
+                preparedStatement.setString(name, employee.getEmployeeName());
+            }  
+            
+            if (employee.getSalary() != 0) {
+                preparedStatement.setDouble(salary, employee.getSalary());
+            }
+            
+            if (employee.getPhoneNumber() != null) {
+                preparedStatement.setString(number, employee.getPhoneNumber());
+            }
+            
+            if (employee.getDate() != null) {
+                preparedStatement.setDate(date, employee.getDate());
+            } 
+            preparedStatement.setInt(id, employee.getEmployeeId());
+            return preparedStatement.executeUpdate() > 0 ;
         } catch (SQLException exception) {
-            //throw new AccessFailedException("Database access failed!!");
-            System.out.println(exception);
+            throw new AccessFailedException("Database access failed!!");
         }
-        return false;
     }
 }
