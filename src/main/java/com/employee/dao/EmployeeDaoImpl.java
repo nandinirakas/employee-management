@@ -121,7 +121,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
             updateQueryBuffer.append(" WHERE id = ").append(employee.getEmployeeId());
             return statement.executeUpdate(updateQueryBuffer.toString()) > 0 ;
         } catch (SQLException exception) {
-            throw new AccessFailedException("Database access failed!!");
+            //throw new AccessFailedException("Database access failed!!");
+            System.out.println(exception);
         }
+        return false;
     }
 }

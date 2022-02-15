@@ -204,13 +204,11 @@ public class EmployeeInformation {
      * Update employee detail by using id.
      */
     public static void updateEmployeeDetails() {
-        String employeeName = null;
-        double salary = 0;
-        String phoneNumber = null;
-        Date date = null;
-        final String choiceYes = "yes";
-        final String choiceNo = "no";
-        
+        final String name = "name";
+        final String salary = "salary";
+        final String date = "date";
+        final String number = "number";
+        Employee employee = new Employee();
         final int employeeId = EmployeeInformation.getEmployeeId();
         
         try {
@@ -220,81 +218,19 @@ public class EmployeeInformation {
             EmployeeInformation.updateEmployeeDetails();;
             EmployeeMain.selectChoice();
         }
-        LOGGER.info("Do you want to change name ?\t yes or no\nPress ~ to exit to main menu");
-        
-        while (true) {
-            final String option = EmployeeMain.SCANNER.nextLine().trim();
-            
-            EmployeeInformation.returnToMainMenu(option);
-            
-            if (choiceYes.equalsIgnoreCase(option)) {
-                employeeName = EmployeeInformation.getEmployeeName();
-                break;
-            } else if (choiceNo.equalsIgnoreCase(option)) {
-                break;
-            } else {
-                LOGGER.info("Invalid option, please enter valid option");
-                continue;
-            }
-        }
-        LOGGER.info("Do you want to change salary ?\t yes or no\nPress ~ to exit to main menu");
-        
-        while (true) {
-            final String option = EmployeeMain.SCANNER.nextLine().trim();
-            
-            EmployeeInformation.returnToMainMenu(option);
-            
-            if (choiceYes.equalsIgnoreCase(option)) {
-                salary = EmployeeInformation.getEmployeeSalary();
-                break;
-            } else if (choiceNo.equalsIgnoreCase(option)) {
-                break;
-            } else {
-                LOGGER.info("Invalid option, please enter valid option");
-                continue;
-            }
-        }
-        LOGGER.info("Do you want to change phone number ?\t yes or no\nPress ~ to exit to main menu");
-        
-        while (true) {
-            final String option = EmployeeMain.SCANNER.nextLine().trim();
-            
-            EmployeeInformation.returnToMainMenu(option);
-            
-            if (choiceYes.equalsIgnoreCase(option)) {
-                phoneNumber = EmployeeInformation.getEmployeePhoneNumber();
-                break;
-            } else if (choiceNo.equalsIgnoreCase(option)) {
-                break;
-            } else {
-                LOGGER.info("Invalid option, please enter valid option");
-                continue;
-            }
-        }
-        LOGGER.info("Do you want to change joining date ?\t yes or no\nPress ~ to exit to main menu");
-        
-        while (true) {
-            final String option = EmployeeMain.SCANNER.nextLine().trim();
-            
-            EmployeeInformation.returnToMainMenu(option);
-            
-            if (choiceYes.equalsIgnoreCase(option)) {
-                date = EmployeeInformation.getEmployeeJoiningDate();
-                break;
-            } else if (choiceNo.equalsIgnoreCase(option)) {
-                break;
-            } else {
-                LOGGER.info("Invalid option, please enter valid option");
-                continue;
-            }
-        }
-        final Employee employee = new Employee();
-        
         employee.setEmployeeId(employeeId);
-        employee.setEmployeeName(employeeName);
-        employee.setSalary(salary);
-        employee.setPhoneNumber(phoneNumber);
-        employee.setDate(date);
+        
+        LOGGER.info("Do you want to change name ?\t yes or no\nPress ~ to exit to main menu");
+        checkingCondition(employee, name);
+        
+        LOGGER.info("Do you want to change salary ?\t yes or no\nPress ~ to exit to main menu");
+        EmployeeInformation.checkingCondition(employee, salary);
+        
+        LOGGER.info("Do you want to change phone number ?\t yes or no\nPress ~ to exit to main menu");
+        EmployeeInformation.checkingCondition(employee, number);
+        
+        LOGGER.info("Do you want to change joining date ?\t yes or no\nPress ~ to exit to main menu");
+        EmployeeInformation.checkingCondition(employee, date);
         
         try {
             boolean updateData = EmployeeController.updateEmployeeDetails(employee);
@@ -317,5 +253,38 @@ public class EmployeeInformation {
         if ("~".equals(option)) {
             EmployeeMain.selectChoice();
         }
+    }
+    
+    public static Employee checkingCondition(Employee employee, String cond) {
+        final String choiceYes = "yes";
+        final String choiceNo = "no";
+        while (true) {
+            final String option = EmployeeMain.SCANNER.nextLine().trim();
+            
+            EmployeeInformation.returnToMainMenu(option);
+            
+            if (choiceYes.equalsIgnoreCase(option)) {
+                
+                if ("name".equalsIgnoreCase(cond)) {
+                    employee.setEmployeeName(EmployeeInformation.getEmployeeName());
+                    break;
+                } else if ("salary".equalsIgnoreCase(cond)) {
+                    employee.setSalary(EmployeeInformation.getEmployeeSalary());
+                    break;
+                } else if ("number".equalsIgnoreCase(cond)) {
+                    employee.setPhoneNumber(EmployeeInformation.getEmployeePhoneNumber());
+                    break;
+                } else if ("date".equalsIgnoreCase(cond)) {
+                    employee.setDate(EmployeeInformation.getEmployeeJoiningDate());
+                }
+                
+            } else if (choiceNo.equalsIgnoreCase(option)) {
+                break;
+            } else {
+                LOGGER.info("Invalid option, please enter valid option");
+                continue;
+            }
+        }
+        return employee;
     }
 }
