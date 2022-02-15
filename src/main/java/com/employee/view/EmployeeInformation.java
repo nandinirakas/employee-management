@@ -1,25 +1,51 @@
 package com.employee.view;
 
 import java.sql.Date;
+import java.util.Scanner;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
-import com.employee.main.EmployeeMain;
 import com.employee.model.Employee;
 import com.employee.controller.EmployeeController;
 import com.employee.exception.CustomException;
 
 public class EmployeeInformation {
     
+    private static final Scanner SCANNER = new Scanner(System.in);
     private static final Logger LOGGER = Logger.getLogger(EmployeeInformation.class);
 
+    public static void selectChoice() {
+        
+        do {
+            LOGGER.info("EMPLOYEE MANAGEMENT\n1.ADD DETAILS\n2.VIEW DETAILS\n3.DELETE DETAILS\n4.UPDATE DETAILS\n5.EXIT\nEnter your choice:");
+            final int choice = Integer.parseInt(EmployeeInformation.getChoice());
+
+            switch (choice) {
+            case 1:
+                EmployeeInformation.addNewEmployee();
+                break;
+            case 2:
+                EmployeeInformation.viewEmployees();
+                break;
+            case 3:
+                EmployeeInformation.deleteEmployee();
+                break;
+            case 4:
+                EmployeeInformation.updateEmployeeDetails();
+                break;
+            case 5:
+                SCANNER.close();
+                System.exit(0);
+            }
+         } while (true);
+    }  
     /**
      * Get employee id
      */
     public static int getEmployeeId() {
         LOGGER.info("Enter employee Id: \nPress ~ to exit to main menu"); 
-        final String id = EmployeeMain.SCANNER.nextLine().trim();
+        final String id = SCANNER.nextLine().trim();
         
         EmployeeInformation.returnToMainMenu(id);
         
@@ -36,7 +62,7 @@ public class EmployeeInformation {
      */
     public static String getEmployeeName() {
         LOGGER.info("Enter employee Name: \nPress ~ to exit to main menu");
-        final String name = EmployeeMain.SCANNER.nextLine().trim();
+        final String name = SCANNER.nextLine().trim();
         
         EmployeeInformation.returnToMainMenu(name);
         
@@ -53,7 +79,7 @@ public class EmployeeInformation {
      */
     public static double getEmployeeSalary() {
         LOGGER.info("Enter employee salary: \nPress ~ to exit to main menu"); 
-        final String salary = EmployeeMain.SCANNER.nextLine().trim();
+        final String salary = SCANNER.nextLine().trim();
         
         EmployeeInformation.returnToMainMenu(salary);
         
@@ -86,7 +112,7 @@ public class EmployeeInformation {
      */
     public static String getEmployeePhoneNumber() {
         LOGGER.info("Enter employee phone number: \nPress ~ to exit to main menu"); 
-        final String phoneNumber = EmployeeMain.SCANNER.nextLine().trim();
+        final String phoneNumber = SCANNER.nextLine().trim();
         
         EmployeeInformation.returnToMainMenu(phoneNumber);
 
@@ -103,7 +129,7 @@ public class EmployeeInformation {
      */
     public static Date getEmployeeJoiningDate() {
         LOGGER.info("Enter employee joining date(yyyy-MM-dd): \nPress ~ to exit to main menu");
-        final String date = EmployeeMain.SCANNER.nextLine().trim();
+        final String date = SCANNER.nextLine().trim();
         
         EmployeeInformation.returnToMainMenu(date);
         boolean isValidDate = false;
@@ -126,7 +152,7 @@ public class EmployeeInformation {
      * Get choice for CRUD operation from user
      */
     public static String getChoice() {
-        final String choice = EmployeeMain.SCANNER.nextLine().trim();
+        final String choice = SCANNER.nextLine().trim();
         
         if (EmployeeController.validateChoice(choice)) {
             return choice;
@@ -148,7 +174,7 @@ public class EmployeeInformation {
         } catch (CustomException e) {
             LOGGER.error(e);
             EmployeeInformation.addNewEmployee();
-            EmployeeMain.selectChoice();
+            EmployeeInformation.selectChoice();
         }
         final String employeeName = EmployeeInformation.getEmployeeName();
         final double salary = EmployeeInformation.getEmployeeSalary();
@@ -216,7 +242,7 @@ public class EmployeeInformation {
         } catch (CustomException e) {
             LOGGER.error(e);
             EmployeeInformation.updateEmployeeDetails();;
-            EmployeeMain.selectChoice();
+            EmployeeInformation.selectChoice();
         }
         employee.setEmployeeId(employeeId);
         
@@ -251,7 +277,7 @@ public class EmployeeInformation {
     public static void returnToMainMenu(String option) {
         
         if ("~".equals(option)) {
-            EmployeeMain.selectChoice();
+            EmployeeInformation.selectChoice();
         }
     }
     
@@ -259,7 +285,7 @@ public class EmployeeInformation {
         final String choiceYes = "yes";
         final String choiceNo = "no";
         while (true) {
-            final String option = EmployeeMain.SCANNER.nextLine().trim();
+            final String option = SCANNER.nextLine().trim();
             
             EmployeeInformation.returnToMainMenu(option);
             
@@ -277,7 +303,6 @@ public class EmployeeInformation {
                 } else if ("date".equalsIgnoreCase(cond)) {
                     employee.setDate(EmployeeInformation.getEmployeeJoiningDate());
                 }
-                
             } else if (choiceNo.equalsIgnoreCase(option)) {
                 break;
             } else {
