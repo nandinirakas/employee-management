@@ -1,0 +1,232 @@
+package com.tlc.notification.config.email;
+
+import com.tlc.commons.code.ErrorCode;
+import com.tlc.commons.json.Json;
+import com.tlc.commons.json.JsonObject;
+import com.tlc.notification.fields.NotificationFields;
+import com.tlc.notification.internal.status.NotificationErrorCodes;
+import com.tlc.notification.model.EmailDataStore;
+import com.tlc.web.UrlConnectionService;
+
+import javax.print.attribute.standard.JobKOctets;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * <p>
+ * Configures outlook properties for oauth
+ * </p>
+ *
+ * @author NandiniRakAS
+ * @version 1.0
+ */
+public class OutlookOauthConfig {
+
+    private final String authority;
+    private final String grantType;
+    private final String responseType;
+    private final String clientId;
+    private final String scope;
+    private final String redirectUrl;
+    private final String accessTokenUrl;
+    private final Map<String, Object> refreshTokenParams = new HashMap<>();
+    private final Map<String, Object> accessTokenParams = new HashMap<>();
+    private final Map<String, Object> access = new HashMap<>();
+    private final Map<String, Object> onBehalfOf = new HashMap<>();
+
+    public OutlookOauthConfig(final String authority, final String responseType, final String clientId,
+                              final String scope, final String redirectUrl, final String grantType,
+                              final String clientSecret, final String accessTokenUrl) {
+        this.authority = authority;
+        this.grantType = grantType;
+        this.responseType = responseType;
+        this.clientId = clientId;
+        this.scope = scope;
+        this.redirectUrl = redirectUrl;
+        this.accessTokenUrl = accessTokenUrl;
+
+        refreshTokenParams.put(NotificationFields.CLIENT_ID.getName(), clientId);
+        refreshTokenParams.put(NotificationFields.CLIENT_SECRET.getName(), clientSecret);
+        accessTokenParams.put(NotificationFields.CLIENT_ID.getName(), clientId);
+        accessTokenParams.put(NotificationFields.CLIENT_SECRET.getName(), clientSecret);
+    }
+
+    /**
+     * <p>
+     * Gets the consent from user for validation
+     * </p>
+     *
+     * @return consent url {@link String}
+     */
+    public String getConsentUrl() {
+        return String.format("%s?response_type=%s&client_id=%s&scope=%s&redirect_uri=%s",
+                authority, responseType, clientId, scope, redirectUrl);
+    }
+
+    /**
+     * <p>
+     * Gets the redirect url
+     * </p>
+     *
+     * @return Redirect Url
+     */
+    public String getRedirectUrl() {
+        return redirectUrl;
+    }
+
+    /**
+     * <p>
+     * Sets the properties of app for authorization
+     * </p>
+     *
+     * @param code           Authorization code
+     * @param emailDataStore An entity that holds the email attributes
+     */
+    public void setRefreshToken(final String code, final EmailDataStore emailDataStore) {
+        try {
+            final URL url = new URL(accessTokenUrl);
+            final UrlConnectionService accessTokenUrlService = new UrlConnectionService();
+
+            accessTokenUrlService.setHttpURLConnection(url);
+            refreshTokenParams.put(NotificationFields.GRANT_TYPE.getName(), grantType);
+            refreshTokenParams.put(NotificationFields.CODE.getName(), code);
+            refreshTokenParams.put(NotificationFields.REDIRECT_URI.getName(), redirectUrl);
+
+            final byte[] postDataBytes = getBytesFromParams(refreshTokenParams);
+            final JsonObject json = (JsonObject) accessTokenUrlService.getResponse(postDataBytes,
+                    NotificationFields.POST.getName(), Map.of());
+
+            emailDataStore.setRefreshToken(json.getString(NotificationFields.REFRESH_TOKEN.getName()));
+            emailDataStore.setIdToken(json.getString(NotificationFields.ID_TOKEN.getName()));
+            setEmailIdFromToken(emailDataStore);
+            accessTokenUrlService.disconnectConnection();
+        } catch (Exception exception) {
+            throw ErrorCode.get(NotificationErrorCodes.BAD_REQUEST_ERROR, exception);
+        }
+    }
+
+    /**
+     * <p>
+     * Sets the email id by using the id token got
+     * </p>
+     *
+     * @param emailDataStore A model that contains email attributes
+     */
+    private void setEmailIdFromToken(final EmailDataStore emailDataStore) {
+        final String payload = new String(Base64.getUrlDecoder().decode(emailDataStore.getIdToken().split("\\.")[1]));
+
+        if (payload.contains(NotificationFields.UNIQUE_NAME.getName())) {
+            final JsonObject emailJson = Json.object(payload);
+
+            emailDataStore.setEmailAddress(emailJson.getString(NotificationFields.UNIQUE_NAME.getName()));
+        }
+    }
+
+    /**
+     * <p>
+     * Sets access token by using refresh token
+     * </p>
+     *
+     * @param refreshToken   Represents the refresh token
+     * @param emailDataStore A model that holds the email attributes
+     */
+    public void setAccessToken(final String refreshToken, final EmailDataStore emailDataStore) {
+        try {
+            final URL url = new URL(accessTokenUrl);
+            final UrlConnectionService accessTokenUrl = new UrlConnectionService();
+
+            accessTokenUrl.setHttpURLConnection(url);
+            accessTokenParams.put(NotificationFields.GRANT_TYPE.getName(), NotificationFields.REFRESH_TOKEN.getName());
+            accessTokenParams.put(NotificationFields.REFRESH_TOKEN.getName(), refreshToken);
+
+            final byte[] postDataBytes = getBytesFromParams(accessTokenParams);
+            final JsonObject accessTokenResponse = (JsonObject) accessTokenUrl.getResponse(postDataBytes,
+                    NotificationFields.POST.getName(), Map.of());
+
+            emailDataStore.setAccessToken(accessTokenResponse.getString(NotificationFields.ACCESS_TOKEN.getName()));
+            accessTokenUrl.disconnectConnection();
+        } catch (Exception exception) {
+            throw ErrorCode.get(NotificationErrorCodes.BAD_REQUEST_ERROR, exception);
+        }
+    }
+
+    /**
+     * <p>
+     * Gets the bytes from the given post body data
+     * </p>
+     *
+     * @param params Represents the params
+     * @return Bytes of data
+     */
+    private byte[] getBytesFromParams(final Map<String, Object> params) {
+        final StringBuilder postData = new StringBuilder();
+
+        for (final Map.Entry<String, Object> param : params.entrySet()) {
+
+            if (postData.length() > 0) {
+                postData.append("&");
+            }
+            postData.append(URLEncoder.encode(param.getKey(), StandardCharsets.UTF_8));
+            postData.append("=");
+            postData.append(URLEncoder.encode((String) param.getValue(), StandardCharsets.UTF_8));
+        }
+
+        return postData.toString().getBytes(StandardCharsets.UTF_8);
+    }
+
+    public void setToken(final String code, final EmailDataStore emailDataStore) {
+        try {
+            final URL url = new URL("https://login.microsoftonline.com/85f6c59e-93c9-4dea-8235-6170a11e5044/oauth2/token");
+            final UrlConnectionService accessTokenUrlService = new UrlConnectionService();
+
+            accessTokenUrlService.setHttpURLConnection(url);
+            access.put("grant_type", "client_credentials");
+            access.put("code", code);
+            access.put("client_id", "07146aef-4bc8-46c1-82b3-8ece38e95393");
+            access.put("client_secret", "En58Q~V~YolSqL5ps9dLFWaLltOeOuf1Jam0Yduf");
+            access.put("resource", "https://servicebus.azure.net");
+            access.put("scope", "https://graph.microsoft.com/IMAP.AccessAsUser.All");
+            access.put("redirect_uri", "http://localhost:8181/oauth/outlook/action");
+
+            final byte[] postDataBytes = getBytesFromParams(access);
+            final JsonObject accessTokenResponse = (JsonObject) accessTokenUrlService.getResponse(postDataBytes,
+                    NotificationFields.POST.getName(), Map.of());
+            final String tokenA = accessTokenResponse.getString(NotificationFields.ACCESS_TOKEN.getName());
+
+            setOnBehalfOfToken(tokenA, emailDataStore);
+            accessTokenUrlService.disconnectConnection();
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void setOnBehalfOfToken(final String tokenA, final EmailDataStore emailDataStore) {
+        try {
+            final URL url = new URL("https://login.microsoftonline.com/85f6c59e-93c9-4dea-8235-6170a11e5044/oauth2/v2.0/token");
+            final UrlConnectionService accessTokenUrlService = new UrlConnectionService();
+
+            accessTokenUrlService.setHttpURLConnection(url);
+            onBehalfOf.put("grant_type", "client_credentials");
+            onBehalfOf.put("assertion", tokenA);
+            onBehalfOf.put("client_id", "07146aef-4bc8-46c1-82b3-8ece38e95393");
+            onBehalfOf.put("client_secret", "En58Q~V~YolSqL5ps9dLFWaLltOeOuf1Jam0Yduf");
+            onBehalfOf.put("scope", "https://outlook.office365.com/.default");
+            onBehalfOf.put("requested_token_use", "on_behalf_of");
+
+            final byte[] postDataBytes = getBytesFromParams(onBehalfOf);
+            final JsonObject accessTokenResponse = (JsonObject) accessTokenUrlService.getResponse(postDataBytes,
+                    NotificationFields.POST.getName(), Map.of());
+
+            emailDataStore.setAccessToken(accessTokenResponse.getString(NotificationFields.ACCESS_TOKEN.getName()));
+            accessTokenUrlService.disconnectConnection();
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+
